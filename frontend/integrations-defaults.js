@@ -23,3 +23,9 @@ window.MPI_CMS_DEFAULTS.visibility={search:true,cart:true,digitalCatalog:true,ch
 
 window.MPI_CMS_DEFAULTS.catalogFamilies ||= [];
 window.MPI_CMS_DEFAULTS.catalogColors ||= {};
+
+// Textos de la tarjeta lateral y video de guía: editables desde Contenido → Videoteca.
+Object.assign(window.MPI_CMS_DEFAULTS.videoLibrary,{
+ moreIcon:'▶',moreTitle:'Nuestros videos',moreDescription:'Explora nuestros videos por categoría y subcategoría.',moreButton:'Más videos →',
+ guideEnabled:true,guideTitle:'Video de guía: llegada de materiales',guideDescription:'Ejemplo para conocer cómo se muestran los videos dentro de Más videos. Puedes reemplazarlo u ocultarlo desde el editor.',guideUrl:'uploads/videos/guia-videoteca.mp4',guideCategory:'Guía de visualización',guideSubcategory:'Video de ejemplo'
+});

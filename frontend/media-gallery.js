@@ -3,11 +3,11 @@
  const make=(tag,text)=>{const n=document.createElement(tag);if(text)n.textContent=text;return n};
  const safe=value=>{try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password?u.href:''}catch{return ''}};
  window.MP_mediaState=(row,isStory,now=Date.now())=>!row.published?'Borrador':isStory&&row.expires_at&&Date.parse(row.expires_at)<=now?'Vencido':isStory?'Estado actual · Publicado':'Video activo · Permanente';
- window.MP_renderMediaGallery=({host,rows,story=false,edit,remove,refresh})=>{
+ window.MP_renderMediaGallery=({host,rows,story=false,headingText,edit,remove,refresh})=>{
   const tab=document.getElementById(story?'postsTab':'videosTab');if(!tab)return;if(story){const oldHeading=document.getElementById('savedStatesHeading');if(oldHeading)oldHeading.hidden=true;}
   let panel=document.getElementById(story?'savedStoriesGallery':'savedVideosGallery');
   if(!panel){panel=make('div');panel.id=story?'savedStoriesGallery':'savedVideosGallery';panel.className='mp-saved-media-panel';const anchor=tab.querySelector('.mp-media-editor-layout')||(story?tab.querySelector('section'):document.getElementById('videoTitle')?.closest('label'));if(anchor)anchor.before(panel);else tab.prepend(panel)}
-  const heading=make('h2',story?'Estados actuales y guardados':'Videos activos y permanentes'),summary=make('p');
+  const heading=make('h2',headingText||(story?'Estados actuales y guardados':'Videos activos y permanentes')),summary=make('p');
   const active=rows.filter(r=>r.published&&(!story||!r.expires_at||Date.parse(r.expires_at)>Date.now())).length;
   summary.textContent=active+' '+(story?'estados actuales':'videos publicados')+' · '+rows.filter(r=>!r.published).length+' borradores'+(story?' · '+rows.filter(r=>r.published&&r.expires_at&&Date.parse(r.expires_at)<=Date.now()).length+' vencidos':'')+(story?'':' en esta página');
   const help=make('p','Pulsa una miniatura o «Abrir y editar» para cargar el archivo, el título y el texto en la vista previa y el editor.');
