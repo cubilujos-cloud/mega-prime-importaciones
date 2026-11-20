@@ -70,3 +70,18 @@
 
 .mp-catalog-editor .mp-media-editor-preview{top:180px}
 @media(max-width:900px){.mp-catalog-editor .mp-media-editor-preview{position:static}}
+
+/* Catalog manager: four cards per row on desktop, using the available screen. */
+main:has(#catalogManagerTab:not([hidden])){max-width:none;width:100%;padding:20px clamp(12px,2vw,32px)}
+#catalogManagerTab{min-width:0;width:100%}
+#catalogManagerTab .mp-saved-media-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}
+#catalogManagerTab>.mp-saved-media-grid{max-height:none;overflow:visible;padding:8px 0;scrollbar-gutter:auto}
+#catalogManagerTab .mp-saved-media-card{width:100%;min-width:0;overflow-wrap:anywhere}
+#catalogManagerTab .mp-saved-media-card img{display:block;width:100%;height:150px;max-height:150px;object-fit:contain;border-radius:8px;background:#0b161c}
+#catalogManagerTab .mp-saved-media-open{margin:0}
+#catalogManagerTab .mp-saved-media-card p{margin:8px 0}
+#catalogManagerTab .mp-saved-media-card>button{max-width:100%;white-space:normal}
+@media(max-width:999px){#catalogManagerTab .mp-saved-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:599px){#catalogManagerTab .mp-saved-media-grid{grid-template-columns:minmax(0,1fr)}}
+
+#catalogManagerTab>.mp-saved-media-grid>.mp-catalog-group-heading{display:none}
