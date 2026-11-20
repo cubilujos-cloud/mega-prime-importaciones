@@ -1,4 +1,5 @@
-#calcModal,#calculadora,[onclick*="openCalculator"],.detail-calc-link{display:none!important}
+/* La calculadora de la tienda se abre sin sesión; solo el modo del panel se restringe. */
+html.mp-private-calculator:not(.mp-tool-authorized) #calcModal{display:none!important}
 html.mp-private-calculator body>:not(#calcModal):not(#mp-tool-status):not(script):not(style){display:none!important}
 html.mp-private-calculator.mp-tool-authorized #calcModal.open{display:flex!important;inset:0;padding:8px;z-index:200}
 html.mp-private-calculator #calcModal .mpi42-dialog{max-height:98vh;width:100%;max-width:none}

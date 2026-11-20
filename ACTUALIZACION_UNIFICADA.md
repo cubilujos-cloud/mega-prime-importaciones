@@ -1,10 +1,10 @@
 # Actualización unificada: catálogo editable y todas las mejoras anteriores
 
-Este ZIP contiene 81 archivos para actualizar el repositorio existente. Incluye el editor de productos, modelos, categorías, colores y fotos, junto con las correcciones anteriores de usuarios, sesiones, visibilidad, videos y estados. No contiene Word ni contraseñas.
+Este ZIP contiene 84 archivos para actualizar el repositorio existente. Incluye el editor de productos, modelos, categorías, colores y fotos, junto con las correcciones anteriores de usuarios, sesiones, visibilidad, videos y estados. No contiene Word ni contraseñas.
 
 ## Aplicar esta ampliación
 1. Extrae ACTUALIZACION_UNIFICADA_MEGA_PRIME.zip y sube su contenido a la raíz de GitHub conservando las carpetas. No borres otros archivos del repositorio.
-2. Título: Unificar categorías y mostrar productos dentro de sus grupos.
+2. Título: Reubicar opiniones y QR y habilitar calculadora pública.
 3. Espera Actions verde.
 4. Esta ampliación de grupos y fotos por modelo no requiere cambios nuevos en Supabase. Solo si todavía no aplicaste ACTUALIZAR_CATALOGO_EDITABLE.sql de la entrega anterior, ejecútalo en SQL Editor. Permite a los editores con permiso de contenido añadir categorías; no les concede activar, ocultar, renombrar o retirar categorías existentes. No borra datos.
 5. Si ya instalaste ACTUALIZAR_VISIBILIDAD_SOLO_ADMIN.sql y actualizaste manage-users en la entrega anterior, no los repitas. manage-users no cambia en esta ampliación. Si no lo hiciste, completa esos pasos anteriores antes de probar permisos.
@@ -80,3 +80,12 @@ Esta entrega requiere subir el contenido de la ZIP a GitHub, esperar Actions en 
 - El orden A–Z/Z–A de la página principal se aplica a los grupos y a los artículos del grupo abierto. Se mantienen las fotos, medidas, colores, vista previa inmediata y controles de guardar de la actualización anterior.
 
 Aplicación: sube los 81 archivos del paquete conservando sus carpetas, espera Actions en verde y usa Ctrl+F5. Esta ampliación no necesita SQL nuevo ni otra publicación de manage-users en Supabase. Las pruebas locales incluyen las ocho categorías, galería sin duplicados visibles, 60 artículos con búsqueda/paginación, ficha correcta y edición/renombrado/eliminación de grupos por propietario y editor autorizado.
+
+## Portada, QR y calculadora pública (actualización 120)
+- Lo que dicen quienes construyen con nosotros queda inmediatamente encima del pie corporativo Mega Prime Importaciones. Los textos, opiniones y controles de visibilidad existentes se conservan.
+- El apartado Hablemos de tu proyecto, con sus contactos y QR de WhatsApp, aparece dentro de Una tienda más inteligente. Se utiliza el número guardado en Contactos; el QR es generado a partir del enlace real, no una captura de pantalla. Cambiar el teléfono y publicar actualiza también ese QR. Se comprueba que no se duplique al volver a aplicar el contenido.
+- La calculadora existente vuelve a ser pública por petición del propietario. Cualquier visitante puede abrirla desde el menú CALCULADORA o desde el bloque Calcula los materiales. Usa los mismos motores de cubiertas, pendientes, formas, acabados y cantidades que la herramienta del panel, con el acceso a la cotización existente. No se pide contraseña para calcular desde la tienda.
+- El modo incrustado dentro del panel conserva sus permisos y comprobación de sesión. Hacer pública la herramienta de cálculo no concede permisos para editar la página, usuarios o contraseñas.
+- El administrador conserva el control Calculadora pública en Activar / desactivar apartados. Títulos, descripción, botón y nota se toman de Contenido → Calculadoras; los contactos se editan en Correo y números de contacto / WhatsApp.
+
+Sube los 84 archivos conservando sus carpetas, espera Actions en verde y recarga con Ctrl+F5. No se necesita ejecutar SQL ni reemplazar funciones en Supabase por este cambio. No se modificó el Word ni sus contraseñas. Se comprobaron en pruebas locales los ocho motores generales, cubiertas rectangulares/triangulares/trapezoidales/cuatro aguas y 28 variantes de acabados, además de acceso público sin sesión, permisos del modo del panel, nueva posición de opiniones y QR sin duplicados.

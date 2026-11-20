@@ -1,6 +1,6 @@
-// Herramienta interna: verifica cuenta y permiso activo antes de abrir la interfaz.
+// Calculadora pública para cotizar; la vista incrustada del panel conserva su control de acceso.
 (()=>{
- if(new URLSearchParams(location.search).get('tool')!=='calculator')return;
+ if(new URLSearchParams(location.search).get('tool')!=='calculator'){window.MP_CALC_ALLOWED=true;return;}
  const status=document.createElement('section');status.id='mp-tool-status';status.setAttribute('role','status');status.textContent='Verificando acceso a la calculadora…';document.body.append(status);
  const deny=text=>{window.MP_CALC_ALLOWED=false;document.documentElement.classList.remove('mp-tool-authorized');document.getElementById('calcModal')?.classList.remove('open');status.hidden=false;status.textContent=text;const a=document.createElement('a');a.href='panel.html';a.textContent=' Volver al administrador';status.append(a)};
  let checking=false;
