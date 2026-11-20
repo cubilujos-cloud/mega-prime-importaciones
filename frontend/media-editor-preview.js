@@ -28,7 +28,7 @@
   const loadExternal=()=>{const link=safe(get(options.url)?.value);if(!link)return;pause();stage.replaceChildren();window.MP_SOCIAL?.renderEmbed(stage,link)};
   function update(force=false){
    title.textContent=get(options.title)?.value.trim()||'Título de tu publicación';description.textContent=get(options.description)?.value||'';
-   const published=!!get(options.published)?.checked;state.textContent=published?'Listo para publicar al guardar':'Borrador: no visible para los visitantes';
+   const published=!!get(options.published)?.checked;state.textContent=published?'Listo para publicar al guardar':'Borrador: no visible para los visitantes';if(options.tab==='videosTab')state.textContent+=' · '+(get('videoFeatured')?.checked?'Video principal':'Otros videos')+' · '+(get('videoGroup')?.value||'Novedades')+' › '+(get('videoSubgroup')?.value||'General');
    const f=file(),source=get(options.source)?.value,kind=options.kind?get(options.kind)?.value:'video',external=source==='external';
    const value=external?safe(get(options.url)?.value):f?'local:'+f.name+':'+f.size+':'+f.lastModified:safe(get(options.url)?.value);
    const af=options.audioFile?get(options.audioFile)?.files?.[0]:null,av=af?'local:'+af.name+':'+af.size+':'+af.lastModified:safe(get(options.audioURL)?.value);
@@ -41,13 +41,13 @@
    if(isVideo){player=m;m.controls=true;m.playsInline=true;m.preload='metadata';const poster=safe(get(options.poster)?.value);if(poster)m.poster=poster;back.disabled=play.disabled=forward.disabled=false;m.addEventListener('timeupdate',()=>{note.textContent=format(m.currentTime)+' / '+format(m.duration)});m.addEventListener('play',()=>play.textContent='Pausar');m.addEventListener('pause',()=>play.textContent='Reproducir');m.addEventListener('error',()=>note.textContent='No se pudo reproducir el video. Comprueba el enlace y el formato MP4/WEBM.')}else{m.alt=title.textContent;if(av){audio=make('audio');if(af)audioObjectURL=URL.createObjectURL(af);audio.src=audioObjectURL||av;audio.controls=true;audio.preload='metadata'}}
    stage.append(m);if(audio)stage.append(audio);
   }
-  for(const id of [options.file,options.title,options.description,options.url,options.source,options.kind,options.poster,options.published,options.audioFile,options.audioURL].filter(Boolean)){get(id)?.addEventListener('input',()=>update());get(id)?.addEventListener('change',()=>update())}
+  for(const id of [options.file,options.title,options.description,options.url,options.source,options.kind,options.poster,options.published,options.audioFile,options.audioURL,...(options.tab==='videosTab'?['videoGroup','videoSubgroup','videoFeatured']:[])].filter(Boolean)){get(id)?.addEventListener('input',()=>update());get(id)?.addEventListener('change',()=>update())}
   window.addEventListener(options.event,()=>update(true));window.addEventListener('mp:session-locked',()=>{pause();release();stage.replaceChildren();key=''});window.addEventListener('pagehide',()=>{pause();release();key=''});window.addEventListener('pageshow',()=>update());
   new MutationObserver(()=>{if(tab.hidden){pause();hidden=true}else if(hidden){hidden=false;update()}}).observe(tab,{attributes:true,attributeFilter:['hidden']});
   // Compatibilidad con cambios programáticos de los formularios existentes.
   const timer=setInterval(()=>{if(!tab.hidden&&!get('workspace').hidden)update()},700);window.addEventListener('pagehide',()=>clearInterval(timer),{once:true});
   update();
  }
- mount({tab:'videosTab',label:'Vista previa del video',file:'videoFile',title:'videoTitle',description:'videoDescription',url:'videoURL',source:'videoSource',poster:'videoPoster',published:'videoPublished',event:'mp:video-preview'});
+ mount({tab:'videosTab',label:'Vista previa del video que vas a guardar',file:'videoFile',title:'videoTitle',description:'videoDescription',url:'videoURL',source:'videoSource',poster:'videoPoster',published:'videoPublished',event:'mp:video-preview'});
  mount({tab:'postsTab',label:'Vista previa del estado',file:'statePreviewFile',title:'postTitle',description:'postBody',url:'postMedia',kind:'postKind',published:'postPublished',audioFile:'statePreviewAudioFile',audioURL:'statePreviewAudioURL',event:'mp:state-preview'});
 })();
