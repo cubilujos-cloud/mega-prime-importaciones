@@ -4,7 +4,7 @@ Este ZIP contiene 84 archivos para actualizar el repositorio existente. Incluye 
 
 ## Aplicar esta ampliación
 1. Extrae ACTUALIZACION_UNIFICADA_MEGA_PRIME.zip y sube su contenido a la raíz de GitHub conservando las carpetas. No borres otros archivos del repositorio.
-2. Título: Reubicar opiniones y QR y habilitar calculadora pública.
+2. Título: Compactar pie, mover misión y corregir catálogo y cotización.
 3. Espera Actions verde.
 4. Esta ampliación de grupos y fotos por modelo no requiere cambios nuevos en Supabase. Solo si todavía no aplicaste ACTUALIZAR_CATALOGO_EDITABLE.sql de la entrega anterior, ejecútalo en SQL Editor. Permite a los editores con permiso de contenido añadir categorías; no les concede activar, ocultar, renombrar o retirar categorías existentes. No borra datos.
 5. Si ya instalaste ACTUALIZAR_VISIBILIDAD_SOLO_ADMIN.sql y actualizaste manage-users en la entrega anterior, no los repitas. manage-users no cambia en esta ampliación. Si no lo hiciste, completa esos pasos anteriores antes de probar permisos.
@@ -89,3 +89,12 @@ Aplicación: sube los 81 archivos del paquete conservando sus carpetas, espera A
 - El administrador conserva el control Calculadora pública en Activar / desactivar apartados. Títulos, descripción, botón y nota se toman de Contenido → Calculadoras; los contactos se editan en Correo y números de contacto / WhatsApp.
 
 Sube los 84 archivos conservando sus carpetas, espera Actions en verde y recarga con Ctrl+F5. No se necesita ejecutar SQL ni reemplazar funciones en Supabase por este cambio. No se modificó el Word ni sus contraseñas. Se comprobaron en pruebas locales los ocho motores generales, cubiertas rectangulares/triangulares/trapezoidales/cuatro aguas y 28 variantes de acabados, además de acceso público sin sesión, permisos del modo del panel, nueva posición de opiniones y QR sin duplicados.
+
+## Pie compacto, misión/visión y botones (actualización 121)
+- Las opiniones y el pie corporativo usan menos espacio vertical: se redujeron márgenes, rellenos, alturas mínimas y tamaños de texto. La reducción busca aproximadamente la mitad del alto anterior en computadora; el contenido completo y la adaptación móvil se conservan, sin recortar opiniones o información con una altura fija.
+- El cierre de la página queda: opiniones → Misión y Visión → pie corporativo Mega Prime Importaciones. Los textos y permisos de visibilidad se mantienen. Las secciones no se duplican al actualizar el contenido.
+- El nombre Mega Prime Importaciones se presenta como texto editable en una sola línea junto al león del pie. El archivo del logotipo no se borra ni se modifica.
+- En Una tienda más inteligente, Ver catálogo abre el catálogo digital. Se corrigieron tanto el enlace inicial como el botón regenerado desde el contenido de Supabase. Mi cotización abre el carrito/modal de cotización; cierra primero el catálogo digital si estaba abierto.
+- Se conservaron el QR de contacto, la calculadora pública y toda la edición de categorías y productos anterior.
+
+Para aplicar: subir el contenido de la ZIP conservando sus carpetas, esperar Actions en verde y recargar con Ctrl+F5. Esta corrección es solo de GitHub; no hay SQL nuevo ni cambios de funciones en Supabase. Se probaron los botones generados por las acciones antiguas catalogo/cotizar y las acciones digital-catalog/cart, el nuevo orden de secciones, el nombre del pie en una línea, catálogo sincronizado e impresión A4. El Word y sus contraseñas permanecen intactos.
