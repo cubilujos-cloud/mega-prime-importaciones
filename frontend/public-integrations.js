@@ -17,7 +17,7 @@
  const contactList=window.MP_CONTACTS?.list(c).filter(r=>r.enabled)||[];
  if(c.contactSection?.visible!==false&&(contactList.length||c.footer?.email)){const s=section(host,c.contactSection?.title||'Hablemos de tu proyecto','contacto'),grid=el('div',undefined,'mp-cards');for(const r of contactList){const a=el('a',r.label+' · '+r.number,'mp-card');a.href='https://wa.me/'+r.number.replace(/\D/g,'')+'?text='+encodeURIComponent(c.whatsapp?.welcome||'Hola');a.dataset.mpContactId=r.id;a.target='_blank';a.rel='noopener noreferrer';grid.append(a)}s.append(grid);if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.footer?.email||'')){const email=el('a',c.footer.email);email.href='mailto:'+c.footer.email;s.append(email)}}
  postHost=c.updates?.visible===false?null:section(host,c.updates?.title||'Novedades y estados','novedades');loadPosts();
- const entry=el('div',undefined,'mp-entry');for(const [label,type]of [['Ingreso de usuario editor','editor'],['Ingreso de administrador','owner']]){const a=el('a',label);a.href='panel.html?entry='+type;entry.append(a)}host.append(entry);whatsapp(c);chat(c.chatbot);
+ whatsapp(c);chat(c.chatbot);
  }
  function whatsapp(c){const n=String(c.whatsapp?.number||'').replace(/\D/g,'');for(const a of document.querySelectorAll('a[href*="wa.me"],a[href*="api.whatsapp.com"],[data-mp-whatsapp]')){if(a.dataset.mpContactId)continue;if(/^[1-9]\d{7,14}$/.test(n)){a.href='https://wa.me/'+n+'?text='+encodeURIComponent(c.whatsapp?.welcome||'Hola, quisiera información.');a.target='_blank';a.rel='noopener noreferrer';a.hidden=false}else{a.removeAttribute('href');a.hidden=true}}}
  async function loadPosts(){
