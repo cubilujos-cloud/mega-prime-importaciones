@@ -1,0 +1,21 @@
+// Posición local del asistente. No guarda conversaciones ni cambia permisos.
+(()=>{
+ const key='mp_assistant_position_v1',clamp=(v,min,max)=>Math.min(Math.max(v,min),Math.max(min,max));
+ const limits=(width,height)=>({x:Math.max(0,innerWidth-width-8),y:Math.max(0,innerHeight-height-8)});
+ window.MP_ASSISTANT_CLAMP=(x,y,width,height)=>{const max=limits(width,height);return {x:clamp(x,8,max.x),y:clamp(y,8,max.y)}};
+ function attach(){const dock=document.getElementById('mp-assistant-dock'),chat=document.getElementById('mp-chat');if(!dock||dock.dataset.draggable)return;dock.dataset.draggable='true';
+  const tools=document.createElement('div');tools.className='mp-assistant-move-tools';const handle=document.createElement('button'),reset=document.createElement('button');handle.type=reset.type='button';handle.className='mp-assistant-drag-handle';handle.textContent='↔ Mover';handle.setAttribute('aria-label','Mover asistente: arrastra o usa las flechas del teclado');reset.textContent='↺';reset.title='Restablecer posición';reset.setAttribute('aria-label','Restablecer posición del asistente');tools.append(handle,reset);dock.prepend(tools);let point=null,drag=null,suppress=false;
+  const positionChat=()=>{if(!point||!chat||chat.hidden)return;const r=chat.getBoundingClientRect(),d=dock.getBoundingClientRect(),width=r.width||Math.min(370,innerWidth-24),height=r.height||350;const right=d.right+12,left=d.left-width-12;const x=right+width<innerWidth?right:left>=8?left:8;const p=MP_ASSISTANT_CLAMP(x,point.y,width,height);Object.assign(chat.style,{left:p.x+'px',top:p.y+'px',right:'auto',bottom:'auto',maxHeight:Math.max(100,innerHeight-16)+'px'})};
+  const place=(x,y)=>{const r=dock.getBoundingClientRect();point=MP_ASSISTANT_CLAMP(x,y,r.width,r.height);Object.assign(dock.style,{left:point.x+'px',top:point.y+'px',right:'auto',bottom:'auto'});positionChat()};
+  const save=()=>{if(!point)return;try{localStorage.setItem(key,JSON.stringify({x:point.x/Math.max(1,innerWidth),y:point.y/Math.max(1,innerHeight)}))}catch{}};
+  try{const p=JSON.parse(localStorage.getItem(key)||'null');if(p&&Number.isFinite(p.x)&&Number.isFinite(p.y))place(p.x*innerWidth,p.y*innerHeight)}catch{}
+  dock.addEventListener('pointerdown',e=>{if(e.button!==0||!e.target.closest('.mp-assistant-drag-handle,.mp-avatar-button,.mp-assistant-greeting'))return;const r=dock.getBoundingClientRect();drag={id:e.pointerId,x:e.clientX,y:e.clientY,left:r.left,top:r.top,moved:false};});
+  const move=e=>{if(!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!drag.moved&&Math.hypot(dx,dy)<6)return;if(!drag.moved)dock.setPointerCapture?.(e.pointerId);drag.moved=true;e.preventDefault();place(drag.left+dx,drag.top+dy)};
+  const end=e=>{if(!drag||drag.id!==e.pointerId)return;suppress=drag.moved&&e.type!=='pointercancel';if(suppress)save();dock.releasePointerCapture?.(e.pointerId);drag=null};window.addEventListener('pointermove',move,{passive:false});window.addEventListener('pointerup',end);window.addEventListener('pointercancel',end);
+  dock.addEventListener('click',e=>{if(!suppress)return;suppress=false;e.preventDefault();e.stopImmediatePropagation()},true);
+  handle.onkeydown=e=>{const delta={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(!delta)return;e.preventDefault();const r=dock.getBoundingClientRect(),step=e.shiftKey?30:10;place(r.left+delta[0]*step,r.top+delta[1]*step);save()};
+  reset.onclick=()=>{point=null;for(const prop of ['left','top','right','bottom'])dock.style[prop]='';if(chat)for(const prop of ['left','top','right','bottom','maxHeight'])chat.style[prop]='';try{localStorage.removeItem(key)}catch{}};
+  dock.addEventListener('click',()=>requestAnimationFrame(positionChat));const resize=()=>{if(dock.isConnected&&point)place(point.x,point.y)};window.addEventListener('resize',resize);dock.MP_dragCleanup=()=>{window.removeEventListener('resize',resize);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',end);window.removeEventListener('pointercancel',end)};
+ }
+ if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',attach);else attach();window.addEventListener('mp:assistant-mounted',attach);
+})();

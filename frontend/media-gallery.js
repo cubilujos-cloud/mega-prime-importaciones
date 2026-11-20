@@ -25,7 +25,7 @@
    const select=()=>{for(const node of host.children)node.classList.remove('mp-media-selected');card.classList.add('mp-media-selected');edit(row);const editor=tab.querySelector('.mp-media-editor-layout');editor?.scrollIntoView({behavior:'smooth',block:'start'})};
    open.onclick=select;const editButton=make('button','Abrir y editar');editButton.type='button';editButton.onclick=select;
    const deleteButton=make('button',story?'Eliminar estado':'Eliminar video');deleteButton.type='button';deleteButton.onclick=()=>remove(row);
-   card.append(open,state,make('p',story?row.body:row.description));if(story&&row.expires_at)card.append(make('p','Vencimiento: '+new Date(row.expires_at).toLocaleString('es-EC')));card.append(editButton,deleteButton);host.append(card);
+   card.append(open,state,make('p',story?row.body:row.description));if(story&&row.expires_at)card.append(make('p','Vencimiento: '+new Date(row.expires_at).toLocaleString('es-EC')));card.append(editButton,deleteButton);if(!story)card.append(make('p',(row.group_name||'Novedades')+' › '+(row.subgroup_name||'General')+(row.featured?' · Principal en portada':'')));host.append(card);
   }
  };
 })();

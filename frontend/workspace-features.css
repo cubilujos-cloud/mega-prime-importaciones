@@ -15,3 +15,9 @@ header{position:sticky;top:0;z-index:110;background:#080d11;align-items:center}#
 #password:not(.mp-password-manual){color:transparent!important;-webkit-text-fill-color:transparent!important;caret-color:#e8b94e}#password.mp-password-manual{color:#fff!important;-webkit-text-fill-color:#fff!important}
 
 #password:-webkit-autofill{box-shadow:0 0 0 1000px #080d11 inset!important}
+
+.mp-video-main-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;max-width:100%}
+.mp-video-main-grid>.mp-video-card{max-width:620px}.mp-video-folders{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}
+.mp-video-folder{border:1px solid #53616a;border-radius:12px;padding:18px;background:#14242c}.mp-video-folder img{width:100%;max-height:150px;object-fit:contain;border-radius:8px}.mp-video-folder-icon{font-size:35px;color:#e8b94e}
+.mp-video-group-dialog{width:min(1100px,94vw);max-height:90vh;overflow:auto;background:#10212a;color:#f5f7fa;border:1px solid #d8b34a;border-radius:16px;padding:22px}.mp-video-group-dialog::backdrop{background:#000b}.mp-video-group-dialog>select,.mp-video-group-dialog>input{padding:12px;margin:8px 10px 18px 0;background:#08151b;color:white;border:1px solid #56717e;border-radius:8px;max-width:100%}.mp-video-pages{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:20px}
+@media(max-width:600px){.mp-video-main-grid,.mp-video-folders{grid-template-columns:1fr}}

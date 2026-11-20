@@ -1,14 +1,15 @@
 # Actualización unificada: catálogo editable y todas las mejoras anteriores
 
-Este ZIP contiene 84 archivos para actualizar el repositorio existente. Incluye el editor de productos, modelos, categorías, colores y fotos, junto con las correcciones anteriores de usuarios, sesiones, visibilidad, videos y estados. No contiene Word ni contraseñas.
+Este ZIP contiene 89 archivos para actualizar el repositorio existente. Incluye el editor de productos, modelos, categorías, colores y fotos, junto con las correcciones anteriores de usuarios, sesiones, visibilidad, videos y estados. No contiene Word ni contraseñas.
 
 ## Aplicar esta ampliación
 1. Extrae ACTUALIZACION_UNIFICADA_MEGA_PRIME.zip y sube su contenido a la raíz de GitHub conservando las carpetas. No borres otros archivos del repositorio.
-2. Título: Compactar pie, mover misión y corregir catálogo y cotización.
+2. Título: Mover chatbot y agrupar videos con misión antes de opiniones.
 3. Espera Actions verde.
 4. Esta ampliación de grupos y fotos por modelo no requiere cambios nuevos en Supabase. Solo si todavía no aplicaste ACTUALIZAR_CATALOGO_EDITABLE.sql de la entrega anterior, ejecútalo en SQL Editor. Permite a los editores con permiso de contenido añadir categorías; no les concede activar, ocultar, renombrar o retirar categorías existentes. No borra datos.
 5. Si ya instalaste ACTUALIZAR_VISIBILIDAD_SOLO_ADMIN.sql y actualizaste manage-users en la entrega anterior, no los repitas. manage-users no cambia en esta ampliación. Si no lo hiciste, completa esos pasos anteriores antes de probar permisos.
-6. Recarga el panel y la web con Ctrl+F5.
+6. Para la actualización 122, ejecuta además ACTUALIZAR_VIDEOS_AGRUPADOS.sql en Supabase SQL Editor (es necesario para los nuevos campos de videos; no reemplaza ninguna función).
+7. Recarga el panel y la web con Ctrl+F5.
 
 ## Productos y categorías: administrador y editor autorizado
 En la barra del panel pulsa Productos y categorías. También los botones de productos y categorías dentro de Contenido llevan al nuevo editor.
@@ -98,3 +99,13 @@ Sube los 84 archivos conservando sus carpetas, espera Actions en verde y recarga
 - Se conservaron el QR de contacto, la calculadora pública y toda la edición de categorías y productos anterior.
 
 Para aplicar: subir el contenido de la ZIP conservando sus carpetas, esperar Actions en verde y recargar con Ctrl+F5. Esta corrección es solo de GitHub; no hay SQL nuevo ni cambios de funciones en Supabase. Se probaron los botones generados por las acciones antiguas catalogo/cotizar y las acciones digital-catalog/cart, el nuevo orden de secciones, el nombre del pie en una línea, catálogo sincronizado e impresión A4. El Word y sus contraseñas permanecen intactos.
+
+## Chatbot desplazable y videos en grupos (actualización 122)
+1. Sube los 89 archivos a GitHub conservando las carpetas y espera Actions en verde.
+2. Esta actualización SÍ necesita un SQL nuevo para guardar la clasificación de videos: abre ACTUALIZAR_VIDEOS_AGRUPADOS.sql, copia TODO y ejecútalo en Supabase → SQL Editor → New query → Run. Se puede ejecutar otra vez sin duplicar columnas. Mantiene los videos y las políticas actuales; no modifica usuarios, contraseñas ni funciones Edge. No ejecutes otra vez la instalación inicial.
+3. Recarga con Ctrl+F5. En Videos permanentes encontrarás Grupo / categoría de videos, Subcategoría y Video principal en la portada. Ejemplo: Cargas y entregas → Tejas españolas. Guarda cada video para aplicar su clasificación; el administrador y los editores con manage_videos pueden hacerlo.
+4. La portada muestra como máximo tres videos marcados como principales. Si ninguno está marcado, muestra el primero para conservar la biblioteca existente. El resto queda en tarjetas de grupos. Ver videos abre una ventana con subcategorías, búsqueda y páginas de seis videos. Cerrar o cambiar de página detiene los reproductores que se retiran. Los videos anteriores pertenecen inicialmente a Novedades.
+5. El asistente tiene ↔ Mover y ↺ Restablecer. Se arrastra desde el control, el robot o el saludo con mouse/dedo. Las flechas del teclado sobre Mover también lo desplazan (Mayús para pasos más grandes). Se conserva su posición solo en ese navegador y se limita al tamaño de la pantalla; arrastrar no abre por accidente el chat ni WhatsApp. La ventana de conversación se coloca junto al robot sin salirse del área visible. No se guardan mensajes en ese ajuste de posición.
+6. Se corrigió el orden final solicitado: Misión y Visión → Relaciones duraderas/opiniones → pie corporativo. Se conservan el pie compacto, la marca en una línea, el QR en Experiencia, los enlaces de catálogo/cotización y la calculadora pública.
+
+Pruebas: arrastre y teclado, límites de pantalla, redimensionado y posición local; biblioteca con 24 videos que mantiene solo tres reproductores en portada y clasifica el resto por grupos/subcategorías; guardado de campos e ID sin duplicación; SQL ejecutado dos veces en PostgreSQL local conservando el video original. El SQL todavía debe ejecutarlo el propietario en su proyecto de Supabase. El Word y sus contraseñas siguen intactos.

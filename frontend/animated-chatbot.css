@@ -21,3 +21,8 @@
 @media(max-width:600px){.mp-assistant-active #mpi65BackTop{left:12px;bottom:132px}}
 /* En pantallas estrechas, el saludo se consulta al abrir el chat para dejar libre la portada. */
 @media(max-width:600px){#mp-assistant-dock{width:108px}.mp-assistant-greeting{display:none}#mp-assistant-dock .mp-avatar-button{width:66px;height:66px}.mp-assistant-whatsapp{width:108px;min-height:32px;padding:7px 8px;font-size:11px}}
+
+.mp-assistant-move-tools{display:flex;align-items:center;gap:5px;align-self:flex-end;margin-bottom:4px}
+.mp-assistant-move-tools button{border:1px solid #8d793d;border-radius:12px;padding:4px 8px;background:#152c36;color:#fff3cb;font:600 11px/1.2 system-ui;cursor:pointer;min-height:25px}
+.mp-assistant-drag-handle{cursor:grab!important}.mp-assistant-drag-handle:active{cursor:grabbing!important}
+#mp-assistant-dock .mp-assistant-drag-handle,#mp-assistant-dock .mp-avatar-button,#mp-assistant-dock .mp-assistant-greeting{touch-action:none;user-select:none}

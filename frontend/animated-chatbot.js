@@ -20,7 +20,7 @@
  </g></g></svg>`;
  function enhance(){
   const c=window.MPI_CMS_ACTIVE||window.MPI_CMS_DEFAULTS,a=c?.chatbot,b=document.getElementById('mp-chat-toggle'),box=document.getElementById('mp-chat');
-  document.getElementById('mp-assistant-dock')?.remove();
+  const previousDock=document.getElementById('mp-assistant-dock');previousDock?.MP_dragCleanup?.();previousDock?.remove();
   if(!a?.visible||!b||!box){document.documentElement.classList.remove('mp-assistant-active');return}
   const dock=document.createElement('div');dock.id='mp-assistant-dock';dock.dataset.animation=a.animation||'bounce';
   if(/^#[0-9a-f]{6}$/i.test(a.color))dock.style.setProperty('--mp-assistant-accent',a.color);
@@ -33,7 +33,7 @@
   if(/^[1-9]\d{7,14}$/.test(number)){const wa=document.createElement('a');wa.className='mp-assistant-whatsapp';wa.href='https://wa.me/'+number+'?text='+encodeURIComponent(c.whatsapp?.welcome||'Hola');wa.target='_blank';wa.rel='noopener noreferrer';wa.textContent=a.whatsappLabel||'WhatsApp ↗';wa.setAttribute('aria-label','Contactar a Mega Prime Importaciones por WhatsApp');dock.append(wa)}
   const close=document.createElement('button');close.className='mp-chat-close';close.type='button';close.textContent='×';close.setAttribute('aria-label','Cerrar conversación');close.onclick=()=>{if(!box.hidden)b.click()};box.querySelector('.mp-chat-close')?.remove();box.prepend(close);
   b.addEventListener('click',()=>{dock.classList.toggle('mp-conversation-open',!box.hidden);if(!box.hidden)box.querySelector('input')?.focus()});
-  document.body.append(dock);document.documentElement.classList.add('mp-assistant-active');
+  document.body.append(dock);document.documentElement.classList.add('mp-assistant-active');window.dispatchEvent(new Event('mp:assistant-mounted'));
  }
  if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',enhance);else enhance();
  window.addEventListener('mpi:cms-updated',enhance);
