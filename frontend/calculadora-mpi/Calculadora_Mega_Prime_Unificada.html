@@ -1,0 +1,2337 @@
+<!DOCTYPE html>
+<html data-mpi-deploy="supabase" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Material Mega Prime Importaciones 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light; --bg: #faf8f2; --surface: #ffffff; --surface2: #f4efe3;
+      --border: #ded4bf; --accent: #876419; --accent-glow: rgba(165,125,46,0.08);
+      --text: #1a2333; --text-muted: #46566b; --text-dim: #5e5543;
+      --warning: #714500; --chip-bg: #fbf3df;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(165,125,46,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(165,125,46,0.04) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none; z-index: 0;
+    }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    header { padding: 48px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+    .brand-tag { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .brand-tag::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--accent); }
+    h1 { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(36px,5vw,64px); font-weight: 900; line-height: 1; letter-spacing: -1px; }
+    h1 span { color: var(--accent); }
+    .subtitle { margin-top: 12px; color: var(--text-muted); font-weight: 300; font-size: 16px; }
+    .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px; }
+    .tipos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 12px; margin-bottom: 40px; }
+    .tipo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 12px; cursor: pointer; transition: all 0.2s ease; text-align: center; position: relative; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .tipo-card::before { content: ''; position: absolute; inset: 0; background: var(--accent-glow); opacity: 0; transition: opacity 0.2s ease; }
+    .tipo-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .tipo-card:hover::before, .tipo-card.active::before { opacity: 1; }
+    .tipo-card.active { border-color: var(--accent); background: var(--surface2); }
+    .tipo-card.active .tipo-check { opacity: 1; }
+    .tipo-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+    .tipo-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; line-height: 1.3; color: var(--text); }
+    .tipo-check { position: absolute; top: 8px; right: 8px; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; }
+    .variante-block { margin-bottom: 24px; display: none; }
+    .variante-block.visible { display: block; }
+    .variante-title { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+    .variante-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .v-btn { padding: 9px 18px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .v-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .v-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .v-btn:disabled { opacity: 1; cursor: not-allowed; border-color: var(--border); color: var(--text-dim); background: var(--surface2); }
+    #v_spc .inputs-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));margin-top:14px}
+    #v_spc p {line-height:1.5;margin-bottom:12px}
+    .inputs-row { display: flex; gap: 20px; margin-bottom: 32px; flex-wrap: wrap; }
+    .input-group { flex: 1; min-width: 180px; }
+    .input-group label { display: block; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+    .input-group input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 20px; font-weight: 600; transition: border-color 0.2s; -moz-appearance: textfield; }
+    .input-group input::-webkit-inner-spin-button, .input-group input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .input-group input:focus { outline: none; border-color: var(--accent); }
+    .input-group .unit { display: inline-block; margin-top: 6px; font-size: 12px; color: var(--text-dim); }
+    .calc-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 2px; text-transform: uppercase; border: none; border-radius: 8px; padding: 16px 40px; cursor: pointer; transition: all 0.2s; margin-bottom: 48px; }
+    .calc-btn:hover { background: #715013; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(165,125,46,0.25); }
+    .calc-btn:active { transform: translateY(0); }
+    #results { display: none; animation: fadeUp 0.4s ease forwards; }
+    #results.show { display: block; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .results-title { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; }
+    .results-meta { font-size: 13px; color: var(--text-muted); }
+    .results-meta strong { color: var(--accent); }
+    .chip { display: inline-block; background: var(--chip-bg); border: 1px solid #d8bf85; border-radius: 20px; padding: 3px 12px; font-size: 11px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-left: 6px; vertical-align: middle; }
+    .results-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .results-table thead tr { background: var(--surface2); border-bottom: 2px solid var(--accent); }
+    .results-table th { text-align: left; padding: 14px 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+    .results-table td { padding: 13px 20px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .results-table tbody tr:last-child td { border-bottom: none; }
+    .results-table tbody tr:hover { background: var(--surface2); }
+    .code-cell { font-family: monospace; font-size: 11px; color: var(--text-dim); }
+    .material-name { font-weight: 500; color: var(--text); }
+    .qty-cell { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: var(--accent); text-align: right; white-space: nowrap; }
+    .qty-na { font-size: 12px; color: var(--text-dim); text-align: right; }
+    .note-box { margin-bottom: 20px; padding: 14px 20px; background: rgba(200,119,0,0.07); border: 1px solid rgba(200,119,0,0.3); border-radius: 8px; font-size: 13px; color: var(--warning); display: none; }
+    .note-box.show { display: block; }
+    .print-btn { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); border-radius: 8px; padding: 12px 24px; color: var(--text-muted); font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; margin-top: 24px; }
+    .print-btn:hover { border-color: var(--accent); color: var(--accent); }
+    footer { margin-top: 80px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-dim); font-size: 13px; }
+    @media screen {
+      header { background: #10243c; border-bottom: 4px solid #cda955; border-radius: 0 0 14px 14px; padding: clamp(22px, 4vw, 46px); color: white; }
+      header .brand-tag, header h1 span { color: #f1ce7e; }
+      header .brand-tag::before { background: #f1ce7e; }
+      header .subtitle { color: #e5e9ef; }
+      .calc-btn { background: #e4bd65; color: #10243c; }
+      .calc-btn:hover { background: #f1ce7e; color:#10243c; }
+    }
+    @media print {
+      #results::before { content: "Mega Prime Importaciones"; display: block; color: #765511; border-bottom: 2px solid #b58b34; padding-bottom: 8px; margin-bottom: 16px; font-weight: bold; }
+      body { background: white; color: black; }
+      body::before { display: none; }
+      header, .tipos-grid, .variante-block, .inputs-row, .calc-btn, .print-btn, footer { display: none !important; }
+      #results { display: block !important; }
+      .results-table { border: 1px solid #ccc; box-shadow: none; }
+      .results-table th { color: #666; }
+      .results-table td { border-color: #eee; }
+      .qty-cell { color: #765511; }
+      .code-cell { color: #374553; }
+      .chip { background: #eee; color: #333; border-color: #ccc; }
+    }
+    @media screen {
+      body { background: #f2f1ec; }
+      body::before { display:none; }
+      .container { padding-top:24px; }
+      header { position:relative; overflow:hidden; border-radius:18px; margin-bottom:20px; background:linear-gradient(115deg,#0a192a 10%,#183954 100%); }
+      header::after { content:""; position:absolute; pointer-events:none; right:-7%; top:-85%; width:40%; height:290%; transform:rotate(34deg); background:repeating-linear-gradient(90deg,transparent 0 13px,#c9a66455 14px,#071a2c88 16px,transparent 20px); }
+      header > * { position:relative; z-index:1; }
+      header h1 { text-align:center; font-size:clamp(32px,5vw,56px); letter-spacing:-.035em; font-weight:700; }
+      header .brand-tag { font-size:12px; letter-spacing:2px; margin-bottom:20px; }
+      header .subtitle { max-width:65%; margin-inline:auto; text-align:center; line-height:1.55; }
+      .workspace { display:grid; grid-template-columns:minmax(0,2fr) minmax(250px,1fr); gap:18px; align-items:start; }
+      .panel,#results { border:1px solid #dad5c9; border-radius:16px; padding:clamp(18px,2.6vw,30px); background:white; box-shadow:0 6px 24px #10243c09; }
+      .section-label { color:#142e45; font-size:22px; letter-spacing:0; text-transform:none; font-weight:700; }
+      .tipos-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-bottom:0; }
+      .tipo-card { text-align:left; font:inherit; padding:14px; border-radius:9px; background:#faf9f6; box-shadow:none; }
+      .tipo-name { text-transform:none; letter-spacing:0; font-size:15px; }
+      .tipo-card.active { background:#102a40; border-color:#c6a256; }
+      .tipo-card.active .tipo-name { color:white; }
+      .tipo-check { background:#e5c57d; color:#10243c; }
+      .variante-block.visible { border-top:1px solid var(--border); padding-top:18px; margin:18px 0 0; }
+      .inputs-row { margin-bottom:18px; }
+      .input-group { min-width:0; flex-basis:100%; }
+      .calc-btn { width:100%; justify-content:center; margin:0; letter-spacing:.8px; }
+      #results { margin-top:20px; }
+      .results-table thead tr { background:#152e43; }
+      .results-table th { color:#fae2a7; letter-spacing:1px; }
+      .results-table tbody tr:nth-child(even) { background:#f8f7f3; }
+      .results-table .qty-cell { font-size:20px; font-variant-numeric:tabular-nums; }
+      :focus-visible { outline:3px solid #976e1f; outline-offset:3px; }
+      footer { margin-top:30px; }
+    }
+    @media screen and (max-width:760px) {
+      .container { padding:12px; }
+      .workspace { grid-template-columns:1fr; }
+      .tipos-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      header::after { opacity:.32; }
+      header .subtitle { max-width:100%; }
+      .results-table { table-layout:fixed; }
+      .results-table td,.results-table th { padding:8px 5px; overflow-wrap:anywhere; font-size:12px; }
+      .results-table th:first-child { width:23%; }
+      .results-table th:last-child { width:21%; }
+    }
+    @media print {
+      @page { size:A4; margin:16mm; }
+      .workspace { display:none; }
+      #results { animation:none; }
+      .results-table tr { break-inside:avoid; }
+      .results-table th { color:#142d44; }
+    }
+    .tipo-card .tipo-icon { display:block; width:62px; height:44px; margin:0 0 8px; color:#84601f; }
+    .tipo-card.active .tipo-icon { color:#efd292; }
+  
+/* V45 · Cotizador geométrico de cubiertas integrado */
+.mpi45-head{position:sticky;top:0;z-index:4;display:flex;gap:14px;align-items:center;justify-content:space-between;padding:13px clamp(14px,2vw,26px);background:#f8f6f0;border-bottom:1px solid #d8d2c5;backdrop-filter:blur(8px)}
+.mpi45-head small{display:block;color:#243c50;font-size:10px;letter-spacing:1.3px;font-weight:850}.mpi45-head h2{margin:3px 0 0;font-size:clamp(17px,2vw,23px);line-height:1.2}.mpi45-head button{flex:none}
+.mpi45-intro{margin:0;padding:12px clamp(14px,2vw,26px);color:#243c50;font-size:12px;line-height:1.55;background:#f8f6f0;border-bottom:1px solid #d8d2c5}
+.mpi45-shell{display:grid;grid-template-columns:minmax(0,.99fr) minmax(0,1.01fr);gap:16px;padding:16px clamp(13px,1.8vw,24px) 22px;align-items:start}
+.mpi45-column{display:grid;gap:13px;min-width:0}
+.mpi45-card{background:#ffffff;border:1px solid #d8d2c5;border-radius:11px;padding:15px;min-width:0}
+.mpi45-card h3{font-size:15px;color:#795a1d;margin:0 0 9px;font-weight:800}.mpi45-card p{font-size:12px;color:#243c50;line-height:1.55;margin:7px 0 12px}.mpi45-small{font-size:11px!important;color:#243c50!important}
+.mpi45-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px 11px;align-items:end}.mpi45-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.mpi45-grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.mpi45-field{display:flex;flex-direction:column;gap:4px;min-width:0;color:#243c50;font-weight:650;font-size:11px}.mpi45-field.wide{grid-column:1/-1}
+#calcModal .mpi46-roof-panel .mpi45-field input,#calcModal .mpi46-roof-panel .mpi45-field select,#calcModal .mpi46-roof-panel .mpi45-field textarea{display:block;width:100%;min-height:38px;background:#ffffff;border:1px solid #d8d2c5;border-radius:6px;color:#243c50;padding:8px 9px;font-size:13px;margin:0;min-width:0}
+#calcModal .mpi46-roof-panel .mpi45-field input:read-only{background:#f8f6f0;color:#243c50;border-style:dashed}
+#calcModal .mpi46-roof-panel .mpi45-field input:focus,#calcModal .mpi46-roof-panel .mpi45-field select:focus{outline:2px solid #e8b94e;outline-offset:1px}
+#calcModal .mpi46-roof-panel .mpi45-btn{background:#f8f6f0;border:1px solid #d8d2c5;color:#243c50;border-radius:7px;font-size:12px;font-weight:800;padding:9px 11px;cursor:pointer;min-height:38px}
+#calcModal .mpi46-roof-panel .mpi45-btn:hover{filter:brightness(1.12)}#calcModal .mpi46-roof-panel .mpi45-btn.primary{background:#eac46b;color:#243c50;border-color:#d8d2c5}#calcModal .mpi46-roof-panel .mpi45-btn.muted{border-color:#d8d2c5;color:#243c50}
+.mpi45-actions{display:flex;flex-wrap:wrap;gap:8px;margin:11px 0 3px}.mpi45-actions>*{flex:0 0 auto}
+.mpi45-presets{display:flex;gap:6px;flex-wrap:wrap;margin:7px 0 12px}.mpi45-presets button.active{background:#eac46b!important;color:#243c50!important}
+.mpi45-spec{font-size:11px;color:#795a1d;line-height:1.65;padding:9px 10px;background:#f8f6f0;border-radius:6px;border-left:3px solid #d8d2c5;margin:11px 0 0}
+.mpi45-item{border:1px solid #d8d2c5;padding:11px;border-radius:8px;margin:9px 0 0;background:#f8f6f0}
+.mpi45-item-head{display:flex;gap:9px;align-items:center;justify-content:space-between;margin-bottom:8px}.mpi45-item-head strong{font-size:12px;color:#795a1d}.mpi45-item .mpi45-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.mpi45-check{display:flex;align-items:start;gap:8px;color:#243c50;font-size:11px;line-height:1.5;margin:8px 0}.mpi45-check input{flex:none;width:16px!important;height:16px;min-height:16px!important;margin:0!important;accent-color:#765511}
+.mpi45-plan-preview{margin:11px 0 3px;border:1px dashed #d8d2c5;border-radius:8px;padding:10px;background:#f8f6f0}.mpi45-plan-preview img,.mpi45-plan-preview embed{display:block;max-width:100%;max-height:165px;object-fit:contain;margin:auto;border-radius:5px}.mpi45-plan-preview small{font-size:10px;color:#243c50}
+.mpi45-status{font-size:12px;color:#243c50;line-height:1.55;margin:9px 0;white-space:normal}.mpi45-status.error{color:#963a29}
+.mpi45-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.mpi45-kpi{border:1px solid #d8d2c5;padding:10px;background:#f8f6f0;border-radius:8px}.mpi45-kpi strong{display:block;color:#795a1d;font-size:clamp(17px,2vw,25px);font-variant-numeric:tabular-nums;line-height:1.3}.mpi45-kpi small{display:block;font-size:10px;color:#243c50;line-height:1.35}
+.mpi45-table-scroll{max-width:100%;overflow:auto}.mpi45-table{border-collapse:collapse;width:100%;font-size:12px;color:#243c50}.mpi45-table th,.mpi45-table td{padding:8px 7px;text-align:left;border-bottom:1px solid #d8d2c5;vertical-align:top}.mpi45-table th{color:#795a1d;font-weight:750;white-space:nowrap}.mpi45-table td:last-child,.mpi45-table th:last-child{text-align:right}
+.mpi45-collapse summary{font-size:12px;color:#795a1d;font-weight:700;cursor:pointer;padding:7px 0}.mpi45-collapse{padding:7px 0;border-bottom:1px solid #d8d2c5}.mpi45-collapse p{margin:5px 0 8px}
+.mpi45-preview-svg{width:100%;height:auto;max-height:95px;background:#f8f6f0;border-radius:6px}
+.mpi45-important{background:#f8f6f0;border:1px solid #d8d2c5;border-radius:7px;padding:10px 12px;margin:10px 0;color:#795a1d;font-size:11px;line-height:1.5}
+.mpi45-empty{padding:34px 15px;text-align:center;color:#243c50;font-size:13px;background:#f8f6f0;border-radius:9px;border:1px dashed #d8d2c5}
+.mpi45-quote-foot{position:sticky;bottom:0;background:#f8f6f0;border-top:1px solid #d8d2c5;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:10px clamp(14px,2vw,25px);z-index:3}.mpi45-quote-foot .mpi45-actions{margin:0}.mpi45-quote-foot p{font-size:10px;color:#243c50;margin:0;max-width:260px}
+@media(max-width:1150px){.mpi45-grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.mpi45-item .mpi45-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:930px){.mpi45-shell{grid-template-columns:1fr}.mpi45-column{gap:12px}.mpi45-quote-foot p{display:none}}
+@media(max-width:620px){.mpi45-head{padding:9px 11px}.mpi45-head h2{font-size:17px}.mpi45-head .close{font-size:11px;padding:9px}.mpi45-intro{padding:10px 12px}.mpi45-shell{padding:11px;gap:11px}.mpi45-card{padding:11px}.mpi45-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.mpi45-item .mpi45-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.mpi45-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.mpi45-quote-foot{padding:10px 11px}.mpi45-quote-foot .mpi45-actions{width:100%}.mpi45-quote-foot .mpi45-btn{flex:1}}
+
+
+
+/* V47 - Accesorios completos para cubiertas española y Roma */
+#calcModal .mpi47-access-card{border-color:#d8d2c5;margin:0 clamp(13px,1.8vw,24px) 14px}
+#calcModal .mpi47-model-tag{padding:8px 11px;background:#f8f6f0;border-left:3px solid #d8d2c5;border-radius:6px;font-size:11px;color:#243c50;margin:6px 0 9px;line-height:1.5}
+#calcModal .mpi47-scheme{margin:9px 0 11px;border:1px solid #d8d2c5;border-radius:8px;padding:9px;background:#f8f6f0}
+#calcModal .mpi47-scheme summary,#calcModal .mpi47-advanced summary{cursor:pointer;font-weight:800;color:#795a1d;font-size:12px}
+#calcModal .mpi47-scheme img{max-width:min(100%,540px);max-height:380px;width:auto;display:block;object-fit:contain;margin:12px auto 6px;background:white;border-radius:6px}
+#calcModal .mpi47-scheme p{margin:6px 0;font-size:10px}
+#calcModal .mpi47-scroll-table{overflow-x:auto;max-width:100%;border:1px solid #d8d2c5;border-radius:8px;background:#f8f6f0}
+#calcModal .mpi47-table{border-collapse:collapse;width:100%;min-width:850px;font-size:11px;line-height:1.35;color:#243c50}
+#calcModal .mpi47-table th{text-align:left;background:#f8f6f0;color:#795a1d;padding:10px 8px;border-bottom:1px solid #d8d2c5;white-space:nowrap}
+#calcModal .mpi47-table td{padding:8px 7px;border-bottom:1px solid #d8d2c5;vertical-align:middle}
+#calcModal .mpi47-table tr:last-child td{border-bottom:0}
+#calcModal .mpi47-table tr.selected{background:#f8f6f0}
+#calcModal .mpi47-table td:first-child{min-width:155px}
+#calcModal .mpi47-table td:first-child strong{display:block;color:#243c50;font-size:11px}
+#calcModal .mpi47-table td:first-child small{display:block;color:#243c50;margin-top:3px;font-size:9px;line-height:1.3}
+#calcModal .mpi47-table select,#calcModal .mpi47-table input[type=number]{display:block;background:#ffffff;color:#243c50;border:1px solid #d8d2c5;border-radius:6px;padding:7px 6px;height:35px;width:100%;min-width:68px;font-family:inherit;font-size:11px}
+#calcModal .mpi47-table select{min-width:112px}
+#calcModal .mpi47-table input[readonly],#calcModal .mpi47-table input:disabled{background:#f8f6f0;color:#46566b;opacity:1}
+#calcModal .mpi47-table input[type=checkbox]{width:19px;height:19px;accent-color:#765511;cursor:pointer}
+#calcModal .mpi47-table td:last-child{text-align:center}
+#calcModal .mpi47-table .mpi47-qty-note{color:#795a1d;font-size:10px;display:block;white-space:nowrap;padding-top:3px}
+#calcModal .mpi47-access-summary{background:#f8f6f0;border-radius:7px;padding:10px;color:#243c50;font-size:11px;line-height:1.5;margin:9px 0 0}
+#calcModal .mpi47-access-summary strong{color:#795a1d}
+#calcModal .mpi47-advanced{margin:11px 0 9px;padding:10px;border:1px solid #d8d2c5;border-radius:8px}
+#calcModal .mpi47-advanced p{font-size:11px}
+@media(max-width:750px){#calcModal .mpi47-scroll-table{border:0;background:transparent;overflow:visible}#calcModal .mpi47-table{min-width:0;display:block}#calcModal .mpi47-table thead{display:none}#calcModal .mpi47-table tbody{display:grid;gap:9px}#calcModal .mpi47-table tr{display:grid;grid-template-columns:1fr 1fr;gap:7px;background:#f8f6f0;border:1px solid #d8d2c5;border-radius:8px;padding:10px}#calcModal .mpi47-table td{display:block;border:0;padding:0;min-width:0}#calcModal .mpi47-table td::before{content:attr(data-label);display:block;color:#243c50;font-size:10px;margin-bottom:3px}#calcModal .mpi47-table td:first-child{grid-column:1/-1}#calcModal .mpi47-table td:last-child{text-align:left}#calcModal .mpi47-table td:first-child strong{font-size:12px}#calcModal .mpi47-table select{min-width:0}#calcModal .mpi47-table input[type=number]{min-width:0}#calcModal .mpi47-scheme img{max-height:280px}}
+
+
+/* V48 · Ficha técnica de los modelos de cresta alta */
+#mpi46RoofPanel .mpi48-technical[hidden],#mpi46RoofPanel #r48Lap1080Box[hidden],#mpi46RoofPanel #r48Lap1130Box[hidden]{display:none!important}
+#mpi46RoofPanel .mpi48-technical{border:1px solid #d8d2c5;background:#f8f6f0;border-radius:10px;padding:12px 14px;margin:10px 0 14px;display:grid;gap:9px}
+#mpi46RoofPanel .mpi48-technical-title{font-size:13px;font-weight:850;color:#795a1d}
+#mpi46RoofPanel .mpi48-technical p{font-size:12px;margin:0;color:#243c50;line-height:1.5}
+#mpi46RoofPanel .mpi48-technical small{color:#243c50;font-size:11px;line-height:1.5;display:block}
+#mpi46RoofPanel .mpi48-technical .mpi45-field{margin:0}
+#mpi46RoofPanel .mpi48-technical input,#mpi46RoofPanel .mpi48-technical select{width:100%;background:#ffffff;border:1px solid #d8d2c5;color:#243c50;border-radius:7px;padding:9px 10px;font-size:13px}
+#mpi46RoofPanel .mpi48-caution{border-left:3px solid #d8d2c5;padding:7px 10px;background:#f8f6f0;color:#243c50;font-size:11.5px;line-height:1.55}
+
+[hidden]{display:none!important}
+.workspace.roof-selected{grid-template-columns:1fr}
+#calcModal{margin-top:18px;min-width:0}
+#calcModal .mpi45-shell{padding:0;margin:16px 0}
+#calcModal .mpi45-card{background:white;border-radius:16px;padding:clamp(15px,2vw,24px);box-shadow:0 6px 24px #10243c09}
+#calcModal .mpi45-card h3,#roofTitle{font-family:inherit;color:#142e45}
+#calcModal .mpi47-access-card{margin:0 0 14px}
+#calcModal .mpi45-intro{border-radius:9px}
+#calcModal .mpi45-quote-foot{position:static;border-radius:12px}
+#calcModal .mpi45-btn.primary,#calcModal .mpi47-table th{background:#142e45;color:#fae2a7}
+#calcModal .mpi45-field input,#calcModal .mpi45-field select{min-width:0;font-family:inherit}
+#mpiPlanAi{border-top:1px solid #ded4bf;padding-top:14px;margin-top:14px}
+#mpiPlanAi button{border:1px solid #ded4bf;background:#faf8f2;color:#142e45;border-radius:7px;padding:8px;margin:3px;cursor:pointer}
+#mpiPlanAi button:disabled{opacity:1;color:#46566b;background:#eeeae2;border-style:dashed}
+#mpiPlanAi label{display:grid;gap:4px;margin:5px 0}
+#mpiPlanAi input,#mpiPlanAi select{width:100%;padding:6px}
+#mpiPlanAi small{display:block;font-size:11px;color:#5a6a82}
+#roofTitle{font-size:23px;margin:0 0 10px}
+@media print{
+ .roof-selected ~ #results{display:none!important}
+ #calcModal .mpi45-shell{display:block}
+ #calcModal .mpi45-column:first-child,#calcModal .mpi47-access-card,#calcModal .mpi45-quote-foot,#calcModal .mpi45-intro,#calcModal .mpi45-column:nth-child(2)>.mpi45-card:nth-child(2){display:none}
+ #calcModal .mpi45-card{border:none;box-shadow:none;padding:0}
+ #calcModal .mpi45-table-scroll{overflow:visible}
+}
+.roof-toggle{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:36px}
+.roof-toggle::-webkit-details-marker{display:none}
+.roof-toggle::after{content:"";flex:none;width:.5rem;height:.5rem;margin-right:.35rem;border:solid #876419;border-width:0 2px 2px 0;transform:rotate(45deg)}
+details[open]>.roof-toggle::after{transform:rotate(225deg)}
+#calcModal #roofAccessories>summary h3{margin:0}
+#calcModal #mpi46RoofPanel input:disabled:is([data-k="top"],[data-ai="top"]){background:#eeeae2;color:#615c51;border:1px dashed #b8b0a1;cursor:not-allowed}
+</style>
+<style>
+.room {min-width:0;border:1px solid #dad5c9;border-radius:10px;padding:12px;margin:12px 0}
+.room [hidden] {display:none!important}
+.room label {display:block;margin:8px 0;font-size:14px}
+.room input,.room select {display:block;width:100%;border:1px solid #ccc4b3;border-radius:6px;padding:9px;background:white;color:#142c41}
+.room button,#agregarAmbiente {margin:4px 0 12px}
+.room output,#pendiente {display:block;color:#735018;font-weight:650;margin:10px 0}
+@media print {#results:not(.show),.workspace {display:none!important}}
+</style><style>
+  :where(input:not([type=checkbox]):not([type=radio]),select,textarea) {color:#142e45;background-color:white}
+  input::placeholder,textarea::placeholder {color:#46566b;opacity:1}
+  button:disabled,input:disabled,textarea:disabled,select:disabled {opacity:1}
+  #calcModal .mpi46-roof-panel .mpi45-btn:disabled,.print-btn:disabled {color:#46566b;background:#eeeae2;border-style:dashed;filter:none}
+  #mpiPlanAi input::file-selector-button,input[type=file]::file-selector-button {color:#142e45;background:#eeeae2;border:1px solid #726953}
+  :where(input,select,textarea,button,summary):focus-visible {outline:2px solid #745315;outline-offset:2px}
+  @media print {
+    #calcModal :is(.mpi45-table,.mpi47-table) th {color:#142e45;background:#fff}
+  }
+  /* El navegador pinta juntos el texto y el fondo de las opciones nativas. */
+  select {color-scheme:only light}
+  @media (forced-colors:active) {
+    select {color-scheme:light dark}
+  }
+  @media screen {
+    .input-group input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline:3px solid #735018;outline-offset:2px;
+    }
+  }
+</style><style> .qty-cell small{white-space:normal;font:600 12px/1.4 sans-serif;color:#35485a} #v_cielo_pvc>label{display:block;margin:6px 0} </style><style>.room input[type="checkbox"]{display:inline-block;width:auto;margin-right:5px;vertical-align:middle}</style><style>
+.roof-workflow{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin:16px 0}
+#calcModal .roof-workflow>.mpi47-access-card{margin:0}
+.roof-plan{border-block:1px solid #d8d2c5;margin:12px 0;padding:3px 0}
+.roof-plan summary{font-weight:700;color:#243c50}
+.roof-plan[open] summary{margin-bottom:10px}
+#roofOutput .mpi45-quote-foot{margin-top:12px}
+@media print{.roof-workflow{display:block;margin:0}.roof-workflow>:not(#roofOutput){display:none!important}}
+</style></head>
+<body>
+<div class="container">
+  <header>
+    <div class="brand-tag">Mega Prime Importaciones 2026</div>
+    <h1>Calculadora de <span>materiales</span></h1>
+    <p class="subtitle">Selecciona el tipo de instalación, la variante y el área para obtener los materiales necesarios.</p>
+  </header>
+
+  <main class="workspace"><section class="panel">
+  <h2 class="section-label">Tipo de instalación</h2>
+  <div class="tipos-grid">
+    <button type="button" class="tipo-card" data-tipo="tumbado_gypsum" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 22 32 12 57 21 32 32Z M7 22v4l25 10 25-11v-4 M16 18v-7m16 1V5m16 13V10"/></svg>
+      <span class="tipo-name">Tumbado Gypsum Plano</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="cielo_estructura" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 23 35 9 59 20 29 35Z M15 18l24 12m-14-17 24 12M17 29l30-15 M5 23v3l24 12 30-15v-3"/></svg>
+      <span class="tipo-name">Cielo Raso Estructura Vista</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="pared_doble" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15 19 10 19 33 7 38Z M26 14l6-3v20l-6 3Z M40 14l14-6v23l-14 7Z M20 18l5-2m8-2 6-2m-19 17 5-2m8-2 6-2"/></svg>
+      <span class="tipo-name">Pared Doble Forramiento</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="pared_una_cara" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16 28 7v23L6 39Z M32 10l20-6 5 2-22 8v18l22-8V6 M43 11v18m8-21v18"/></svg>
+      <span class="tipo-name">Pared Forramiento Una Cara</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="fibrocemento" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14 46 6l9 5v23l-38 8-9-5Z M8 14l9 5 38-8 M17 19v23 M23 23h1m23-5h1m-24 17h1m22-5h1"/></svg>
+      <span class="tipo-name">Pared Fibrocemento Interiores</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="pegado_plancha" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 12h26v23H7Z M11 17l4-2m-4 9 8-4m-8 11 8-4 M27 19l25-5 4 3v21l-25 5-4-3Z M27 19l4 3 25-5 M31 22v21"/></svg>
+      <span class="tipo-name">Pegado de Plancha / Enchape</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="cielo_pvc" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26 42 7l17 7-38 20Z M4 26v4l17 8 38-20v-4 M10 29 48 10m-32 22 38-20 M10 29v3m6 0v3"/></svg>
+      <span class="tipo-name">Cielo Raso PVC</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="wpc_interior" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14 51 5l5 3v25l-43 9-5-3Z M13 17l43-9 M13 17v25 M19 16v25m5-26v25m5-26v25m5-26v25m5-26v25m5-26v25m5-26v25"/></svg>
+      <span class="tipo-name">WPC Interiores</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="wpc_exterior" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 19 41 9l16 6-35 11Z M6 19v4l16 7 35-11v-4 M6 29l16 8 35-12 M6 26v6l16 8 35-12v-6 M22 26v4m0 7v3"/></svg>
+      <span class="tipo-name">WPC Exteriores</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="marmoleado" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12 51 6l4 3v27l-42 6-4-3Z M13 15l42-6 M13 15v27 M17 37l9-12 6-1 6-12 M26 25l-4-5m11 20 7-9 6-2 5-9"/></svg>
+      <span class="tipo-name">Marmoleados PVC</span>
+      <span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="spc" onclick="selTipo(this)">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 11h54v26H5z M5 20h54M5 29h54M22 11v9m21 0v9m-26 0v8"/></svg>
+      <span class="tipo-name">Piso SPC y barrederas</span><span class="tipo-check" aria-hidden="true">✓</span></button>
+    <button type="button" class="tipo-card" data-tipo="cubiertas" onclick="selTipo(this)" aria-controls="calcModal">
+      <svg class="tipo-icon" viewBox="0 0 64 46" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m5 31 18-21h24l13 20H35L23 10 M28 10l13 20m-6-20 13 20m-6-20 13 20M11 30l12-14 9 14M7 34l16-18"/></svg>
+      <span class="tipo-name">Tejas y cubiertas</span><span class="tipo-check" aria-hidden="true">✓</span></button>
+  </div>
+
+  <section class="variante-block" id="v_cielo_pvc">
+    <h3 class="variante-title">Ancho útil · planchas de 5,95 m y 8 mm de espesor</h3>
+    <div class="variante-tabs"><button class="v-btn active" data-v="0.25" onclick="selVariante('cielo_pvc',this)">0,25 m</button><button class="v-btn" data-v="0.30" onclick="selVariante('cielo_pvc',this)">0,30 m</button></div>
+  </section>
+  <section class="variante-block" id="v_spc">
+    <h3 class="section-label">Presentación del piso y fijaciones</h3>
+    <div class="inputs-row"><div class="input-group"><label for="spcCaja">Cobertura por caja (m²)</label><input id="spcCaja" type="number" value="2.20" min="0" step="any" placeholder="Según el empaque"></div>
+<div class="input-group"><label for="spcMerma">Reserva para cortes de piso (%)</label><input id="spcMerma" type="number" min="0" step="any" value="0"></div>
+<div class="input-group"><label for="spcBarra">Largo comercial de la barredera (m)</label><input id="spcBarra" type="number" value="2.40" min="0" step="any" placeholder="Según el producto"></div>
+<div class="input-group"><label for="spcPaso">Separación máxima entre clavos (m)</label><input id="spcPaso" type="number" value="0.40" min="0" step="any" placeholder="Según el sistema de fijación"></div></div>
+  </section>
+  <details open class="variante-block" id="v_cubiertas">
+    <summary class="variante-title roof-toggle" id="roofVariantLabel">Variante de teja o cubierta</summary>
+    <div class="variante-tabs" id="roofVariants" role="group" aria-labelledby="roofVariantLabel"></div>
+  </details>
+  <!-- Variante Tumbado Gypsum -->
+  <div class="variante-block" id="v_tumbado_gypsum">
+    <div class="variante-title">Variante de plancha</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="regular_12" onclick="selVariante('tumbado_gypsum',this)">Regular 1/2"</button>
+      <button class="v-btn" data-v="exterior_12"  onclick="selVariante('tumbado_gypsum',this)">Exterior 1/2"</button>
+      <button class="v-btn" data-v="regular_58"   onclick="selVariante('tumbado_gypsum',this)">Regular 5/8"</button>
+      <button class="v-btn" data-v="humedad_12"   onclick="selVariante('tumbado_gypsum',this)">RH 1/2" (Humedad)</button>
+      <button class="v-btn" data-v="humedad_58"   onclick="selVariante('tumbado_gypsum',this)">RH 5/8" (Humedad)</button>
+    </div>
+  </div>
+
+  <!-- Variante Cielo Estructura -->
+  <div class="variante-block" id="v_cielo_estructura">
+    <div class="variante-title">Formato de plancha</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="2x4" onclick="selVariante('cielo_estructura',this)">0,60 × 1,20 m · 0,08 mm</button>
+    </div>
+  </div>
+
+  <!-- Variante Pared Doble -->
+  <div class="variante-block" id="v_pared_doble">
+    <div class="variante-title">Variante de plancha</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="light_12"  onclick="selVariante('pared_doble',this)">Light 1/2"</button>
+      <button class="v-btn" data-v="fire_c_12"        onclick="selVariante('pared_doble',this)">Fire C 1/2"</button>
+      <button class="v-btn" data-v="fire_x_58"        onclick="selVariante('pared_doble',this)">Fire X 5/8"</button>
+      <button class="v-btn" data-v="RH_12"         onclick="selVariante('pared_doble',this)">RH 1/2" (Humedad)</button>
+      <button class="v-btn" data-v="RH_58"         onclick="selVariante('pared_doble',this)">RH 5/8" (Humedad)</button>
+    </div>
+  </div>
+
+  <!-- Variante Pared Una Cara -->
+  <div class="variante-block" id="v_pared_una_cara">
+    <div class="variante-title">Variante de plancha</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="light_12" onclick="selVariante('pared_una_cara',this)">Light 1/2"</button>
+      <button class="v-btn" data-v="RH_12"        onclick="selVariante('pared_una_cara',this)">RH 1/2" (Humedad)</button>
+      <button class="v-btn" data-v="RH_58"        onclick="selVariante('pared_una_cara',this)">RH 5/8" (Humedad)</button>
+    </div>
+  </div>
+
+  <!-- Separación de Studs — solo para tipos de pared -->
+  <div class="variante-block" id="v_sep_studs">
+    <div class="variante-title">Separación de Studs [m]</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="0.610" id="sepBtn_0610" onclick="selSep(this)">0,610 m</button>
+      <button class="v-btn" data-v="0.407"        id="sepBtn_0407" onclick="selSep(this)">0,407 m</button>
+      <button class="v-btn" data-v="0.305"        id="sepBtn_0305" onclick="selSep(this)">0,305 m</button>
+    </div>
+  </div>
+
+  <!-- Variante Pegado Plancha -->
+  <div class="variante-block" id="v_pegado_plancha">
+    <div class="variante-title">Variante de plancha</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="regular" onclick="selVariante('pegado_plancha',this)">Regular 1/2"</button>
+      <button class="v-btn" data-v="humedad"        onclick="selVariante('pegado_plancha',this)">RH 1/2" (Humedad)</button>
+    </div>
+  </div>
+
+  <!-- Variante WPC Interior -->
+  <div class="variante-block" id="v_wpc_interior">
+    <div class="variante-title">Tamaño y fijación</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="17_mecanica"  onclick="selVariante('wpc_interior',this)">17cm – Mecánica</button>
+      <button class="v-btn" data-v="17_adhesiva"         onclick="selVariante('wpc_interior',this)">17cm – Adhesiva</button>
+      <button class="v-btn" data-v="195_mecanica"        onclick="selVariante('wpc_interior',this)">19.5cm – Mecánica</button>
+      <button class="v-btn" data-v="195_adhesiva"        onclick="selVariante('wpc_interior',this)">19.5cm – Adhesiva</button>
+    </div>
+  </div>
+
+  <!-- Variante WPC Exterior -->
+  <div class="variante-block" id="v_wpc_exterior">
+    <div class="variante-title">Tipo de fijación</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="mecanica" onclick="selVariante('wpc_exterior',this)">Mecánica</button>
+      <button class="v-btn" data-v="adhesiva"        onclick="selVariante('wpc_exterior',this)">Adhesiva</button>
+    </div>
+  </div>
+
+  <!-- Variante Marmoleado -->
+  <div class="variante-block" id="v_marmoleado">
+    <div class="input-group"><label for="marmolMerma">Reserva para cortes (%)</label><input id="marmolMerma" value="22" type="number" min="0" step="any"></div>
+    <div class="variante-title">Tamaño del panel</div>
+    <div class="variante-tabs">
+      <button class="v-btn active" data-v="2.44" onclick="selVariante('marmoleado',this)">Panel 2,44 M</button>
+      <button class="v-btn" data-v="2.9"         onclick="selVariante('marmoleado',this)">Panel 2,90 M</button>
+    </div>
+  </div>
+
+  </section><section class="panel">
+  <h2 class="section-label">¿Cuánto material necesita tu obra?</h2>
+  <div id="ambientes"></div>
+  <button type="button" class="v-btn" id="agregarAmbiente">＋ Añadir ambiente</button>
+  <p id="pendiente" role="status" hidden>Pendiente de recalcular</p>
+  <button class="calc-btn" onclick="calcular()">Calcular materiales →</button>
+  </section></main>
+
+  <section id="calcModal" aria-labelledby="roofTitle" hidden><h2 id="roofTitle" tabindex="-1">Tejas y cubiertas</h2><section id="mpi46RoofPanel" class="mpi46-roof-panel" aria-label="Cálculo avanzado de tejas española, Roma y cresta alta">
+<p class="mpi45-intro">Cálculo por geometría, pendientes y largos comerciales. Las medidas son referenciales y deben verificarse con la ficha del producto y el plano. Los resultados no sustituyen el diseño de cubierta ni la instalación profesional.</p>
+<div class="roof-workflow">
+<section class="mpi45-card"><h3>01 · Proyecto y modelo</h3>
+<p id="mpi93RoofHelp" class="mpi45-small">Ingresa dimensiones verificadas del proyecto.</p><div><label class="mpi45-field">Nombre del proyecto<input id="r45Project" maxlength="100" value="Cubierta de vivienda"></label><select id="r45Model" hidden aria-label="Modelo comercial"><option value="espanola">Teja española PVC / ASA</option><option value="roma1050">Roma 1050 colonial</option><option value="cresta1080">Cresta Alta 1080</option><option value="t1130">Cresta Alta T1130</option></select></div>
+<div class="mpi45-grid"><label class="mpi45-field">Ancho total (m)<input id="r45Total" readonly></label><label class="mpi45-field">Ancho útil (m)<input id="r45Width" readonly></label><label class="mpi45-field">Traslape longitudinal (m)<input id="r45Lap" readonly></label></div>
+<div class="mpi45-spec" id="r45Sizes"></div>
+<div class="mpi48-technical" id="r48Technical" hidden>
+ <div class="mpi48-technical-title">Datos comerciales pendientes de ficha técnica</div>
+ <p id="r48TechnicalHint">Ingresa solo las longitudes comerciales verificadas para el modelo. Sin estos datos no se calculará el despiece.</p>
+ <label class="mpi45-field">Largos disponibles (m), separados por punto y coma
+  <input type="text" id="r48Lengths" placeholder="Ejemplo ilustrativo: 3.000; 4.000; 5.000" autocomplete="off" inputmode="decimal" aria-describedby="r48LengthsHelp">
+ </label>
+ <small id="r48LengthsHelp">No se reutilizan los largos de la teja española/Roma. Verifica cada largo con el fabricante.</small>
+ <div id="r48Lap1080Box" hidden><label class="mpi45-field">Traslape longitudinal confirmado — Cresta Alta 1080 (m)
+  <input type="number" id="r48Lap1080" min="0" max="2" step="0.001" placeholder="Pendiente de ficha técnica" inputmode="decimal">
+ </label><small>El ancho total 1,080 m y útil 1,005 m están registrados; el traslape longitudinal todavía no está confirmado.</small></div>
+ <div id="r48Lap1130Box" hidden><label class="mpi45-field">Confirmar unidad del traslape T1130
+  <select id="r48LapUnit"><option value="">Elegir unidad antes de calcular</option><option value="m">0,27 metros = 27 centímetros</option><option value="cm">0,27 centímetros = 0,0027 metros</option></select>
+ </label><small>Se indicó «0,27 cm». Como los otros modelos usan traslapes en metros, esta diferencia debe verificarse. La calculadora no interpreta la unidad por su cuenta.</small></div>
+ <div class="mpi48-caution" id="r48Caution">No hay largos comerciales confirmados. El cálculo se habilita cuando completes los datos técnicos.</div>
+</div>
+<div class="mpi45-grid two" style="margin-top:10px"><label class="mpi45-field">Reserva adicional (%)<input id="r45Reserve" max="50" min="0" step="0.5" type="number" value="5"></label><label class="mpi45-field">Fijaciones por m² (opcional)<input id="r45Density" max="100" min="0" placeholder="Según fabricante" step="0.1" type="number"></label></div>
+<label class="mpi45-check"><input id="r45Joints" type="checkbox"><span>Permitir empalmes longitudinales (hasta 4 piezas por franja). <b>Solo activar si el sistema del fabricante permite estos empalmes y apoyos.</b></span></label>
+</section>
+<section class="mpi45-card"><h3>02 · Geometría de cubierta</h3>
+<p>Selecciona la distribución. Las dimensiones se ingresan en <b>proyección horizontal</b> e incluyen aleros. Cada faldón tiene su propia pendiente. Para tres aguas o geometrías asimétricas, edita las piezas individualmente.</p>
+<details class="roof-plan"><summary class="roof-toggle">Leer medidas desde un plano (opcional)</summary><label class="mpi45-field">Plano de referencia (JPG, PNG, WEBP o PDF)<input accept=".png,.jpg,.jpeg,.webp,.pdf,image/png,image/jpeg,image/webp,application/pdf" id="r45File" style="font-size:11px" type="file"></label>
+<div class="mpi45-plan-preview" id="r45FilePreview"><small>Adjunta un plano. La lectura y la revisión de cotas se realizan en tu navegador; ningún archivo se envía a un servicio de IA.</small></div>
+<section id="mpiPlanAi" aria-label="Lectura local de planos sin servicios de IA de pago">
+
+ <p>Analiza cotas visibles con IA incorporada en navegadores compatibles, OCR local o texto del PDF. <b>Las dimensiones faltantes se completan manualmente y nunca se aplican sin tu confirmación.</b></p>
+ <p id="r45AiCapabilities" class="mpi-ai-capabilities" aria-live="polite">Comprobando funciones locales del navegador…</p>
+ <div class="mpi-ai-controls"><button id="r45AiRead" type="button" disabled>Leer plano en mi navegador</button><button id="r45AiManual" type="button" class="mpi-ai-secondary">Agregar faldón manualmente</button></div>
+ <p class="mpi-ai-status" id="r45AiStatus" role="status" aria-live="polite">Selecciona el plano y confirma sus medidas antes de calcular.</p>
+ <div id="r45AiResults" class="mpi-ai-results" aria-live="polite"></div>
+ <small>Hasta 8 MB. En PDF se leen las primeras 3 páginas. Para Word, exporta a PDF. La primera lectura puede requerir internet para descargar las herramientas de reconocimiento.</small>
+</section></details>
+<div class="mpi45-presets" id="r45Templates"><button class="mpi45-btn" data-template="1" type="button">1 agua</button><button class="mpi45-btn" data-template="2" type="button">2 aguas</button><button class="mpi45-btn" data-template="3" type="button">3 aguas</button><button class="mpi45-btn" data-template="4" type="button">4 aguas</button><button class="mpi45-btn" data-template="custom" type="button">Personalizado</button></div>
+<div id="r45Replace" class="mpi45-plan-preview" hidden>
+ <p>¿Reemplazar los faldones actuales por la distribución seleccionada?</p>
+ <button class="mpi45-btn" type="button" id="r45Keep">Conservar faldones</button>
+ <button class="mpi45-btn primary" type="button" id="r45ReplaceOK">Reemplazar faldones</button>
+</div>
+<p id="r45CustomHint" hidden>Define cada faldón con su propia forma y medidas. Usa «Añadir agua» o «Quitar» para ajustar la cantidad.</p>
+<div class="mpi45-plan-preview" hidden="" id="r45HipBox">
+<strong style="color:#795a1d;font-size:12px">Asistente de 4 aguas · Cumbrera centrada</strong>
+<p class="mpi45-small">Para contorno rectangular con aleros a igual altura y cumbrera paralela al largo. Introduce la altura vertical desde los aleros; se obtendrán dos trapecios y dos triángulos.</p>
+<div class="mpi45-grid two"><label class="mpi45-field">Largo en planta (m)<input id="r45HipLength" min="0" step="any" type="number"></label><label class="mpi45-field">Ancho en planta (m)<input id="r45HipWidth" min="0" step="any" type="number"></label><label class="mpi45-field">Largo cumbrera (m)<input id="r45HipRidge" min="0" step="any" type="number"></label><label class="mpi45-field">Desnivel vertical (m)<input id="r45HipRise" min="0" step="any" type="number"></label><label class="mpi45-field wide">Limatesa medida (opcional, m)<input id="r45HipMeasured" min="0" placeholder="Se validará con geometría" step="any" type="number"></label></div>
+<label class="mpi45-check"><input id="r45HipConfirm" type="checkbox">Confirmo cumbrera centrada, aleros a igual altura y cotas horizontales que incluyen los aleros.</label>
+<div class="mpi45-actions"><button class="mpi45-btn primary" id="r45BuildHip" type="button">Construir 4 aguas</button></div><div class="mpi45-status" id="r45HipNote"></div>
+</div>
+<div id="r45Planes"></div>
+<div class="mpi45-actions"><button class="mpi45-btn" id="r45AddPlane" type="button">＋ Añadir agua</button><button class="mpi45-btn muted" id="r45Example" type="button">Cargar ejemplo ficticio</button></div>
+</section>
+<section class="mpi45-card mpi47-access-card"><details id="roofAccessories"><summary class="roof-toggle"><h3>03 · Accesorios compatibles para teja española y Roma</h3></summary>
+<p>Selecciona solamente los accesorios del sistema de tejas que vas a instalar. Calcula por <b>cantidad manual</b>, <b>tramos medidos / largo útil confirmado</b> o <b>rendimiento por m² confirmado</b>. Las planchas se calculan por separado en el despiece principal y no debes agregarlas aquí. Las casillas determinan cuáles entran a la cotización.</p>
+<div class="mpi47-model-tag" id="r47Compatibility" role="status">Modelo actual: Teja española PVC / ASA. Verifica que cada accesorio coincida con el fabricante y perfil de la teja.</div>
+
+<div class="mpi47-scroll-table"><table class="mpi47-table" aria-label="Tabla de accesorios para cubierta"><thead><tr><th>Accesorio</th><th>Cálculo</th><th>Tramo medido (m)</th><th>Largo útil/pieza (m)</th><th>Cantidad</th><th>Precio USD/u.</th><th>Incluir</th></tr></thead><tbody id="r47AccessoryRows"></tbody></table></div>
+<p class="mpi45-small" style="margin:7px 0">Cada fila de cálculo lineal corresponde a un tramo continuo. Para varios tramos separados, utiliza «Otros accesorios por tramos» y redondea las piezas por cada tramo.</p><div class="mpi47-access-summary" id="r47AccessSummary" role="status">Marca los accesorios necesarios. Ninguno se incluye automáticamente.</div>
+<details class="mpi47-advanced"><summary>＋ Otros accesorios por tramos (opcional)</summary><p>Conserva el cálculo avanzado de tramos personalizados de la versión anterior. <b>No repitas aquí los accesorios seleccionados arriba</b>, para evitar cantidades duplicadas.</p><div id="r45AccRows"></div><div class="mpi45-actions"><button class="mpi45-btn" id="r45AddAcc" type="button">＋ Añadir tramo personalizado</button></div></details>
+</details>
+</section>
+<section class="mpi45-card"><h3>04 · Revisión y cálculo</h3><label class="mpi45-check"><input id="r45Reviewed" type="checkbox"><span>He revisado dimensiones, pendientes, aleros, modelo y compatibilidad de los accesorios seleccionados con mi proyecto.</span></label>
+<div class="mpi45-actions"><button class="mpi45-btn primary" id="r45Calculate" type="button">▦ CALCULAR PLANCHA POR PLANCHA</button></div>
+<p aria-live="polite" class="mpi45-status" id="r45Status" role="status"></p>
+</section>
+<section class="mpi45-card" id="roofOutput" hidden><h3>Lista consolidada de materiales</h3>
+<div aria-live="polite" id="r45Result"><div class="mpi45-empty">Ingresa las aguas, revisa los datos y pulsa «Calcular plancha por plancha». Aquí aparecerá la lista consolidada.</div></div>
+<div class="mpi45-quote-foot"><p>Los precios y la disponibilidad se confirmarán al cotizar.</p><div class="mpi45-actions"><button class="mpi45-btn primary" id="r45Print" type="button">Guardar/Imprimir</button></div></div>
+</section>
+</div>
+  </section></section>
+  <div id="results">
+    <div class="results-header">
+      <div class="results-title" id="resTitle">—</div>
+      <div class="results-meta">Área: <strong id="metaArea">—</strong> m²</div>
+    </div>
+    <h3>Lista consolidada de materiales</h3>
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Material</th>
+          <th style="text-align:right">Cantidad</th>
+        </tr>
+      </thead>
+      <tbody id="resBody"></tbody>
+    </table>
+    <button class="print-btn" id="imprimir" disabled onclick="if(!this.disabled)window.print()">🖨 Imprimir / Guardar PDF</button>
+  </div>
+
+  <footer><a id="mpiAdminLink" href="?admin">Administrar calculadora</a><br>Mega Prime Importaciones 2026 — Calculadora de Material · Todos los derechos reservados</footer>
+</div>
+
+<script>
+  // ── Estado global ────────────────────────────────────────────────
+const MPI_FIELDS={
+ pvcL:['Cielo PVC · largo de plancha (m)',5.95], pvcA:['Cielo PVC · ancho útil A (m)',0.25],pvcB:['Cielo PVC · ancho útil B (m)',0.30],pvcE:['Cielo PVC · espesor (mm)',8],remate:['PVC · largo del remate (m)',5.95],union:['PVC · largo de la unión (m)',5.95],
+ caja:['SPC · cobertura por caja (m²)',2.20],barra:['SPC · largo de barredera (m)',2.40],pasoMetros:['SPC · separación de clavos (m)',0.40],merma:['SPC · reserva (%)',0,0],
+ marmA:['Marmoleado · ancho (m)',1.22],marmL1:['Marmoleado · largo A (m)',2.44],marmL2:['Marmoleado · largo B (m)',2.90],marmE:['Marmoleado · espesor (mm)',4.8],marmReserva:['Marmoleado · reserva (%)',22,0],
+ wpcA:['WPC interior · ancho A (m)',0.17],wpcB:['WPC interior · ancho B (m)',0.195],wpcL:['WPC interior · largo (m)',2.95],extA:['WPC exterior · ancho (m)',0.219],extL:['WPC exterior · largo (m)',2.90],
+ yesoA:['Gypsum · ancho de plancha (m)',1.22],yesoL:['Gypsum · largo de plancha (m)',2.44],fibraA:['Fibrocemento · ancho de plancha (m)',1.22],fibraL:['Fibrocemento · largo de plancha (m)',2.44],vistaA:['Estructura vista · ancho de plancha (m)',0.60],vistaL:['Estructura vista · largo de plancha (m)',1.20],
+ perfiles:['Paredes · largo de stud y track (m)',2.44],tornillos:['Gypsum · tornillos por caja',100]
+};
+const mpiDefaults=Object.fromEntries(Object.entries(MPI_FIELDS).map(([k,v])=>[k,v[1]]));
+let mpiConfig={params:{...mpiDefaults},profiles:[],recipes:[],rules:[],formats:[]};
+const mp=k=>mpiConfig.params[k];
+const mpiNum=v=>Number(v).toLocaleString('es-EC',{maximumFractionDigits:6});
+const mpiText=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  let tipoActivo = null;
+  let sepStuds = 0.610;
+  const variantes = {
+    cielo_pvc: '0.25', tumbado_gypsum: 'regular_12', cielo_estructura: '2x4',
+    pared_doble: 'light_12',     pared_una_cara: 'light_12',
+    pegado_plancha: 'regular',   wpc_interior: '17_mecanica',
+    wpc_exterior: 'mecanica',    marmoleado: '2.44'
+  };
+
+  // ── Helpers matemáticos ──────────────────────────────────────────
+  const ru      = v => Math.ceil(v);
+  const ro      = v => Math.round(v);         // ROUND (no ROUNDUP)
+  const ceil100 = v => Math.ceil(v / 100) * 100;
+  const mround  = (v, m) => Math.round(v / m) * m;
+  const fmt = v => {
+    if (typeof v === 'string') return v;
+    if (v === null || isNaN(v)) return '—';
+    return Number.isInteger(v) ? v.toLocaleString('es-EC') : v.toFixed(2);
+  };
+
+  // ── UI ────────────────────────────────────────────────────────────
+  function actualizarSepStuds() {
+    // RH 5/8" en pared_doble → deshabilitar opción 0.610
+    const btn610 = document.getElementById('sepBtn_0610');
+    const isRH58Doble = tipoActivo === 'pared_doble' && variantes['pared_doble'] === 'RH_58';
+    btn610.disabled = isRH58Doble;
+    // Si estaba activo 0.610 y ahora se deshabilita → pasar a 0.407
+    if (isRH58Doble && sepStuds === 0.610) {
+      sepStuds = 0.407;
+      btn610.classList.remove('active');
+      document.getElementById('sepBtn_0407').classList.add('active');
+    }
+  }
+
+  function selTipo(el) {
+    document.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    tipoActivo = el.dataset.tipo;
+    refrescarAmbientes();
+    invalidar();
+    const roofSelected = tipoActivo === 'cubiertas';
+    document.querySelector('.workspace').classList.toggle('roof-selected', roofSelected);
+    document.querySelector('.workspace > .panel:last-child').hidden = roofSelected;
+    document.getElementById('calcModal').hidden = !roofSelected;
+    if (roofSelected) document.getElementById('roofAccessories').open = false;
+
+    document.querySelectorAll('.variante-block').forEach(b => b.classList.remove('visible'));
+    const vb = document.getElementById('v_' + tipoActivo);
+    if (vb) vb.classList.add('visible');
+    if (roofSelected) vb.scrollIntoView({block:'nearest'});
+
+    const needsAltura = ['pared_doble', 'pared_una_cara', 'fibrocemento'].includes(tipoActivo);
+
+    if (needsAltura) document.getElementById('v_sep_studs').classList.add('visible');
+
+    // Resetear sep a 0.610 al cambiar tipo
+    sepStuds = 0.610;
+    document.querySelectorAll('#v_sep_studs .v-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sepBtn_0610').classList.add('active');
+    document.getElementById('sepBtn_0610').disabled = false;
+
+    actualizarSepStuds();
+    document.getElementById('results').classList.remove('show');
+  }
+
+  function selVariante(tipo, el) {
+    el.parentElement.querySelectorAll('.v-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    variantes[tipo] = el.dataset.v; invalidar();
+    // Actualizar restricción de studs cuando cambia variante de pared_doble
+    if (tipo === 'pared_doble') actualizarSepStuds();
+  }
+
+  function selSep(el) {
+    if (el.disabled) return;
+    el.parentElement.querySelectorAll('.v-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    sepStuds = parseFloat(el.dataset.v); invalidar();
+  }
+
+  // ── 1. TUMBADO GYPSUM PLANO ──────────────────────────────────────
+  // 5/8": perfiles usan ROUND(base*1.38,0), clavo concreto CEILING(angulo*15,100)
+  // Conservar el número asignado aunque se reordene o renombre el producto.
+  const codigosMPI = new Map([
+    ["GYPL0011", "MPI00001"],
+    ["GYPL0002", "MPI00002"],
+    ["GYPL0015", "MPI00003"],
+    ["GYPL0009", "MPI00004"],
+    ["GYPL0010", "MPI00005"],
+    ["GYPL0004", "MPI00006"],
+    ["GYPL0005", "MPI00007"],
+    ["PETU0005", "MPI00008"],
+    ["PETU0006", "MPI00009"],
+    ["PETU0001", "MPI00010"],
+    ["ANTO0021", "MPI00011"],
+    ["ANTO0013", "MPI00012"],
+    ["ANTO0025", "MPI00013"],
+    ["GYMA0020", "MPI00014"],
+    ["GYAC0034", "MPI00015"],
+    ["ANTO0002", "MPI00016"],
+    ["ANTO0009", "MPI00017"],
+    ["PIEM0016", "MPI00018"],
+    ["PIEM0017", "MPI00019"],
+    ["PIPI0030", "MPI00020"],
+    ["HECO0046", "MPI00021"],
+    ["GYAI0012", "MPI00022"],
+    ["PLANCHA CIELO RASO ESTRUCTURA VISTA 60 × 120 CM - 0,08 MM", "MPI00023"],
+    ["PETU0010", "MPI00024"],
+    ["PETU0012", "MPI00025"],
+    ["PETU0011", "MPI00026"],
+    ["PETU0002", "MPI00027"],
+    ["CIAC0001", "MPI00028"],
+    ["ANTO0011", "MPI00029"],
+    ["PERFIL STUD 0.45MM (3 5/8 – 2 1/2 – 1 5/8) X 2.44M", "MPI00030"],
+    ["PERFIL TRACK 0.45MM (3 5/8 – 2 1/2 – 1 5/8) X 2.44M", "MPI00031"],
+    ["PERFIL STUD 0.45MM X 2.44M", "MPI00032"],
+    ["PERFIL TRACK 0.45MM X 2.44M", "MPI00033"],
+    ["PLANCHA FIBRO. MPI 1,22X2,44M (8MM-10MM)", "MPI00034"],
+    ["PERFIL STUD 0.70MM X 2.44M", "MPI00035"],
+    ["PERFIL TRACK 0.70MM X 2.44M", "MPI00036"],
+    ["ANTO0016", "MPI00037"],
+    ["FIMA0003", "MPI00038"],
+    ["FIAC0004", "MPI00039"],
+    ["FIAC0001", "MPI00040"],
+    ["GYMA0016", "MPI00041"],
+    ["PVC-595-25", "MPI00042"],
+    ["CIAC0019", "MPI00043"],
+    ["CIAC0039", "MPI00044"],
+    ["PARED WPC 17CMX2,95M", "MPI00045"],
+    ["PARED WPC 19.5CMX2,95M", "MPI00046"],
+    ["ANAC0004", "MPI00047"],
+    ["ACAC0052", "MPI00048"],
+    ["PEGANTE", "MPI00049"],
+    ["ACWPC0012", "MPI00050"],
+    ["MÁRMOL PVC 2,44X1,22MX4,80MM", "MPI00051"],
+    ["MÁRMOL PVC 2,90X1,22MX4,80MM", "MPI00052"],
+    ["Piso SPC (cajas completas)", "MPI00053"],
+    ["Barrederas (piezas comerciales)", "MPI00054"],
+    ["Clavos para barrederas (unidades)", "MPI00055"],
+    ["PVC-595-30", "MPI00056"],
+  ]);
+  function codigoMPI(clave) {
+    const codigo = codigosMPI.get(clave);
+    if (!codigo) throw new Error('Producto sin registrar: ' + clave);
+    return codigo;
+  }
+  function calcTumbadoGypsum(a, v) {
+    const is58      = (v === 'regular_58' || v === 'humedad_58');
+    const isHumedad = (v === 'humedad_12' || v === 'humedad_58');
+
+    const baseQty    = ru(a / (mp('yesoA') * mp('yesoL')) * 1.05);
+    const basePrim   = ru(a * 0.224);
+    const baseSec    = ru(a * 0.448);
+    const baseAng    = a * 0.35;
+
+    const primario  = is58 ? ro(basePrim * 1.38) : basePrim;
+    const secund    = is58 ? ro(baseSec  * 1.38) : baseSec;
+    const angulo    = is58 ? baseAng * 1.38       : baseAng;
+    const tornEst   = is58 ? ceil100(ceil100(baseSec * 12) * 1.38) : ceil100(baseSec * 12);
+    const tornBr    = is58 ? ceil100(ceil100(baseSec * 12) * 1.38) : ceil100(baseSec * 12);
+    const tornPlan  = baseQty * 40;
+    const masilla   = a / 51 * 25 / 20 * 1.05;
+    const tape      = a * 0.016 * 1.05;
+    const clavoCon  = ceil100(angulo * 15);         // CEILING en nuevo Excel
+    const clavoImp  = ru(a * 0.224 * 4);
+    const lija      = ru(a / 20);
+    const lana      = a / 18.58 * 1.05;
+    const pint      = a / 21 * 1.05;
+    // C=regular_12→interior, D=exterior_12→exterior, E=regular_58→interior, F=humedad_12→exterior, G=humedad_58→exterior
+    const emp    = (v === 'regular_12' || v === 'regular_58') ? a / 40 * 1.05 : null;
+    const empExt = (v === 'exterior_12' || v === 'humedad_12' || v === 'humedad_58') ? a / 40 * 1.05 : null;
+
+    let pc, pn;
+    if      (v === 'regular_12')  { pc = 'GYPL0011'; pn = 'PLANCHA LIGHT MPI 1/2PGX1,22X2,44M'; }
+    else if (v === 'exterior_12') { pc = 'GYPL0002'; pn = 'PLANCHA EXTERIOR MPI 1/2PGX1,22X2,44M'; }
+    else if (v === 'regular_58')  { pc = 'GYPL0015'; pn = 'PLANCHA REGULAR 5/8PGX1,22X2,44M'; }
+    else if (v === 'humedad_12')  { pc = 'GYPL0009'; pn = 'PLANCHA RH MPI 1/2PGX1,22X2,44M'; }
+    else                           { pc = 'GYPL0010'; pn = 'PLANCHA RH MPI 5/8PGX1,22X2,44M'; }
+
+    const items = [
+      { code: codigoMPI(pc),          name: pn,                                              qty: baseQty },
+      { code: codigoMPI("PETU0005"),  name: 'PERFIL PRIMARIO 0,70MMX3,66M',                 qty: primario },
+      { code: codigoMPI("PETU0006"),  name: 'PERFIL SECUNDARIO 0,45MMX3,66M',               qty: secund },
+      { code: codigoMPI("PETU0001"),  name: 'PERFIL ANGULO GALVANIZADO 0,45MM X3M',         qty: angulo },
+      { code: codigoMPI("ANTO0021"),  name: 'TORNILLO PA ESTRUCT. ST 8X1/2PG',              qty: tornEst },
+      { code: codigoMPI("ANTO0013"),  name: 'TORNILLO BR ESTRUCT. GR 8X1/2PG',              qty: tornBr },
+      { code: codigoMPI("ANTO0025"),  name: 'TORNILLO PA GYPSUM ST 6X1PG',                  qty: tornPlan },
+      { code: codigoMPI("GYMA0020"),  name: 'MASILLA MPI GYPSUM 20KG',                     qty: masilla },
+      { code: codigoMPI("GYAC0034"),  name: 'TAPE PAPEL MPI 77M',                     qty: tape },
+      { code: codigoMPI("ANTO0002"),  name: 'CLAVO ACERO CONCRETO 1,25X2PG',                qty: clavoCon },
+      { code: codigoMPI("ANTO0009"),  name: 'CLAVO IMPACTO FULMINANTE VERDE 1PG',           qty: clavoImp },
+    ];
+    if (emp)    items.push({ code: codigoMPI("PIEM0016"), name: 'EMPASTE MPI INTERIOR 20KG', qty: emp });
+    if (empExt) items.push({ code: codigoMPI("PIEM0017"), name: 'EMPASTE MPI EXTERIOR 20KG', qty: empExt });
+    items.push(
+      { code: codigoMPI("PIPI0030"), name: 'PINTURA MPI GALON INT/EXT BLANCO',             qty: pint },
+      { code: codigoMPI("HECO0046"), name: 'LIJA DE AGUA MPI N180',                     qty: lija },
+      { code: codigoMPI("GYAI0012"), name: 'LANA VIDRIO SIN PAPEL 18MX63,5MMX2,5PG MPI', qty: lana },
+    );
+    return items;
+  }
+
+  // ── 2. CIELO RASO ESTRUCTURA VISTA ──────────────────────────────
+  function calcCieloEstructura(a) {
+    const tee12    = ru(a * 0.224);
+    const tee4     = ru(a * 1.3455);
+    const tee2     = 'NO APLICA'; // Grilla rectangular de 0,60 × 1,20 m
+    const ang      = ru(a * 0.3);
+    const alam     = ru(a / 10);
+    const clavoImp = mround(tee12 * 4, 100);
+    const clavoNeg = mround(ang * 15, 100);
+    const panel    = ru(a * 1.02 / (mp('vistaA') * mp('vistaL'))); // Conserva el 2% adicional original
+    return [
+      { code: codigoMPI("PLANCHA CIELO RASO ESTRUCTURA VISTA 60 × 120 CM - 0,08 MM"),        name: 'PLANCHA CIELO RASO ESTRUCTURA VISTA 60 × 120 CM - 0,08 MM', qty: panel },
+      { code: codigoMPI("PETU0010"), name: 'PERFIL TEE MPI AF 12PGX15/16',     qty: tee12 },
+      { code: codigoMPI("PETU0012"), name: 'PERFIL TEE MPI AF 4PGX15/16',      qty: tee4 },
+      { code: codigoMPI("PETU0011"), name: 'PERFIL TEE MPI AF 2PGX15/16',      qty: tee2 },
+      { code: codigoMPI("PETU0002"), name: 'PERFIL ANGULO AF BLANCO 3M',         qty: ang },
+      { code: codigoMPI("CIAC0001"), name: 'ALAMBRE GALVANIZADO 1LBX16CAL',      qty: alam },
+      { code: codigoMPI("ANTO0009"), name: 'CLAVO IMPACTO FULMINANTE VERDE 1PG', qty: clavoImp },
+      { code: codigoMPI("ANTO0011"), name: 'CLAVO NEGRO CONCRETO 20MM',          qty: clavoNeg },
+    ];
+  }
+
+  // ── 3. PARED DOBLE FORRAMIENTO ───────────────────────────────────
+  // Variantes: light_12(C), fire_c_12(D), fire_x_58(E), RH_12(F), RH_58(G)
+  // RH_58 NO permite sep 0.610
+  // Sin lana de vidrio. Empaste interior para regular, exterior para humedad.
+  function calcParedDoble(a, alt, v) {
+    const sep = sepStuds;
+    const per = a / alt;
+    const factor = 2; // doble forramiento
+
+    const planchaQty = ru(a * factor / (mp('yesoA') * mp('yesoL')) * 1.05);
+    const stud  = ru(per / sep * alt / mp('perfiles') * 1.1);
+    const track = ru((
+      (alt <= 3 ? 2 * per / mp('perfiles') : 3 * per / mp('perfiles')) +
+      (alt > 2.59 ? ru(per / sep * 0.3 / mp('perfiles')) : 0)
+    ) * 1.05);
+    const tornPlan = planchaQty * (sep >= 0.609 ? 40 : sep >= 0.406 ? 50 : 60);
+    const tornEst  = ceil100(a * 7 * 0.61 / sep);
+    const masilla  = a / 51 * 25 / 20 * 1.05 * factor;
+    const tape     = a * 0.016 * 1.05 * factor;
+    const clavoImp = ru(3 * a);
+    const pint     = a / 21 * 1.05 * factor;
+    const lija     = ru(a / 20) * factor;
+
+    const isHumedad = (v === 'RH_12' || v === 'RH_58');
+    const emp    = isHumedad ? null : a / 40 * 1.05 * factor;
+    const empExt = isHumedad ? a / 40 * 1.05 * factor : null;
+
+    let pc, pn;
+    if      (v === 'light_12')  { pc = 'GYPL0011'; pn = 'GYPSUM LIGHT MPI REGUL 1/2'; }
+    else if (v === 'fire_c_12') { pc = 'GYPL0004'; pn = 'PLANCHA FIRE MPI UL TIPO C 1/2PGX1,22X2,44M'; }
+    else if (v === 'fire_x_58') { pc = 'GYPL0005'; pn = 'PLANCHA FIRE MPI UL TIPO X 5/8PGX1,22X2,44M'; }
+    else if (v === 'RH_12')  { pc = 'GYPL0009'; pn = 'PLANCHA RH MPI 1/2PGX1,22X2,44M'; }
+    else                         { pc = 'GYPL0010'; pn = 'PLANCHA RH MPI 5/8PGX1,22X2,44M'; }
+
+    const lana = a / 18.58 * 1.05;
+
+    const items = [
+      { code: codigoMPI(pc),          name: pn,                                                      qty: planchaQty },
+      { code: codigoMPI("PERFIL STUD 0.45MM (3 5/8 – 2 1/2 – 1 5/8) X 2.44M"),         name: 'PERFIL STUD 0.45MM (3 5/8 – 2 1/2 – 1 5/8) X 2.44M', qty: stud },
+      { code: codigoMPI("PERFIL TRACK 0.45MM (3 5/8 – 2 1/2 – 1 5/8) X 2.44M"),         name: 'PERFIL TRACK 0.45MM (3 5/8 – 2 1/2 – 1 5/8) X 2.44M', qty: track },
+      { code: codigoMPI("ANTO0025"),  name: 'TORNILLO PA GYPSUM ST 6X1PG',                          qty: tornPlan },
+      { code: codigoMPI("ANTO0021"),  name: 'TORNILLO PA ESTRUCT. ST 8X1/2PG',                      qty: tornEst },
+      { code: codigoMPI("GYMA0020"),  name: 'MASILLA MPI GYPSUM 20KG',                             qty: masilla },
+      { code: codigoMPI("GYAC0034"),  name: 'TAPE PAPEL MPI 77M',                             qty: tape },
+      { code: codigoMPI("ANTO0009"),  name: 'CLAVO IMPACTO FULMINANTE VERDE 1PG',                   qty: clavoImp },
+      { code: codigoMPI("PIPI0030"),  name: 'PINTURA MPI GALON INT/EXT BLANCO',                    qty: pint },
+      { code: codigoMPI("HECO0046"),  name: 'LIJA DE AGUA MPI N180',                            qty: lija },
+      { code: codigoMPI("GYAI0012"),  name: 'LANA VIDRIO SIN PAPEL 18MX63,5MMX2,5PG MPI',     qty: lana },
+    ];
+    if (emp)    items.splice(7, 0, { code: codigoMPI("PIEM0016"), name: 'EMPASTE MPI INTERIOR 20KG', qty: emp });
+    if (empExt) items.splice(7, 0, { code: codigoMPI("PIEM0017"), name: 'EMPASTE MPI EXTERIOR 20KG', qty: empExt });
+    return items;
+  }
+
+  // ── 4. PARED UNA CARA GYPSUM ─────────────────────────────────────
+  // Variantes: light_12(C), RH_12(D/Humedad), RH_58(E/Humedad)
+  // Empaste: light_12→interior, RH→exterior
+  // Incluye lana de vidrio
+  function calcParedUnaCaraGypsum(a, alt, v) {
+    const sep = sepStuds;
+    const per = a / alt;
+
+    const planchaQty = ru(a / (mp('yesoA') * mp('yesoL')) * 1.05);
+    const stud  = ru(per / sep * alt / mp('perfiles') * 1.1);
+    const track = ru((
+      (alt <= 3 ? 2 * per / mp('perfiles') : 3 * per / mp('perfiles')) +
+      (alt > 2.59 ? ru(per / sep * 0.3 / mp('perfiles')) : 0)
+    ) * 1.05);
+    const tornPlan = planchaQty * (sep >= 0.609 ? 40 : sep >= 0.406 ? 50 : 60);
+    const tornEst  = ceil100(a * 7 * 0.61 / sep);
+    const masilla  = a / 51 * 25 / 20 * 1.05;
+    const tape     = a * 0.016 * 1.05;
+    const clavoImp = ru(3 * a);
+    const pint     = a / 21 * 1.05;
+    const lija     = ru(a / 20);
+    const lana     = a / 18.58 * 1.05;
+
+    const isHumedad = (v === 'RH_12' || v === 'RH_58');
+    const emp    = isHumedad ? null : a / 40 * 1.05;
+    const empExt = isHumedad ? a / 40 * 1.05 : null;
+
+    let pc, pn;
+    if      (v === 'light_12') { pc = 'GYPL0011'; pn = 'GYPSUM LIGHT MPI REGUL 1/2'; }
+    else if (v === 'RH_12') { pc = 'GYPL0009'; pn = 'PLANCHA RH MPI 1/2PGX1,22X2,44M'; }
+    else                        { pc = 'GYPL0010'; pn = 'PLANCHA RH MPI 5/8PGX1,22X2,44M'; }
+
+    const items = [
+      { code: codigoMPI(pc),          name: pn,                                                      qty: planchaQty },
+      { code: codigoMPI("PERFIL STUD 0.45MM X 2.44M"),         name: 'PERFIL STUD 0.45MM X 2.44M',                           qty: stud },
+      { code: codigoMPI("PERFIL TRACK 0.45MM X 2.44M"),         name: 'PERFIL TRACK 0.45MM X 2.44M',                          qty: track },
+      { code: codigoMPI("ANTO0025"),  name: 'TORNILLO PA GYPSUM ST 6X1PG',                          qty: tornPlan },
+      { code: codigoMPI("ANTO0021"),  name: 'TORNILLO PA ESTRUCT. ST 8X1/2PG',                      qty: tornEst },
+      { code: codigoMPI("GYMA0020"),  name: 'MASILLA MPI GYPSUM 20KG',                             qty: masilla },
+      { code: codigoMPI("GYAC0034"),  name: 'TAPE PAPEL MPI 77M',                             qty: tape },
+      { code: codigoMPI("ANTO0009"),  name: 'CLAVO IMPACTO FULMINANTE VERDE 1PG',                   qty: clavoImp },
+      { code: codigoMPI("PIPI0030"),  name: 'PINTURA MPI GALON INT/EXT BLANCO',                    qty: pint },
+      { code: codigoMPI("HECO0046"),  name: 'LIJA DE AGUA MPI N180',                            qty: lija },
+      { code: codigoMPI("GYAI0012"),  name: 'LANA VIDRIO SIN PAPEL 18MX63,5MMX2,5PG MPI',     qty: lana },
+    ];
+    if (emp)    items.splice(7, 0, { code: codigoMPI("PIEM0016"), name: 'EMPASTE MPI INTERIOR 20KG', qty: emp });
+    if (empExt) items.splice(7, 0, { code: codigoMPI("PIEM0017"), name: 'EMPASTE MPI EXTERIOR 20KG', qty: empExt });
+    return items;
+  }
+
+  // ── 5. PARED FIBROCEMENTO INTERIORES ────────────────────────────
+  // Perfiles ahora son 0.70MM. Track con IF anidado. Sin ANTO0021, sin cordón, sin lija, sin lana
+  function calcFibrocemento(a, alt) {
+    const sep    = sepStuds;
+    const per    = a / alt;
+    const plancha = ru(a / (mp('fibraA') * mp('fibraL')) * 1.05);
+    const stud   = ru(per / sep * alt / mp('perfiles') * 1.1);
+    const track  = ru((
+      (alt <= 2.44 ? 3 * per / mp('perfiles') : alt <= 3.66 ? 4 * per / mp('perfiles') : 5) +
+      (alt > 2.59 ? ru(per / sep * 0.3 / mp('perfiles')) : 0)
+    ) * 1.05);
+    const tornF   = ceil100(sep >= 0.609 ? plancha * 60 : sep >= 0.406 ? plancha * 70 : plancha * 80);
+    const masilla = 0.0224 * 26 / 5.2 * a;
+    const malla   = 0.0273 * a * 1.05;
+    const cordon  = ru((mp('fibraA') + mp('fibraL')) * plancha * 1.05);
+    const empExt  = a / 40 * 1.05;
+    const pint    = a / 21 * 1.05;
+    const clavoImp= ru(3 * a);
+    const lija    = ru(a / 20);
+    const lana    = a / 18.58 * 1.05;
+    return [
+      { code: codigoMPI("PLANCHA FIBRO. MPI 1,22X2,44M (8MM-10MM)"),        name: 'PLANCHA FIBRO. MPI 1,22X2,44M (8MM-10MM)',     qty: plancha },
+      { code: codigoMPI("PERFIL STUD 0.70MM X 2.44M"),        name: 'PERFIL STUD 0.70MM X 2.44M',                        qty: stud },
+      { code: codigoMPI("PERFIL TRACK 0.70MM X 2.44M"),        name: 'PERFIL TRACK 0.70MM X 2.44M',                       qty: track },
+      { code: codigoMPI("ANTO0016"), name: 'TORNILLO BR FIBRO GR 8X1 1/4PG',                    qty: tornF },
+      { code: codigoMPI("FIMA0003"), name: 'MASILLA ELASTOMERICA MPI 5,2KG',                 qty: masilla },
+      { code: codigoMPI("FIAC0004"), name: 'MALLA FIBRA DE VIDRIO 45MX15CM',                    qty: malla },
+      { code: codigoMPI("FIAC0001"), name: 'CORDÓN ESPUMA MPI GRIS 1MX1/4PG',              qty: cordon },
+      { code: codigoMPI("PIEM0017"), name: 'EMPASTE MPI EXTERIOR 20KG',                        qty: empExt },
+      { code: codigoMPI("PIPI0030"), name: 'PINTURA MPI GALON INT/EXT BLANCO',                 qty: pint },
+      { code: codigoMPI("ANTO0009"), name: 'CLAVO IMPACTO FULMINANTE VERDE 1PG',                qty: clavoImp },
+      { code: codigoMPI("HECO0046"), name: 'LIJA DE AGUA MPI N180',                         qty: lija },
+      { code: codigoMPI("GYAI0012"), name: 'LANA VIDRIO SIN PAPEL 18MX63,5MMX2,5PG MPI',  qty: lana },
+    ];
+  }
+
+  // ── 6. PEGADO DE PLANCHA / ENCHAPE ──────────────────────────────
+  function calcPegadoPlancha(a, v) {
+    const isHumedad  = v === 'humedad';
+    const planchaQty = ru(1.05 * a / (mp('yesoA')===1.22 && mp('yesoL')===2.44?2.98:mp('yesoA')*mp('yesoL')));
+    const peg        = ru(planchaQty / 8);
+    const masilla    = a / 51 * 25 / 20 * 1.05;
+    const tape       = a * 0.016 * 1.05;
+    const pint       = a / 21 * 1.05;
+    const lija       = ru(a / 20);
+    const emp        = isHumedad ? null : a / 40 * 1.05;
+    const empExt     = isHumedad ? a / 40 * 1.05 : null;
+
+    const pc = isHumedad ? 'GYPL0009' : 'GYPL0011';
+    const pn = isHumedad ? 'PLANCHA RH MPI 1/2PGX1,22X2,44M' : 'PLANCHA LIGHT MPI 1/2PGX1,22X2,44M';
+
+    const items = [
+      { code: codigoMPI(pc),          name: pn,                             qty: planchaQty },
+      { code: codigoMPI("GYMA0016"),  name: 'PEGAMENTO MPI 25KG',     qty: peg },
+      { code: codigoMPI("GYMA0020"),  name: 'MASILLA MPI GYPSUM 20KG',    qty: masilla },
+      { code: codigoMPI("GYAC0034"),  name: 'MPI TAPE PAPEL 77MTS',  qty: tape },
+    ];
+    if (emp)    items.push({ code: codigoMPI("PIEM0016"), name: 'EMPASTE MPI INTERIOR 20KG', qty: emp });
+    if (empExt) items.push({ code: codigoMPI("PIEM0017"), name: 'EMPASTE MPI EXTERIOR 20KG', qty: empExt });
+    items.push(
+      { code: codigoMPI("PIPI0030"), name: 'PINTURA MPI GALON INT/EXT BLANCO', qty: pint },
+      { code: codigoMPI("HECO0046"), name: 'LIJA DE AGUA MPI N180',         qty: lija },
+    );
+    return items;
+  }
+
+  // ── 7. CIELO RASO PVC ────────────────────────────────────────────
+  function calcCieloPVC(a, ancho, largo, formato) {
+    const key=ancho===0.25?'PVC-595-25':'PVC-595-30';
+    ancho=mp(ancho===0.25?'pvcA':'pvcB');
+    const largoPlancha=formato?.length??mp('pvcL');
+    if(formato)ancho=formato.width;
+    const cielo  = Math.ceil(Number((a / (ancho * largoPlancha)).toPrecision(15))); // Superficie útil según la presentación.
+    const prim   = ru(a * 0.224);
+    const sec    = ru(a * 0.448);
+    const ang    = ru(a * 0.35);
+    const tornE  = ceil100(mround(sec * 8, 100) + cielo * 10);
+    const arriba=n=>Math.ceil(Number(n.toPrecision(15)));
+    let remate, union;
+    if(largo==null){
+      remate=arriba(ang*2.9/mp('remate'));
+      union=0;
+    }else{
+      const transversal=a/largo;
+      remate=arriba(2*(largo+transversal)/mp('remate'));
+      union=(arriba(largo/largoPlancha)-1)*arriba(transversal/mp('union'));
+    }
+    const cNeg   = mround(ang * 10, 100);
+    return [
+      { code: formato?.code??codigoMPI(key), name: (formato?.name??'Cielo raso PVC')+' · '+mpiNum(largoPlancha)+' × '+mpiNum(ancho)+' m útiles · '+mpiNum(formato?.thickness??mp('pvcE'))+' mm', qty: cielo },
+      { code: codigoMPI("PETU0005"), name: 'PRIMARIO 3,66M CAL 0,70MM',                 qty: prim },
+      { code: codigoMPI("PETU0006"), name: 'PERFIL SECUNDARIO 0,45MMX3,66M',            qty: sec },
+      { code: codigoMPI("PETU0001"), name: 'PERFIL ANGULO GALVANIZADO 0,45 MM X3M',     qty: ang },
+      { code: codigoMPI("ANTO0021"), name: 'TORNILLO PA ESTRUCT. ST 8X1/2PG',           qty: tornE },
+      { code: codigoMPI("CIAC0019"), name: 'REMATE PVC BLANCO/COLOR '+mpiNum(mp('remate'))+' M - 7MM',       qty: remate },
+      ...(union>0 ? [{ code: codigoMPI("CIAC0039"), name: 'UNIÓN PVC BLANCO/COLOR '+mpiNum(mp('union'))+' M - 7MM',        qty: union }] : []),
+      { code: codigoMPI("ANTO0011"), name: 'CLAVO NEGRO P/CONCRETO 20MM',               qty: cNeg },
+    ];
+  }
+
+  // ── 8. WPC INTERIORES ────────────────────────────────────────────
+  // Orden: Mecánica primero, luego Adhesiva
+  function calcWPCInterior(a, v) {
+    const is17  = v.startsWith('17');
+    const isMec = v.endsWith('mecanica');
+    const paredQty = is17 ? ru(a / (mp('wpcA') * mp('wpcL')) * 1.05) : ru(a / (mp('wpcB') * mp('wpcL')) * 1.05);
+    const nombre   = is17 ? 'PARED WPC 17CMX2,95M' : 'PARED WPC 19.5CMX2,95M';
+    const pegante  = ru(a / 8.93);
+    const torn     = ru(3 * paredQty * 1.05);
+    const items = [{ code: codigoMPI(nombre), name: 'PARED WPC '+mpiNum(mp(is17?'wpcA':'wpcB')*100)+' CM × '+mpiNum(mp('wpcL'))+' M', qty: paredQty }];
+    if (isMec) {
+      items.push({ code: codigoMPI("ANTO0025"), name: 'TORNILLO PA GYPSUM ST 6X1PG', qty: torn });
+      items.push({ code: codigoMPI("ANAC0004"), name: 'TACO MPI N6',              qty: torn });
+      items.push({ code: codigoMPI("ACAC0052"), name: 'VINCHA UNION PARA WPC',       qty: torn });
+    } else {
+      items.push({ code: codigoMPI("PEGANTE"), name: 'PEGANTE', qty: pegante });
+    }
+    return items;
+  }
+
+  // ── 9. WPC EXTERIORES ────────────────────────────────────────────
+  // Orden: Mecánica primero, luego Adhesiva
+  function calcWPCExterior(a, v) {
+    const isMec = v === 'mecanica';
+    const qty   = ru(a / (mp('extA') * mp('extL')) * 1.05);
+    const peg   = ru(a / 8.93);
+    const torn  = ru(3 * qty * 1.05);
+    const items = [{ code: codigoMPI("ACWPC0012"), name: 'PARED WPC EXTERIOR MADERA 2,6 × '+mpiNum(mp('extA')*100)+' CM × '+mpiNum(mp('extL'))+' M', qty }];
+    if (isMec) {
+      items.push({ code: codigoMPI("ANTO0025"), name: 'TORNILLO PA GYPSUM ST 6X1PG', qty: torn });
+      items.push({ code: codigoMPI("ANAC0004"), name: 'TACO MPI N6',              qty: torn });
+      items.push({ code: codigoMPI("ACAC0052"), name: 'VINCHA UNION PARA WPC',       qty: torn });
+    } else {
+      items.push({ code: codigoMPI("PEGANTE"), name: 'PEGANTE', qty: peg });
+    }
+    return items;
+  }
+
+  // ── 10. MARMOLEADOS PVC ──────────────────────────────────────────
+  function calcMarmoleado(a, v) {
+    const reserva=get('marmolMerma').valueAsNumber;
+    if(!Number.isFinite(reserva)||reserva<0)throw Error('Ingresa una reserva para cortes de 0 % o más.');
+    const formato=mpiConfig.formats.find(f=>f.id===v);
+    const largo=formato?.length??mp(v==='2.44'?'marmL1':'marmL2');
+    const ancho=formato?.width??mp('marmA');
+    const base=a/(largo*ancho);
+    const neto=ru(Number(base.toPrecision(15)));
+    const qty=ru(Number((base*(1+reserva/100)).toPrecision(15)));
+    const nombre = v === '2.44' ? 'MÁRMOL PVC 2,44X1,22MX4,80MM' : 'MÁRMOL PVC 2,90X1,22MX4,80MM';
+    return [
+      { code: formato?.code??codigoMPI(nombre), name: (formato?.name??'MÁRMOL PVC')+' '+mpiNum(largo)+' × '+mpiNum(ancho)+' M · '+mpiNum(formato?.thickness??mp('marmE'))+' MM', qty, desglose:neto+" por superficie + "+(qty-neto)+" por reserva ("+fmtMetros(reserva)+" %)" },
+      { code: codigoMPI("PEGANTE"), name: 'PEGANTE', qty: ru(a / 8.93) },
+    ];
+  }
+
+  // ── RENDER ───────────────────────────────────────────────────────
+  const tipoLabels = {
+    tumbado_gypsum:  'Tumbado Gypsum Plano',
+    cielo_estructura:'Cielo Raso Estructura Vista',
+    pared_doble:     'Pared Doble Forramiento',
+    pared_una_cara:  'Pared Forramiento Una Cara (Gypsum)',
+    fibrocemento:    'Pared Fibrocemento Interiores',
+    pegado_plancha:  'Pegado de Plancha / Enchape',
+    cielo_pvc:       'Cielo Raso PVC',
+    wpc_interior:    'WPC Interiores',
+    wpc_exterior:    'WPC Exteriores',
+    marmoleado:      'Marmoleados PVC',
+    spc:             'Piso SPC y barrederas',
+  };
+
+  const get=id=>document.getElementById(id);
+  const campo=(room,key)=>room.querySelector('[data-campo="'+key+'"]');
+  const esPared=()=>['pared_doble','pared_una_cara','fibrocemento'].includes(tipoActivo);
+  function invalidar(){
+    if(get('results').classList.contains('show'))get('pendiente').hidden=false;
+    get('results').classList.remove('show');
+    get('imprimir').disabled=true;
+  }
+  function positivo(room,key,enfocar=true){
+    const input=campo(room,key), n=input.valueAsNumber;
+    if(!Number.isFinite(n)||n<=0){
+      if(enfocar)input.focus();
+      throw Error('Ingresa un valor positivo para '+input.parentElement.firstChild.textContent.trim()+'.');
+    }
+    return n;
+  }
+  function areaAmbiente(room){
+    if(tipoActivo==='spc' && campo(room,'modo').value==='dim')return positivo(room,'largo')*positivo(room,'ancho');
+    return positivo(room,'area');
+  }
+  function ladosAmbiente(room,enfocar=true){
+    const modo=campo(room,'bordes').value;
+    if(modo==='ninguno')return [];
+    if(modo==='auto'){
+      const l=positivo(room,'largo',enfocar),a=positivo(room,'ancho',enfocar);
+      const lados=[l,a,l,a];
+      if(campo(room,'descontarPuerta').checked){
+        const puerta=positivo(room,'puerta',enfocar);
+        const pared=campo(room,'paredPuerta').value==='largo'?0:1;
+        if(puerta>lados[pared])throw Error('El ancho de la puerta supera la longitud de la pared elegida.');
+        lados[pared]-=puerta;
+      }
+      return lados.filter(m=>m>0);
+    }
+    const rows=Array.from(room.querySelectorAll('.tramo'));
+    if(!rows.length)throw Error('Añade al menos un tramo de barredera.');
+    return rows.map(row=>positivo(row,'longitud',enfocar));
+  }
+  const numero=(key,label,value='')=>'<label>'+label+'<input data-campo="'+key+'" type="number" min="0" step="any" value="'+value+'"></label>';
+  function agregarTramo(room){
+    const row=document.createElement('div');row.className='tramo';
+    row.innerHTML='<label>Nombre del tramo<input data-campo="nombreTramo" placeholder="Ej. Junto a la puerta"></label>'+numero('longitud','Longitud del tramo (m)')+'<button class="v-btn" type="button">Quitar tramo</button>';
+    row.querySelector('button').onclick=()=>{row.remove();actualizarRoom(room);invalidar();};
+    room.querySelector('.tramos').append(row);
+  }
+  function actualizarRoom(room){
+    const spc=tipoActivo==='spc', dim=campo(room,'modo').value==='dim';
+    room.querySelector('.modo').hidden=!spc;
+    room.querySelector('.dim').hidden=!spc||(!dim&&campo(room,'bordes').value!=='auto');
+    campo(room,'area').parentElement.hidden=spc&&dim;
+    campo(room,'altura').parentElement.hidden=!esPared();
+    const usarLargo=campo(room,'usarLargoPVC');
+    usarLargo.parentElement.hidden=tipoActivo!=='cielo_pvc';
+    const largoPVC=campo(room,'largoPVC');
+    largoPVC.disabled=tipoActivo!=='cielo_pvc'||!usarLargo.checked;
+    largoPVC.parentElement.hidden=largoPVC.disabled;
+    room.querySelector('.barrederas').hidden=!spc;
+    const bordes=campo(room,'bordes');
+    const cuatro=bordes.value==='auto';
+    room.querySelector('.opcion-puerta').hidden=!cuatro;
+    room.querySelector('.medida-puerta').hidden=!cuatro||!campo(room,'descontarPuerta').checked;
+    room.querySelector('.medidos').hidden=bordes.value!=='medido';
+    if(spc){
+      const salida=room.querySelector('output');
+      try{
+        const lados=ladosAmbiente(room,false);
+        const metros=lados.reduce((total,m)=>total+m,0);
+        salida.textContent=bordes.value==='ninguno'?'':('Barredera neta: '+metros.toLocaleString('es-EC',{minimumFractionDigits:2,maximumFractionDigits:3})+' m');
+      }catch(error){salida.textContent=error.message;}
+    }
+  }
+  const fmtMetros=n=>n.toLocaleString('es-EC',{maximumFractionDigits:3});
+  function refrescarAmbientes(){
+    const rooms=[...get('ambientes').children];
+    rooms.forEach((room,i)=>{
+      room.querySelector('legend').textContent='Ambiente '+(i+1);
+      room.querySelector('.quitar').hidden=rooms.length===1;
+      actualizarRoom(room);
+    });
+  }
+  function nuevoAmbiente(){
+    const room=document.createElement('fieldset');room.className='room';
+    room.innerHTML='<legend></legend><label>Nombre del ambiente<input data-campo="nombre" placeholder="Ej. Sala"></label>'+
+      '<label class="modo">Medición del piso<select data-campo="modo"><option value="dim">Largo × ancho</option><option value="area">Área medida</option></select></label>'+
+      '<div class="dim">'+numero('largo','Largo (m)')+numero('ancho','Ancho (m)')+'</div>'+
+      numero('area','Área a instalar (m²)','0')+numero('altura','Altura de pared (m)','2.4')+'<label><input type="checkbox" data-campo="usarLargoPVC"> El cliente indicó el largo de instalación</label>'+numero('largoPVC','Largo en el sentido de instalación (m)')+
+      '<div class="barrederas"><label>Barrederas<select data-campo="bordes"><option value="auto">Cuatro paredes completas</option><option value="medido">Tramos medidos, excluyendo puertas</option><option value="ninguno">Solo piso</option></select></label>'+
+      '<div class="opcion-puerta"><label><input type="checkbox" data-campo="descontarPuerta"> Descontar una puerta de ancho conocido</label>'+
+      '<div class="medida-puerta">'+numero('puerta','Ancho de la puerta (m)')+
+      '<label>Pared donde está la puerta<select data-campo="paredPuerta"><option value="largo">Pared del largo</option><option value="ancho">Pared del ancho</option></select></label>'+
+      '<small>Las piezas y los clavos se estiman por pared. Para calcular por separado los cortes a cada lado de la puerta, usa «Tramos medidos».</small></div></div>'+
+      '<div class="medidos"><div class="tramos"></div><button type="button" class="v-btn agregar">＋ Añadir tramo</button></div><output></output></div>'+
+      '<button type="button" class="v-btn quitar">Quitar ambiente</button>';
+    room.querySelector('.quitar').onclick=()=>{room.remove();refrescarAmbientes();invalidar();};
+    room.querySelector('.agregar').onclick=()=>{agregarTramo(room);actualizarRoom(room);invalidar();};
+    get('ambientes').append(room);agregarTramo(room);refrescarAmbientes();invalidar();
+  }
+  get('agregarAmbiente').onclick=nuevoAmbiente;
+  get('ambientes').addEventListener('input',e=>actualizarRoom(e.target.closest('.room')));
+  document.querySelector('.workspace').addEventListener('input',invalidar);
+  document.querySelector('.workspace').addEventListener('change',invalidar);
+  nuevoAmbiente();
+  function calcPisoSPC(room){
+    const raw=id=>document.getElementById(id).value.trim();
+    function medida(id,etiqueta,permiteCero=false){
+      const n=Number(raw(id));
+      if(!raw(id)||!Number.isFinite(n)||(permiteCero?n<0:n<=0))throw Error('Revisa el campo «'+etiqueta+'».');
+      return n;
+    }
+    const area=areaAmbiente(room), lados=ladosAmbiente(room);
+    const cobertura=medida('spcCaja','Cobertura por caja');
+    const reserva=medida('spcMerma','Reserva para cortes',true);
+    const total=area*(1+reserva/100);
+    const arriba=n=>Math.ceil(Number(n.toPrecision(15)));
+    const cajas=arriba(total/cobertura);
+    let barras=0,clavos=0;
+    if(lados.length){
+      const barra=medida('spcBarra','Largo comercial de la barredera');
+      const paso=medida('spcPaso','Separación máxima entre clavos');
+      for(const tramo of lados){
+        const piezas=arriba(tramo/barra);
+        const ultima=tramo-(piezas-1)*barra;
+        barras+=piezas;
+        clavos+=(piezas-1)*(arriba(barra/paso)+1)+arriba(ultima/paso)+1;
+      }
+    }
+    if(![cajas,barras,clavos].every(Number.isSafeInteger))throw Error('Verifica las medidas y sus unidades.');
+    const items=[{code:codigoMPI("Piso SPC (cajas completas)"),name:'Piso SPC (cajas completas)',qty:cajas},
+      {code:codigoMPI("Barrederas (piezas comerciales)"),name:'Barrederas (piezas comerciales)',qty:barras},
+      {code:codigoMPI("Clavos para barrederas (unidades)"),name:'Clavos para barrederas (unidades)',qty:clavos}];
+    const tramos=campo(room,'bordes').value==='medido'?[...room.querySelectorAll('.tramo')].map((row,i)=>({
+      nombre:campo(row,'nombreTramo').value.trim()||'Tramo '+(i+1), largo:lados[i]
+    })):[];
+    return {area,items,total,cobertura,barras,clavos,tramos,neto:lados.reduce((a,b)=>a+b,0)};
+  }
+  function calcularAmbiente(room) {
+    const spc=tipoActivo==='spc'?calcPisoSPC(room):null;
+    const area=spc?.area??areaAmbiente(room);
+    const altura=esPared()?positivo(room,'altura'):2.4;
+    const v = variantes[tipoActivo] || null;
+    let items = spc?.items || [], note = spc?.note || '';
+
+    if      (tipoActivo === 'tumbado_gypsum')  items = calcTumbadoGypsum(area, v);
+    else if (tipoActivo === 'cielo_estructura') { items = calcCieloEstructura(area); note = 'Cantidad calculada con planchas de 0,60 × 1,20 m y un 2% adicional.'; }
+    else if (tipoActivo === 'pared_doble')      items = calcParedDoble(area, altura, v);
+    else if (tipoActivo === 'pared_una_cara')   items = calcParedUnaCaraGypsum(area, altura, v);
+    else if (tipoActivo === 'fibrocemento')     items = calcFibrocemento(area, altura);
+    else if (tipoActivo === 'pegado_plancha')   items = calcPegadoPlancha(area, v || 'regular');
+    else if (tipoActivo === 'cielo_pvc'){
+      const largo=campo(room,'usarLargoPVC').checked?positivo(room,'largoPVC'):null;
+      items=calcCieloPVC(area,Number(v),largo,mpiConfig.formats.find(f=>f.id===v));
+
+    }
+    else if (tipoActivo === 'wpc_interior')     items = calcWPCInterior(area, v || '17_mecanica');
+    else if (tipoActivo === 'wpc_exterior')     items = calcWPCExterior(area, v || 'mecanica');
+    else if (tipoActivo === 'marmoleado')       items = calcMarmoleado(area, v || '2.44');
+
+    if(!Number.isFinite(area)||items.some(item=>typeof item.qty==='number'&&!Number.isFinite(item.qty)))throw Error('Revisa las medidas ingresadas.');
+    for(const item of items){
+      if(['tumbado_gypsum','pared_doble','pared_una_cara','pegado_plancha'].includes(tipoActivo)&&['plancha','gypsum'].some(k=>item.name.toLowerCase().startsWith(k))){
+        item.name=item.name.replace(/X1,22X2,44M$/,'')+' · '+mpiNum(mp('yesoA'))+' × '+mpiNum(mp('yesoL'))+' m';
+      }
+      if(tipoActivo==='fibrocemento')item.name=item.name.replace('1,22X2,44M',mpiNum(mp('fibraA'))+' × '+mpiNum(mp('fibraL'))+' m');
+      if(/^PERFIL (STUD|TRACK)/.test(item.name))item.name=item.name.replace('2.44M',mpiNum(mp('perfiles'))+' m');
+      if(tipoActivo==='cielo_estructura')item.name=item.name.replace('60 × 120 CM',mpiNum(mp('vistaA')*100)+' × '+mpiNum(mp('vistaL')*100)+' CM');
+    }
+    const recipe=mpiConfig.recipes.find(x=>x.id===tipoActivo);
+    const scope={area,height:altura,stud:sepStuds,original:0};
+    if(recipe){
+      Object.assign(scope,{length:recipe.length,width:recipe.width,waste:recipe.waste});
+      items=recipe.rows.map(row=>({code:row.code,name:row.name,qty:MPI_CalcRules.evaluate(row.formula,scope)}));
+    }
+    const originales=new Map(items.map(item=>[item.code,item.qty]));
+    for(const row of mpiConfig.rules.filter(x=>x.system===tipoActivo && (!x.variant||x.variant===v)).sort((a,b)=>Number(!!a.variant)-Number(!!b.variant))){
+      const item=items.find(it=>it.code===row.code);
+      if(item && typeof item.qty==='number'){
+        item.qty=MPI_CalcRules.evaluate(row.formula,{...scope,original:originales.get(item.code)});
+        if(row.name)item.name=row.name;
+      }
+    }
+    return {area,items,note,spc};
+  }
+  function consolidar(detalles){
+    const productos=new Map();
+    for(const d of detalles){
+      for(const item of d.items){
+        const actual=productos.get(item.code);
+        if(!actual)productos.set(item.code,{...item});
+        else if(typeof item.qty==='number')actual.qty=(typeof actual.qty==='number'?actual.qty:0)+item.qty;
+      }
+    }
+    if(detalles[0].spc){
+      const total=detalles.reduce((n,d)=>n+d.spc.total,0);
+      productos.get(codigoMPI('Piso SPC (cajas completas)')).qty=Math.ceil(Number((total/detalles[0].spc.cobertura).toPrecision(15)));
+    }
+    return [...productos.values()];
+  }
+  function calcular(){
+    if(!tipoActivo){alert('Selecciona un tipo de instalación.');return;}
+    invalidar();
+    const detalles=[];
+    for(const [i,room] of [...get('ambientes').children].entries()){
+      const nombre=campo(room,'nombre').value.trim()||'Ambiente '+(i+1);
+      try{detalles.push({...calcularAmbiente(room),nombre});}
+      catch(error){alert(nombre+' · '+error.message);return;}
+    }
+    const items=consolidar(detalles), area=detalles.reduce((n,d)=>n+d.area,0);
+    const v=variantes[tipoActivo];
+    const visibleVariant=document.querySelector('#v_'+tipoActivo+' .v-btn.active');
+    const vLabel=v&&visibleVariant?' <span class="chip">'+mpiText(visibleVariant.textContent)+'</span>':'';
+    const needsSep = ['pared_doble','pared_una_cara','fibrocemento'].includes(tipoActivo);
+    const sepLabel = needsSep ? ` <span class="chip">SEP. ${sepStuds.toFixed(3)} m</span>` : '';
+    document.getElementById('resTitle').innerHTML = mpiText(tipoLabels[tipoActivo]) + vLabel + sepLabel;
+    document.getElementById('metaArea').textContent = area.toLocaleString('es-EC');
+
+    items.sort((a,b)=>Number(a.code.slice(3))-Number(b.code.slice(3)));
+    document.getElementById('resBody').innerHTML = items.map(it => {
+      const isNa  = typeof it.qty === 'string' && it.qty !== '—';
+      const esTornilloGypsum=it.code===codigoMPI('ANTO0025') && ['pared_doble','pared_una_cara','tumbado_gypsum'].includes(tipoActivo);
+      const cajas=esTornilloGypsum ? '<br><small>Compra: '+Math.ceil(it.qty/mp('tornillos'))+' caja(s) de '+mp('tornillos')+'</small>' : '';
+      const qCell = isNa
+        ? `<td class="qty-na">${it.qty}</td>`
+        : `<td class="qty-cell">${fmt(it.qty)}${esTornilloGypsum?" ud.":""}${cajas}</td>`;
+      return `<tr><td class="code-cell">${it.code}</td><td class="material-name">${mpiText(it.name)}</td>${qCell}</tr>`;
+    }).join('');
+
+    get('pendiente').hidden=true;get('imprimir').disabled=false;
+    const res = document.getElementById('results');
+    res.classList.remove('show'); void res.offsetWidth; res.classList.add('show');
+    res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+<script>/* Mega Prime Import V93: reglas declarativas de cantidades; sin eval, Function ni código arbitrario.
+   Entrada: fórmulas aritméticas con variables verificadas y funciones permitidas.
+   Las reglas personalizan cantidades comerciales, NO sustituyen el cálculo geométrico estructural. */
+(function(root){
+ 'use strict';
+ const systems=['tumbado_gypsum','cielo_estructura','pared_doble','pared_una_cara','fibrocemento','pegado_plancha','cielo_pvc','wpc_interior','wpc_exterior','marmoleado','roof',
+ 'general_teja','general_policarbonato','general_cielo','general_wall','general_alucobond','general_spc','general_barredera','general_cornisa','general_cresta'];
+ const variables=['area','height','stud','original','base','needed','useful','waste','perimeter','length','width','slope','sheetLength','density','cols','rows','price'];
+ const names=new Set(systems), vars=new Set(variables), funcs={ceil:1,floor:1,round:1,abs:1,sqrt:1,min:2,max:2};
+ const maxResult=1000000;
+ function tokens(expression){
+  const s=String(expression??'');if(!s||s.length>180)throw Error('La fórmula debe tener de 1 a 180 caracteres.');
+  const arr=[];let i=0;
+  while(i<s.length){if(/\s/.test(s[i])){i++;continue;}
+   const m=/^(?:\d+(?:\.\d+)?(?:[eE][+-]?\d+)?|\.[0-9]+|[a-zA-Z][a-zA-Z0-9_]*|[()+\-*/,])/.exec(s.slice(i));
+   if(!m)throw Error('Carácter no permitido en la fórmula.');
+   arr.push(m[0]);i+=m[0].length;if(arr.length>100)throw Error('La fórmula tiene demasiados términos.');
+  }
+  return arr;
+ }
+ function evaluate(expr,scope={}){
+  const ts=tokens(expr);let pos=0,depth=0;
+  function atom(){if(++depth>24)throw Error('Fórmula demasiado anidada.');
+   let t=ts[pos++],value;
+   if(t==='+')value=atom();
+   else if(t==='-')value=-atom();
+   else if(t==='('){value=parse(0);if(ts[pos++]!==')')throw Error('Falta cerrar un paréntesis.');}
+   else if(/^\d|^\./.test(t||'')){value=Number(t);}
+   else if(/^[a-zA-Z]/.test(t||'')){
+    if(ts[pos]==='('){if(!Object.prototype.hasOwnProperty.call(funcs,t))throw Error('Función no autorizada: '+t);
+     pos++;const args=[parse(0)];while(ts[pos]===','){pos++;args.push(parse(0));}
+     if(ts[pos++]!==')'||args.length!==funcs[t])throw Error('Cantidad de argumentos incorrecta en '+t);
+     const op={ceil:Math.ceil,floor:Math.floor,round:Math.round,abs:Math.abs,sqrt:Math.sqrt,min:Math.min,max:Math.max}[t];value=op(...args);
+    }else{if(!vars.has(t))throw Error('Variable desconocida: '+t);
+     value=Object.prototype.hasOwnProperty.call(scope,t)?Number(scope[t]):1;
+    }
+   }else throw Error('Término inválido en fórmula.');
+   depth--;if(!Number.isFinite(value))throw Error('La fórmula produjo un número no válido.');return value;
+  }
+  function parse(min){let left=atom();while(pos<ts.length){const op=ts[pos],prec=(op==='+'||op==='-')?1:(op==='*'||op==='/')?2:-1;
+   if(prec<min)break;pos++;const right=parse(prec+1);
+   left=op==='+'?left+right:op==='-'?left-right:op==='*'?left*right:left/right;
+   if(!Number.isFinite(left))throw Error('La fórmula divide por cero o excede los límites.');
+  }return left;}
+  const result=parse(0);if(pos!==ts.length)throw Error('La fórmula contiene un término incompleto.');
+  if(!Number.isFinite(result)||result<0||result>maxResult)throw Error('El resultado debe estar entre 0 y '+maxResult+'.');
+  return Math.round(result*10000)/10000;
+ }
+ function validate(rules){if(!Array.isArray(rules)||rules.length>200)throw Error('Máximo 200 reglas de cálculo.');
+  const seen=new Set();rules.forEach((r,i)=>{
+   if(!r||typeof r!=='object'||Array.isArray(r))throw Error('Regla '+(i+1)+' inválida.');
+   if(!names.has(r.system))throw Error('Sistema no admitido en regla '+(i+1)+'.');
+   if(!/^[a-zA-Z0-9_-]{2,40}$/.test(String(r.code??'')))throw Error('Código de regla inválido.');
+   const key=r.system+'|'+r.code;if(seen.has(key))throw Error('Reglas duplicadas: '+key);seen.add(key);
+   if(String(r.name??'').length>140)throw Error('El nombre de regla supera 140 caracteres.');
+   if(typeof r.enabled!=='boolean'||typeof r.approved!=='boolean')throw Error('Indica activación y aprobación técnica.');
+   if(r.enabled&&!r.approved)throw Error('Aprueba la fórmula mediante pruebas antes de activarla.');
+   if(r.system==='roof'&&r.code!=='screws')throw Error('En cubiertas solo se permite la regla screws.');
+   if(r.system.startsWith('general_')&&!['main','fixings'].includes(r.code))throw Error('Las reglas generales deben usar main o fixings.');
+   if(r.enabled&&!r.system.startsWith('general_')&&r.system!=='roof'&&!String(r.name||'').trim())throw Error('Indica el nombre del material de la lista.');
+   evaluate(r.expression,{area:12,height:3,stud:.407,original:10,base:12,needed:13,useful:.96,waste:5,perimeter:14,length:5,width:3,slope:10,sheetLength:3,density:5,cols:4,rows:2,price:15});
+   if(r.sampleArea!==undefined&&(!Number.isFinite(Number(r.sampleArea))||Number(r.sampleArea)<=0||Number(r.sampleArea)>1000000))throw Error('Área de prueba inválida.');
+   if(r.sampleOriginal!==undefined&&(!Number.isFinite(Number(r.sampleOriginal))||Number(r.sampleOriginal)<0||Number(r.sampleOriginal)>1000000))throw Error('Base de prueba inválida.');
+   if(r.enabled){
+    if(r.sampleArea===undefined||r.sampleOriginal===undefined||r.sampleExpected===undefined||r.sampleExpected==='')throw Error('Registra un ejemplo completo con resultado esperado antes de activar.');
+    const expected=Number(r.sampleExpected);
+    if(!Number.isFinite(expected)||expected<0||expected>maxResult)throw Error('Resultado esperado inválido.');
+    const context={area:Number(r.sampleArea),original:Number(r.sampleOriginal),height:3,stud:.407,base:12,needed:13,useful:.96,waste:5,perimeter:14,length:5,width:3,slope:10,sheetLength:3,density:5,cols:4,rows:2,price:15};
+    const actual=evaluate(r.expression,context);
+    if(Math.abs(actual-expected)>.00011)throw Error('La prueba no coincide para '+key+': esperado '+expected+', calculado '+actual);
+   }
+  });return true;
+ }
+ function rule(system,code){const c=root.MPI_CMS_ACTIVE||root.MPI_CMS_DEFAULTS||{};
+  const rows=Array.isArray(c.calcRules)?c.calcRules:[];
+  return rows.find(r=>r.system===system&&r.code===code&&r.enabled===true&&r.approved===true)||null;
+ }
+ function quantity(system,code,original,context={}){const r=rule(system,code);if(!r)return original;
+  const value=evaluate(r.expression,{...context,original:Number(original)});
+  return value;
+ }
+ function applyRows(system,rows,context={}){
+  if(!names.has(system))throw Error('Sistema de cálculo desconocido.');
+  const out=rows.map(r=>({...r})),codes=new Set(out.map(r=>r.code));
+  for(const item of out){const ruleFor=rule(system,item.code);if(!ruleFor)continue;
+   item.qty=quantity(system,item.code,item.qty,context);
+   if(ruleFor.name)item.name=ruleFor.name;
+  }
+  for(const r of (root.MPI_CMS_ACTIVE?.calcRules||[])){
+   if(r.system!==system||!r.enabled||!r.approved||codes.has(r.code))continue;
+   if(!r.name)throw Error('Un material adicional necesita nombre comercial.');
+   out.push({code:r.code,name:r.name,qty:evaluate(r.expression,{...context,original:0})});
+  }
+  return out;
+ }
+ root.MPI_CalcRules={systems,variables,evaluate,validate,quantity,applyRows};
+})(typeof window!=='undefined'?window:globalThis);
+</script><script>
+/* Motor geométrico: unidades en metros; coordenadas en proyección horizontal. */
+(function(root){
+'use strict';
+const LENGTHS=[7.227,6.570,6.132,5.475,5.037,4.599,4.161,3.730,3.066,2.680,2.409];
+const MODELS={
+ espanola:{name:'Teja española PVC',totalWidth:1.05,width:.96,lap:.219,lengths:LENGTHS.slice()},
+ roma1050:{name:'Roma 1050',totalWidth:1.05,width:.95,lap:.328,lengths:[7.216,6.232,5.248,4.264,3.608,3.280,2.624]},
+ cresta1080:{name:'Cresta Alta 1080',totalWidth:1.08,width:1.005,lap:null,lengths:[],requiresSetup:true,thickness:'2'},
+ t1130:{name:'Cresta Alta T1130',totalWidth:1.13,width:1.05,lap:null,lengths:[],requiresSetup:true}
+};
+function matchesModel(s,id){let m=MODELS[id];return !!m&&(m.requiresSetup?Number(s.totalWidth)===m.totalWidth&&Number(s.width)===m.width:['totalWidth','width','lap'].every(k=>Number(s[k])===m[k])&&Array.isArray(s.lengths)&&s.lengths.length===m.lengths.length&&s.lengths.every((l,i)=>Number(l)===m.lengths[i]));}
+function modelLabel(s){let m=MODELS[s.model];return m?m.name+(matchesModel(s,s.model)?'':' (medidas ajustadas)'):'Catálogo personalizado';}
+function num(v,name,min=0,max=1000){if(v===null||v===''||typeof v==='boolean')throw Error('Falta '+name);let n=Number(v);if(!Number.isFinite(n)||n<min||n>max)throw Error('Revisa '+name);return n;}
+function polygon(p){let b=num(p.base,'base',.01,200),h=num(p.run,'recorrido horizontal',.01,200);if(p.shape==='rectangle')return [[0,0],[b,0],[b,h],[0,h]];if(p.shape==='triangle')return [[0,0],[b,0],[b/2,h]];if(p.shape==='trapezoid'){let t=num(p.top,'base superior',.01,b);return [[0,0],[b,0],[(b+t)/2,h],[(b-t)/2,h]];}throw Error('Forma no compatible. Divide el faldón en figuras simples.');}
+function clip(poly,x,greater){let out=[];for(let i=0;i<poly.length;i++){let a=poly[i],b=poly[(i+1)%poly.length],ia=greater?a[0]>=x:a[0]<=x,ib=greater?b[0]>=x:b[0]<=x;if(ia)out.push(a);if(ia!==ib){let t=(x-a[0])/(b[0]-a[0]);out.push([x,a[1]+t*(b[1]-a[1])]);}}return out;}
+function area(poly){return Math.abs(poly.reduce((s,a,i)=>{let b=poly[(i+1)%poly.length];return s+a[0]*b[1]-b[0]*a[1];},0))/2;}
+function options(lengths,lap,joints){let out=[];function visit(arr,start,sum){if(arr.length)out.push({parts:arr.slice(),total:sum,coverage:sum-(arr.length-1)*lap});if(arr.length===(joints?4:1))return;for(let i=start;i<lengths.length;i++)visit([...arr,lengths[i]],i,sum+lengths[i]);}visit([],0,0);return out.sort((a,b)=>a.total-b.total||a.parts.length-b.parts.length);}
+function calculate(state){
+ const width=num(state.width,'ancho útil',.01,5),totalWidth=num(state.totalWidth,'ancho total',width,5),lap=num(state.lap,'traslape longitudinal',0,2);
+ let lengths=state.lengths.map(x=>num(x,'largo comercial',.1,30));if(!lengths.length||lengths.length>30||Math.min(...lengths)<=lap)throw Error('Revisa los largos y el traslape.');
+ if(!state.planes.length||state.planes.length>50)throw Error('Agrega entre 1 y 50 aguas.');
+ const opts=options(lengths,lap,state.joints),bom={},planes=[];let totalArea=0,purchased=0,netStrip=0,jointArea=0,count=0;
+ for(let p of state.planes){
+ const poly=polygon(p);
+ let factor;
+ if(p.unit==='rise'){
+   const rise=num(p.slope,'desnivel vertical de '+p.name,0,Number.MAX_VALUE);
+   factor=Math.hypot(1,rise/Number(p.run));
+ }else if(p.unit==='deg'){
+   factor=1/Math.cos(num(p.slope,'pendiente de '+p.name,0,89)*Math.PI/180);
+ }else if(p.unit==='pct'){
+   factor=Math.sqrt(1+(num(p.slope,'pendiente de '+p.name,0,300)/100)**2);
+ }
+ if(!Number.isFinite(factor))throw Error('Unidad de pendiente no válida');let n=Math.ceil((Number(p.base)-1e-10)/width),strips=[];if(n>1000)throw Error('Demasiadas franjas; revisa las unidades.');
+ for(let i=0;i<n;i++){let part=clip(clip(poly,i*width,true),(i+1)*width,false);if(part.length<3||area(part)<1e-10)continue;let ys=part.map(v=>v[1]),required=(Math.max(...ys)-Math.min(...ys))*factor;let choice=opts.find(o=>o.coverage+1e-9>=required);if(!choice)throw Error(p.name+': una franja requiere '+required.toFixed(3)+' m. Activa empalmes (máximo 4 piezas) o revisa el catálogo.');
+ choice.parts.forEach(l=>{let k=l.toFixed(3);bom[k]=(bom[k]||0)+1;count++;});purchased+=choice.total*width;netStrip+=required*width;jointArea+=(choice.parts.length-1)*lap*width;
+ strips.push({index:i+1,required,parts:choice.parts,coverage:choice.coverage,cut:choice.coverage-required});}
+ let a=area(poly)*factor;totalArea+=a;planes.push({name:p.name,area:a,strips,poly,factor});}
+ const accessories=(state.accessories||[]).map(a=>{let length=num(a.length,'longitud del accesorio',.001,1000),useful=num(a.useful,'cobertura del accesorio',.001,20);return {...a,length,useful,count:Math.ceil((length-1e-10)/useful)};});
+ let screws=state.density===''||state.density==null?null:Math.ceil(totalArea*num(state.density,'fijaciones/m²',.01,100));
+ return {planes,bom,count,totalArea,purchased,totalWidthArea:purchased/width*totalWidth,cutArea:Math.max(0,purchased-jointArea-totalArea),jointArea,netStrip,accessories,screws};
+}
+function fourHip(d){
+ const length=num(d.length,'largo general',.01,200),width=num(d.width,'ancho general',.01,200),ridge=num(d.ridge,'cumbrera',.001,200),rise=num(d.rise,'elevación sobre aleros',.001,100);
+ if(ridge>=length)throw Error('La cumbrera debe ser menor que el largo del techo.');
+ const sideRun=width/2,endRun=(length-ridge)/2,hip=Math.hypot(sideRun,endRun,rise);
+ if(d.hip!==''&&d.hip!=null){let observed=num(d.hip,'limatesa indicada',.001,300);if(Math.abs(observed-hip)>Math.max(.02,hip*.01))throw Error('Las cotas no coinciden con una cumbrera centrada: la limatesa calculada es '+hip.toFixed(3)+' m. Revisa la geometría o la cota indicada.');}
+ const planes=[1,2].map(i=>({name:'Faldón trapezoidal '+i,shape:'trapezoid',base:length,top:ridge,run:sideRun,slope:rise/sideRun*100,unit:'pct'})).concat([1,2].map(i=>({name:'Faldón triangular '+i,shape:'triangle',base:width,top:'',run:endRun,slope:rise/endRun*100,unit:'pct'})));
+ return {planes,hip,ridge,sideSlope:Math.atan2(rise,sideRun)*180/Math.PI,endSlope:Math.atan2(rise,endRun)*180/Math.PI,sideFall:Math.hypot(sideRun,rise),endFall:Math.hypot(endRun,rise)};
+}
+const api={LENGTHS,MODELS,matchesModel,modelLabel,polygon,area,calculate,fourHip};if(typeof module!=='undefined')module.exports=api;root.MPIRoof=api;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script><script>
+/* MPI V47 · Calculadora de cubiertas y accesorios. Motor geométrico fuente: Calculadora_Cubiertas_MPI_V1. */
+(function(){
+'use strict';
+const engine=window.MPIRoof;
+if(!engine){console.error('No se ha cargado el motor geométrico MPI V45');return;}
+const el=id=>document.getElementById(id);
+const fmt=(n,d=3)=>Number(n).toLocaleString('es-EC',{minimumFractionDigits:d,maximumFractionDigits:d});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=(id)=>Number(el(id).value);
+const KEYS=['name','shape','base','top','run','slope','unit'];
+let result=null,computedState=null,prepared=null,latestHip=null,objectURL=null,revision=0;
+const TECH_MODELS=['cresta1080','t1130'];
+const technicalCache={cresta1080:{lengths:'',lap1080:''},t1130:{lengths:'',lapUnit:''}};
+let activeTechnicalModel='espanola';
+// V47: nombres tomados del esquema aportado. No se asignan rendimientos no confirmados.
+const CAT_ACCESSORIES=[
+ {id:'ridge',name:'Cumbrera superior',hint:'Caballete sobre la línea de cumbrera',method:'linear',unit:'pieza'},
+ {id:'threeway',name:'Cumbrera de 3 vías',hint:'Unión de tres líneas de cumbrera / limatesa',method:'manual',unit:'unidad'},
+ {id:'hip',name:'Cumbrera inclinada / limatesa',hint:'Arista inclinada, si la cubierta la requiere',method:'linear',unit:'pieza'},
+ {id:'endcap',name:'Tapa frontal',hint:'Terminación frontal según modelo',method:'manual',unit:'unidad'},
+ {id:'sidecap',name:'Tapa lateral',hint:'Terminación en extremo lateral',method:'manual',unit:'unidad'},
+ {id:'walljoint',name:'Tapa juntas de pared',hint:'Encuentros con paredes',method:'linear',unit:'pieza'},
+ {id:'sideflashing',name:'Remate lateral',hint:'Remate de bordes laterales',method:'linear',unit:'pieza'},
+ {id:'sidecover',name:'Cubierta lateral',hint:'Protección de borde lateral',method:'linear',unit:'pieza'},
+ {id:'bottom',name:'Remate inferior',hint:'Remate inferior o de alero',method:'linear',unit:'pieza'},
+ {id:'innerdeflector',name:'Deflector de juntas interior',hint:'Encuentro interior / unión especial',method:'manual',unit:'unidad'},
+ {id:'screws',name:'Tornillos con arandela y sello',hint:'Fijaciones con rendimiento confirmado',method:'area',unit:'unidad'},
+ {id:'washers',name:'Arandelas adicionales',hint:'Solo si se venden por separado del tornillo',method:'manual',unit:'unidad'}
+];
+function catalogRowData(){return Array.from(el('r47AccessoryRows')?.querySelectorAll('tr[data-item]')||[]).map(tr=>({
+ id:tr.dataset.item,include:tr.querySelector('[data-c="include"]').checked,
+ method:tr.querySelector('[data-c="method"]').value,
+ length:tr.querySelector('[data-c="length"]').value,
+ useful:tr.querySelector('[data-c="useful"]').value,
+ qty:tr.querySelector('[data-c="qty"]').value,
+ price:tr.querySelector('[data-c="price"]').value
+}));}
+function computeCatalog(rows,area,strict=true){
+ const picked=[];
+ for(const a of rows){if(!a.include)continue;
+  const item=CAT_ACCESSORIES.find(v=>v.id===a.id);if(!item)continue;
+  let qty=0;
+  if(a.method==='manual'){
+   if(!/^\d+$/.test(String(a.qty||''))||Number(a.qty)<1||Number(a.qty)>1000000){if(strict)throw Error('Indica cantidad entera para '+item.name+'.');else continue;}qty=Number(a.qty);
+  }else if(a.method==='linear'&&item.method==='linear'){
+   const length=Number(a.length),useful=Number(a.useful);
+   if(!a.length||!a.useful||!Number.isFinite(length)||!Number.isFinite(useful)||length<=0||length>10000||useful<=0||useful>30){if(strict)throw Error('Falta tramo medido o largo útil confirmado para '+item.name+'.');else continue;}
+   qty=Math.ceil(length/useful-1e-10);
+  }else if(a.method==='area'&&item.method==='area'){
+   const density=Number(a.useful);
+   if(!a.useful||!Number.isFinite(density)||density<=0||density>100){if(strict)throw Error('Ingresa fijaciones por m² confirmadas para '+item.name+'.');else continue;}
+   if(!Number.isFinite(area)||area<=0){if(strict)throw Error('Primero calcula la superficie del techo para '+item.name+'.');else continue;}
+   qty=Math.ceil(area*density-1e-10);
+  }else {if(strict)throw Error('Método no compatible con '+item.name+'.');else continue;}
+  let price=null;if(String(a.price).trim()!==''){
+   price=Number(a.price);if(!Number.isFinite(price)||price<0||price>1000000){if(strict)throw Error('Revisa el precio de '+item.name+'.');else price=null;}
+  }
+  picked.push({name:item.name,id:item.id,method:a.method,qty,unit:item.unit,price,length:a.length,useful:a.useful});
+ }
+ if(picked.some(a=>a.id==='screws')&&picked.some(a=>a.id==='washers')){
+  // Aclaración visual: tornillos suelen venir con arandela, pero puede haber extras.
+ }
+ return picked;
+}
+function updateCatalogView(){
+ const rows=el('r47AccessoryRows');if(!rows)return;
+ const area=Number(result?.totalArea||0);
+ rows.querySelectorAll('tr[data-item]').forEach(tr=>{
+  const item=CAT_ACCESSORIES.find(a=>a.id===tr.dataset.item);
+  const checked=tr.querySelector('[data-c="include"]').checked;
+  const method=tr.querySelector('[data-c="method"]').value;
+  const length=tr.querySelector('[data-c="length"]');const useful=tr.querySelector('[data-c="useful"]');const qty=tr.querySelector('[data-c="qty"]');
+  tr.classList.toggle('selected',checked);
+  length.disabled=method!=='linear';useful.disabled=method==='manual';qty.readOnly=method!=='manual';
+  useful.placeholder=method==='area'?'fijaciones/m²':method==='linear'?'m útiles':'';
+  const auto=tr.querySelector('.mpi47-qty-note');auto.textContent='';
+  if(method!=='manual'){
+   const data=catalogRowData().find(a=>a.id===item.id);
+   const calc=computeCatalog([{...data,include:true}],area,false);
+   qty.value=calc.length?calc[0].qty:'';
+   auto.textContent=method==='area'&&!area?'Tras calcular m²':'Según datos';
+  }
+ });
+ const selected=catalogRowData().filter(a=>a.include);
+ const host=el('r47AccessSummary');if(host){if(!selected.length)host.textContent='No hay accesorios incluidos. Marca los que corresponden al sistema instalado.';
+ else {const computed=computeCatalog(selected,area,false),pending=selected.length-computed.length;
+ host.innerHTML='<strong>'+selected.length+' seleccionado(s)</strong> · '+computed.length+' cuantificado(s)'+(pending?' · <strong>'+pending+' pendiente(s) de medidas o cantidad</strong>':'')+'. No se agregan accesorios hasta calcular y añadir a cotización.';}}
+}
+function buildAccessoryCatalog(saved){
+ const container=el('r47AccessoryRows');if(!container)return;container.replaceChildren();
+ CAT_ACCESSORIES.forEach(item=>{
+  const tr=document.createElement('tr');tr.dataset.item=item.id;const preset=Array.isArray(saved)?saved.find(a=>a.id===item.id):null;
+  const methods=item.method==='manual'?[['manual','Manual']]:item.method==='linear'?[['manual','Manual'],['linear','Por longitud']]:[['manual','Manual'],['area','Por m²']];
+  tr.innerHTML=`<td data-label="Accesorio"><strong>${esc(item.name)}</strong><small>${esc(item.hint)}</small></td>
+  <td data-label="Cálculo"><select aria-label="Método ${esc(item.name)}" data-c="method">${methods.map(m=>'<option value="'+m[0]+'">'+m[1]+'</option>').join('')}</select></td>
+  <td data-label="Tramo medido (m)"><input type="number" min="0" max="10000" step="any" data-c="length" aria-label="Tramo medido ${esc(item.name)}" placeholder="—"></td>
+  <td data-label="Largo útil o fijaciones/m²"><input type="number" min="0" max="100" step="any" data-c="useful" aria-label="Cobertura o rendimiento ${esc(item.name)}" placeholder="—"></td>
+  <td data-label="Cantidad"><input type="number" min="1" max="1000000" step="1" data-c="qty" aria-label="Cantidad ${esc(item.name)}" placeholder="Manual"><small class="mpi47-qty-note"></small></td>
+  <td data-label="Precio USD/u."><input type="number" min="0" max="1000000" step="0.01" data-c="price" aria-label="Precio ${esc(item.name)}" placeholder="Sin precio"></td>
+  <td data-label="Incluir"><input type="checkbox" data-c="include" aria-label="Incluir ${esc(item.name)}"></td>`;
+  container.appendChild(tr);
+  if(preset){for(const key of ['method','length','useful','qty','price']){const input=tr.querySelector('[data-c="'+key+'"]');if(input&&preset[key]!==undefined)input.value=preset[key];}tr.querySelector('[data-c="include"]').checked=!!preset.include;}
+  else tr.querySelector('[data-c="method"]').value='manual';
+ });
+ container.oninput=()=>{invalidate();updateCatalogView();};
+ container.onchange=()=>{invalidate();updateCatalogView();};
+ updateCatalogView();
+}
+function updateCompatibility(){const x=el('r47Compatibility');if(x)x.textContent='Modelo seleccionado: '+model().name+'. Verifica la compatibilidad de cada remate, tapa y fijación con el perfil y el fabricante.';}
+
+function msg(text,error=false){el('r45Status').textContent=text;el('r45Status').className='mpi45-status'+(error?' error':'');}
+function invalidate(){el('roofOutput').hidden=true;el('r45Print').disabled=true;revision++;if(el('r45Reviewed'))el('r45Reviewed').checked=false;result=computedState=prepared=null;el('r45Result').innerHTML='<div class="mpi45-empty">Los datos cambiaron. Revisa y vuelve a calcular para obtener un despiece actualizado.</div>';msg('');}
+const originalModels=Object.fromEntries(Object.entries(engine.MODELS).map(([k,v])=>[k,{...v,lengths:v.lengths.slice()}]));
+function cmsProfileVerified(id){return (window.MPI_CMS_ACTIVE?.technicalProfiles||[]).find(p=>p.id===id&&p.verified===true);}
+function needsSetup(id){return TECH_MODELS.includes(id)&&!cmsProfileVerified(id);}
+function syncModels(){
+ for(const k of Object.keys(engine.MODELS))delete engine.MODELS[k];
+ for(const [k,v] of Object.entries(originalModels))engine.MODELS[k]={...v,lengths:v.lengths.slice()};
+ const anchor=el('r45Model'),chosen=anchor.value;
+ [...anchor.options].filter(o=>o.dataset.mpi93==='1').forEach(o=>o.remove());
+ const entries=window.MPI_CMS_ACTIVE?.technicalProfiles||[];
+ for(const p of entries){if(p.verified!==true||['__proto__','prototype','constructor'].includes(p.id))continue;
+  const lengths=String(p.lengths||'').split(/[;,\n]+/).map(Number).filter(x=>Number.isFinite(x)&&x>.1&&x<=30).sort((a,b)=>b-a);
+  const lap=Number(p.lap),w=Number(p.usefulWidth),tw=Number(p.totalWidth);
+  if(!lengths.length||!Number.isFinite(lap)||lap<0||lap>2||!Number.isFinite(w)||w<=.05||w>tw||lengths.some(x=>x<=lap))continue;
+  engine.MODELS[p.id]={name:String(p.name).slice(0,80),totalWidth:tw,width:w,lap,lengths,requiresSetup:false};
+  let option=[...anchor.options].find(o=>o.value===p.id);
+  if(!option){option=document.createElement('option');option.value=p.id;option.dataset.mpi93='1';anchor.append(option)}
+  option.textContent=String(p.name).slice(0,80)+' · ficha confirmada';
+ }
+ anchor.value=engine.MODELS[chosen]?chosen:'espanola';
+}
+function model(){syncModels();return engine.MODELS[el('r45Model').value]||engine.MODELS.espanola;}
+function rememberTechnical(){
+ if(!needsSetup(activeTechnicalModel))return;
+ technicalCache[activeTechnicalModel]={lengths:el('r48Lengths').value,lap1080:el('r48Lap1080').value,lapUnit:el('r48LapUnit').value};
+}
+function parseCommercialLengths(raw){
+ const src=String(raw||'').trim();if(!src)return [];
+ const pieces=src.split(/[;\n]+/).map(x=>x.trim()).filter(Boolean);
+ if(pieces.length>30)throw Error('Se permiten como máximo 30 largos comerciales.');
+ const lengths=pieces.map(value=>{
+  if(!/^\d+(?:[.,]\d+)?$/.test(value))throw Error('Usa largos en metros separados por punto y coma, por ejemplo 3.000; 4.000.');
+  const v=Number(value.replace(',','.'));
+  if(!Number.isFinite(v)||v<.1||v>30)throw Error('Cada largo debe estar entre 0,10 y 30 m.');
+  return v;
+ });
+ return [...new Set(lengths)].sort((a,b)=>b-a);
+}
+function technicalLap(id){
+ if(id==='cresta1080'){
+  const raw=el('r48Lap1080').value.trim();return raw===''?null:Number(raw);
+ }
+ if(id==='t1130'){
+  const u=el('r48LapUnit').value;return u==='m'?.27:u==='cm'?.0027:null;
+ }
+ return model().lap;
+}
+function technicalStatus(){
+ const id=el('r45Model').value;
+ const box=el('r48Technical');box.hidden=!needsSetup(id);
+ el('r48Lap1080Box').hidden=id!=='cresta1080';el('r48Lap1130Box').hidden=id!=='t1130';
+ if(!needsSetup(id))return;
+ const lap=technicalLap(id),msgBox=el('r48Caution');let lengths=[];
+ try{lengths=parseCommercialLengths(el('r48Lengths').value);}catch(err){msgBox.textContent=err.message;el('r45Lap').value='Pendiente';return;}
+ el('r45Lap').value=lap===null||!Number.isFinite(lap)?'Pendiente':fmt(lap,lap<.01?4:3);
+ if(!lengths.length){msgBox.textContent='Faltan largos comerciales confirmados: no es posible generar cantidades por plancha.';return;}
+ if(lap===null||!Number.isFinite(lap)||lap<0||lap>2){msgBox.textContent=id==='t1130'?'Confirma la unidad de 0,27 antes de calcular.':'Falta el traslape longitudinal confirmado de Cresta Alta 1080.';return;}
+ if(lengths.some(l=>l<=lap)){msgBox.textContent='Los largos comerciales deben superar el traslape longitudinal.';return;}
+ msgBox.textContent=id==='t1130'?'Datos listos para un cálculo orientativo. Traslape seleccionado: '+(el('r48LapUnit').value==='m'?'0,27 m (27 cm)':'0,27 cm (0,0027 m)')+'. Comprueba la ficha técnica antes de utilizar el resultado.':'Datos listos para cálculo orientativo. Verifica largos y traslape con la ficha del fabricante.';
+}
+function renderRoofVariants(){
+ const group = el('roofVariants');
+ const select = el('r45Model');
+ const buttons = Array.from(select.options, option => {
+  const button = document.createElement('button');
+  const selected = select.value === option.value;
+  button.type = 'button';
+  button.className = selected ? 'v-btn active' : 'v-btn';
+  button.setAttribute('aria-pressed', String(selected));
+  button.textContent = option.textContent;
+  button.onclick = () => {
+   if (select.value === option.value) return;
+   select.value = option.value;
+   select.dispatchEvent(new Event('change', {bubbles:true}));
+   group.querySelector('.active').focus({preventScroll:true});
+  };
+  return button;
+ });
+ group.replaceChildren(...buttons);
+}
+function refreshModel(){
+ rememberTechnical();const m=model(),id=el('r45Model').value;activeTechnicalModel=id;renderRoofVariants();updateCompatibility();
+ el('r45Total').value=fmt(m.totalWidth);el('r45Width').value=fmt(m.width);
+ if(needsSetup(id)){
+  const cached=technicalCache[id]||{};
+  el('r48Lengths').value=cached.lengths||'';el('r48Lap1080').value=cached.lap1080||'';el('r48LapUnit').value=cached.lapUnit||'';
+  el('r45Sizes').innerHTML='<b>'+esc(m.name)+'</b> · ancho total '+fmt(m.totalWidth)+' m · ancho útil '+fmt(m.width)+' m.<br><small>Los largos comerciales y el traslape deben verificarse para este modelo. No se han copiado las medidas de española o Roma.</small>';
+  technicalStatus();
+ }else{
+  el('r45Lap').value=fmt(m.lap);
+  el('r45Sizes').innerHTML='<b>'+esc(m.name)+'</b> · '+m.lengths.length+' largos comerciales de referencia:<br>'+m.lengths.map(v=>fmt(v)).join(' · ')+' m<br><small>El proveedor debe confirmar el largo y traslape aplicable al modelo real antes de instalar.</small>';
+  technicalStatus();
+ }
+ invalidate();
+}
+function currentPlaneData(container){const r={};KEYS.forEach(k=>r[k]=container.querySelector('[data-k="'+k+'"]').value);return r;}
+function addPlane(p={}){
+ if(el('r45Planes').children.length>=50){msg('Máximo 50 aguas por proyecto.',true);return;}
+ const wrap=document.createElement('div');wrap.className='mpi45-item';const idx=el('r45Planes').children.length+1;
+ wrap.innerHTML=`<div class="mpi45-item-head"><strong>Agua / faldón ${idx}</strong><button type="button" class="mpi45-btn muted" data-remove>Quitar</button></div>
+ <div class="mpi45-grid"><label class="mpi45-field">Nombre<input data-k="name" maxlength="70" value="${esc(p.name??'Agua '+idx)}"></label><label class="mpi45-field">Forma<select data-k="shape"><option value="rectangle">Rectangular</option><option value="triangle">Triangular</option><option value="trapezoid">Trapezoidal</option></select></label><label class="mpi45-field">Ancho del alero (m)<input data-k="base" type="number" min="0.01" step="any" value="${esc(p.base??'')}"></label><label class="mpi45-field">Ancho superior (m, solo trapecio)<input data-k="top" type="number" min="0.01" step="any" value="${esc(p.top??'')}"></label><label class="mpi45-field">Largo horizontal de la caída (m)<input data-k="run" type="number" min="0.01" step="any" value="${esc(p.run??'')}"></label><label class="mpi45-field"><span data-slope-label>Pendiente</span><input data-k="slope" type="number" min="0" step="any" value="${esc(p.slope??'')}"></label><label class="mpi45-field">Unidad<select data-k="unit"><option value="rise">Desnivel (m)</option><option value="pct">Porcentaje (%)</option><option value="deg">Grados (°)</option></select></label></div>`;
+ wrap.querySelector('[data-k="shape"]').value=p.shape||'rectangle';wrap.querySelector('[data-k="unit"]').value=p.unit||'rise';
+ function toggle(){
+  const unit = wrap.querySelector('[data-k="unit"]').value;
+  wrap.querySelector('[data-slope-label]').textContent = unit === 'rise' ? 'Desnivel vertical (m)' : 'Pendiente';
+  const top = wrap.querySelector('[data-k="top"]');
+  top.disabled = wrap.querySelector('[data-k="shape"]').value !== 'trapezoid';
+  top.placeholder = top.disabled ? 'No aplica' : '';
+ }
+ wrap.addEventListener('change',toggle);
+ toggle();wrap.addEventListener('input',()=>{toggle();wrap.dataset.edited='true';latestHip=null;invalidate();});wrap.querySelector('[data-remove]').onclick=()=>{wrap.remove();setManualMode();invalidate();renumber();};el('r45Planes').append(wrap);invalidate();
+}
+function setManualMode(){
+ markTemplate('custom');
+ latestHip=null;
+ el('r45HipBox').hidden=true;
+}
+function renumber(){Array.from(el('r45Planes').children).forEach((r,i)=>{r.querySelector('.mpi45-item-head strong').textContent='Agua / faldón '+(i+1);});}
+function accRow(a={}){
+ if(el('r45AccRows').children.length>=100){msg('Máximo 100 tramos.',true);return}
+ const r=document.createElement('div');r.className='mpi45-item';r.innerHTML=`<div class="mpi45-grid four"><label class="mpi45-field">Accesorio / tramo<input data-a="name" maxlength="80" value="${esc(a.name??'Cumbrera')}"></label><label class="mpi45-field">Longitud total (m)<input data-a="length" type="number" min="0" step="any" value="${esc(a.length??'')}"></label><label class="mpi45-field">Cobertura útil/pieza (m)<input data-a="useful" type="number" min="0" step="any" value="${esc(a.useful??'')}"></label><button type="button" class="mpi45-btn muted" data-remove>Quitar</button></div>`;
+ r.addEventListener('input',invalidate);r.querySelector('[data-remove]').onclick=()=>{r.remove();invalidate();};el('r45AccRows').append(r);invalidate();
+}
+function markTemplate(type){
+ el('r45Replace').hidden=true;
+ el('r45CustomHint').hidden=type!=='custom';
+ el('r45Templates').querySelectorAll('button').forEach(button=>{
+  const selected=button.dataset.template===type;
+  button.classList.toggle('active',selected);
+  button.setAttribute('aria-pressed',String(selected));
+ });
+}
+function setTemplate(type){
+ const planes=el('r45Planes');
+ markTemplate(type);
+ el('r45HipBox').hidden=type!=='4';
+ el('r45HipNote').textContent='';
+ latestHip=null;
+ if(type==='custom'){
+  if(!planes.children.length)addPlane();
+ }else{
+  planes.replaceChildren();
+  if(type!=='4'){
+   for(let i=0;i<Number(type);i++)addPlane({shape:type==='3'&&i>0?'triangle':'rectangle'});
+  }
+ }
+ invalidate();
+}
+function requestTemplate(type){
+ const panel=el('r45Replace');
+ panel.hidden=true;
+ if(el('r45Templates').querySelector('.active')?.dataset.template===type)return;
+ const hasEdits=Array.from(el('r45Planes').children).some(row=>
+  row.dataset.edited || Array.from(row.querySelectorAll('input[type="number"]')).some(input=>input.value!==''));
+ if(type!=='custom' && hasEdits){
+  panel.dataset.template=type;
+  panel.hidden=false;
+  el('r45Keep').focus();
+ }else setTemplate(type);
+}
+function buildHip(){
+ try{
+  if(!el('r45HipConfirm').checked)throw Error('Confirma que la cumbrera esté centrada y las cotas incluyan los aleros.');
+  const input={length:el('r45HipLength').value,width:el('r45HipWidth').value,ridge:el('r45HipRidge').value,rise:el('r45HipRise').value,hip:el('r45HipMeasured').value};
+  const geometry=engine.fourHip(input);
+  latestHip=geometry;
+  el('r45Planes').replaceChildren();geometry.planes.forEach(addPlane);
+  el('r45HipNote').textContent='4 aguas construidas · Limatesa geométrica: '+fmt(geometry.hip)+' m cada una · Cumbrera: '+fmt(geometry.ridge)+' m. Confirma esta geometría en el plano.';
+  invalidate();
+  msg('Faldones listos. Añade accesorios si tienes coberturas útiles confirmadas.');
+ }catch(e){el('r45HipNote').textContent=e.message;msg(e.message,true);}
+}
+function planeState(){return [...el('r45Planes').children].map(r=>currentPlaneData(r));}
+function accessories(){return [...el('r45AccRows').children].map(r=>Object.fromEntries(['name','length','useful'].map(k=>[k,r.querySelector('[data-a="'+k+'"]').value])));}
+function state(){const m=model(),id=el('r45Model').value;const lengths=needsSetup(id)?parseCommercialLengths(el('r48Lengths').value):m.lengths.slice();const lap=needsSetup(id)?technicalLap(id):m.lap;return {version:48,tech:needsSetup(id)?{lengths:el('r48Lengths').value,lap1080:el('r48Lap1080').value,lapUnit:el('r48LapUnit').value}:{},catalogAccessories:catalogRowData(),project:el('r45Project').value.trim(),model:id,totalWidth:m.totalWidth,width:m.width,lap:lap===null?'':lap,lengths,joints:el('r45Joints').checked,density:el('r45Density').value==='0'?'':el('r45Density').value, reserve:el('r45Reserve').value,planes:planeState(),accessories:accessories(),hipDraft:Object.fromEntries(['Length','Width','Ridge','Rise','Measured'].map(k=>[k.toLowerCase(),el('r45Hip'+k).value])),hipConfirmed:el('r45HipConfirm').checked};}
+function render(r,s,totals,missing){
+ const materials=Object.keys(totals).sort((a,b)=>Number(b)-Number(a)).map(length=>({
+   name:engine.modelLabel(s)+' · '+fmt(length)+' m', qty:totals[length], unit:'planchas', price:null
+ }));
+ const catalog=prepared.catalogItems;
+ materials.push(...catalog);
+ const tramos=new Map();
+ for(const item of r.accessories){
+   const key=JSON.stringify([item.name.trim().toLocaleLowerCase('es'),item.useful]);
+   if(!tramos.has(key))tramos.set(key,{name:item.name+' · '+fmt(item.useful)+' m útiles',qty:0,unit:'piezas',price:null});
+   tramos.get(key).qty+=item.count;
+ }
+ materials.push(...tramos.values());
+ for(const item of missing)materials.push({name:item.name||'Tramo sin nombre',qty:'Pendiente',unit:'Faltan medidas',price:null});
+ if(r.screws!==null&&!catalog.some(item=>item.id==='screws')){
+   materials.push({name:'Fijaciones estimadas por densidad (referencia)',qty:r.screws,unit:'unidades',price:null});
+ }
+ const precios=catalog.some(item=>item.price!=null);
+ const rows=materials.map(item=>{
+   const dinero=precios?(item.price==null?'<td>—</td><td>—</td>':'<td>$'+fmt(item.price,2)+'</td><td>$'+fmt(item.qty*item.price,2)+'</td>'):'';
+   return '<tr><td>'+esc(item.name)+'</td><td>'+esc(item.unit)+'</td><td>'+esc(String(item.qty))+'</td>'+dinero+'</tr>';
+ }).join('');
+ const subtotal=precios?'<tfoot><tr><th colspan="4">Subtotal de accesorios con precio</th><td>$'+fmt(catalog.reduce((sum,item)=>sum+item.qty*(item.price??0),0),2)+'</td></tr></tfoot>':'';
+ el('r45Result').innerHTML='<div class="mpi45-table-scroll"><table class="mpi45-table"><caption>'+esc(s.project)+' · '+fmt(r.totalArea,2)+' m² · Reserva en planchas: '+fmt(s.reserve,1)+' %</caption><thead><tr><th>Material</th><th>Unidad</th><th>Cantidad</th>'+(precios?'<th>Precio/u.</th><th>Subtotal</th>':'')+'</tr></thead><tbody>'+rows+'</tbody>'+subtotal+'</table></div>';
+}
+function calculate(){
+ try{
+  if(!el('r45Reviewed').checked)throw Error('Confirma la revisión de las dimensiones y de las fichas técnicas antes de calcular.');
+  const s=state();if(!s.project)throw Error('Indica el nombre del proyecto.');
+  if(needsSetup(s.model)){if(!s.lengths.length)throw Error('Registra los largos comerciales confirmados para este modelo.');if(s.lap==='')throw Error(s.model==='t1130'?'Confirma si el traslape T1130 es 0,27 cm o 0,27 m.':'Registra el traslape longitudinal confirmado de la Cresta Alta 1080.');if(!Number.isFinite(Number(s.lap))||Number(s.lap)<0||Number(s.lap)>2)throw Error('Traslape inválido.');}
+  if(s.planes.length===0)throw Error('Agrega al menos un faldón o construye las cuatro aguas.');
+  const reserve=Number(s.reserve);if(!Number.isFinite(reserve)||reserve<0||reserve>50)throw Error('La reserva debe estar entre 0 y 50 %.');
+  const ready=s.accessories.filter(a=>a.length!==''&&a.useful!==''&&Number(a.length)>0&&Number(a.useful)>0);
+  const missing=s.accessories.filter(a=>!ready.includes(a)&&String(a.length||a.useful||'').trim());
+  const forCalc={...s,accessories:ready};const r=engine.calculate(forCalc);
+  const totals=Object.fromEntries(Object.entries(r.bom).map(([l,q])=>[l,Math.ceil(q*(1+reserve/100)-1e-10)]));
+  const calcContext={area:r.totalArea,original:r.screws??0,density:s.density===''?0:Number(s.density),base:r.count,needed:r.count*(1+reserve/100),useful:s.width,waste:reserve,perimeter:0,length:0,width:s.width,slope:0,sheetLength:0,stud:0,height:0,cols:0,rows:0,price:0};
+  if(r.screws!==null)r.screws=Math.ceil(window.MPI_CalcRules?.quantity('roof','screws',r.screws,calcContext)??r.screws);
+  if(r.screws!==null&&(!Number.isSafeInteger(r.screws)||r.screws>1000000))throw Error('La regla de fijaciones produjo una cantidad inválida.');
+  const catalogItems=computeCatalog(s.catalogAccessories,r.totalArea,true);
+  for(const item of catalogItems){if(item.id==='screws'&&window.MPI_CalcRules){item.qty=Math.ceil(window.MPI_CalcRules.quantity('roof','screws',item.qty,calcContext));if(!Number.isSafeInteger(item.qty)||item.qty>1000000)throw Error('Cantidad de tornillos inválida.')}}
+  for(const item of catalogItems){if(r.accessories.some(a=>a.name.trim().toLocaleLowerCase('es')===item.name.toLocaleLowerCase('es')))throw Error('El accesorio '+item.name+' aparece dos veces, en catálogo y tramos personalizados. Elimina una de las dos entradas.');}
+  result=r;computedState=s;prepared={totals,missing,catalogItems,revision};updateCatalogView();render(r,s,totals,missing);
+  msg('Cálculo actualizado. Confirma largos disponibles y revisa el despiece antes de cotizar.');
+  el('roofOutput').hidden=false;el('r45Print').disabled=false;
+  el('roofOutput').scrollIntoView({block:'nearest'});
+  return true;
+ }catch(e){el('roofOutput').hidden=true;el('r45Print').disabled=true;result=computedState=prepared=null;msg(e.message,true);el('r45Result').innerHTML='<div class="mpi45-empty">'+esc(e.message)+'</div>';return false}
+}
+function ensure(){if(!result||!computedState||!prepared||prepared.revision!==revision){msg('Primero calcula con los datos actuales.',true);return false;}return true;}
+function previewFile(){const file=el('r45File').files[0],target=el('r45FilePreview');if(objectURL){URL.revokeObjectURL(objectURL);objectURL=null}
+ if(!file){target.innerHTML='<small>Selecciona un plano para previsualizarlo o enviarlo a la lectura IA.</small>';return}
+ if(file.size>10*1024*1024){target.textContent='El archivo supera 10 MB.';return}
+ objectURL=URL.createObjectURL(file);
+ target.replaceChildren();const name=document.createElement('small');name.textContent=file.name+' · vista previa (pulsa «Analizar plano con IA» para extraer cotas).';target.append(name);
+ if(file.type.startsWith('image/')){const img=document.createElement('img');img.src=objectURL;img.alt='Plano de referencia proporcionado';target.append(img)}
+ else if(file.type==='application/pdf'||file.name.toLowerCase().endsWith('.pdf')){const em=document.createElement('embed');em.src=objectURL;em.type='application/pdf';em.style.height='160px';target.append(em)}
+}
+function close(){closeModal('calcModal');}
+function open(preset){openCalculator(['roma1050','espanola','cresta1080','t1130'].includes(preset)?preset:'espanola');}
+window.MPI45={open,close,calculate,model,engine,
+ applyAIPlanes(planes){
+   if(!Array.isArray(planes)||planes.length<1||planes.length>20)return false;
+   if(el('r45Planes').children.length&&!confirm('¿Reemplazar los faldones actuales con los valores REVISADOS de la IA?'))return false;
+   el('r45Planes').replaceChildren();el('r45HipBox').hidden=true;latestHip=null;
+   planes.forEach(p=>addPlane(p));
+   markTemplate('custom');
+   invalidate();
+   msg('Propuesta IA incorporada. Confirma la revisión general y pulsa CALCULAR para obtener el despiece.');
+   return true;
+ }};
+function init(){
+ buildAccessoryCatalog();
+ el('r45Model').addEventListener('change',refreshModel);window.addEventListener('mpi:cms-updated',()=>{syncModels();refreshModel();});
+ ['r48Lengths','r48Lap1080','r48LapUnit'].forEach(id=>el(id).addEventListener('input',()=>{rememberTechnical();technicalStatus();invalidate();}));
+ el('r45Templates').addEventListener('click',e=>{const b=e.target.closest('button[data-template]');if(b)requestTemplate(b.dataset.template)});
+ el('r45Keep').onclick=()=>{el('r45Replace').hidden=true;};
+ el('r45ReplaceOK').onclick=()=>setTemplate(el('r45Replace').dataset.template);
+ el('r45AddPlane').onclick=()=>{addPlane();setManualMode();};el('r45AddAcc').onclick=()=>accRow({name:'Cumbrera'});
+ el('r45BuildHip').onclick=buildHip;
+ el('r45Example').onclick=()=>{if(el('r45Planes').children.length&&!confirm('¿Reemplazar las aguas actuales por un ejemplo ficticio?'))return;el('r45Planes').replaceChildren();setManualMode();[1,2].forEach(i=>addPlane({name:'Ejemplo agua '+i,shape:'rectangle',base:10,run:4,slope:25,unit:'pct'}));msg('Ejemplo de dos aguas: alero 10 m, recorrido horizontal 4 m, pendiente 25 %. No son datos de tu proyecto.');};
+ el('r45Reviewed').addEventListener('change',()=>{if(!el('r45Reviewed').checked)invalidate();});
+ el('r45Calculate').onclick=calculate;
+ el('r45Print').onclick=()=>{if(ensure())window.print()};
+ el('r45File').onchange=previewFile;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&el('calcModal')?.classList.contains('open')&&!document.getElementById('mpi46RoofPanel')?.classList.contains('mpi46-hidden')){close();e.stopImmediatePropagation();}},true);
+ ['r45Project','r45Reserve','r45Density','r45Joints'].forEach(k=>el(k).addEventListener('input',invalidate));
+ ['r45HipLength','r45HipWidth','r45HipRidge','r45HipRise','r45HipMeasured'].forEach(k=>el(k).addEventListener('input',()=>{el('r45HipConfirm').checked=false;latestHip=null;invalidate();}));
+ setTemplate('1');refreshModel();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+
+</script><script>/* Mega Prime Import V93.8 · procesamiento local de planos en el navegador.
+   No se envían planos ni se consultan claves a ninguna API de IA del servidor.
+   PDF.js y Tesseract.js pueden descargarse como librerías libres desde una CDN:
+   el PDF y la imagen se procesan localmente con dichas librerías. */
+(()=>{'use strict';
+ const $=id=>document.getElementById(id);
+ const panel=$('mpiPlanAi');if(!panel)return;
+ const read=$('r45AiRead'),manual=$('r45AiManual'),status=$('r45AiStatus'),results=$('r45AiResults'),fileInput=$('r45File'),capabilities=$('r45AiCapabilities');
+ const MAX_SIZE=8*1024*1024,MAX_PAGES=3,MAX_PLANES=20;
+ const PDF_CDN='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.mjs';
+ const PDF_WORKER='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.mjs';
+ const OCR_SCRIPT='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+ const OCR_WORKER='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js';
+ const OCR_CORE='https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.0';
+ let proposal=null, busy=false, pdfEngine=null, capabilitiesState={status:'unavailable',options:null};
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const finite=v=>typeof v==='number'&&Number.isFinite(v);
+ function notify(text,error=false){status.textContent=text;status.classList.toggle('error',!!error);}
+ function updateRead(){read.disabled=busy||!fileInput.files||!fileInput.files.length;read.textContent=busy?'Leyendo plano en este dispositivo…':'Leer plano en mi navegador';}
+ function cleanNum(x){if(x===null||x===undefined||x==='')return null;const n=Number(String(x).trim().replace(',','.'));return Number.isFinite(n)?n:null;}
+ function lengthM(value,unit='m'){const n=cleanNum(value);if(n===null||n<=0)return null;const u=String(unit).toLowerCase();return Math.round(n*(u==='mm'?.001:u==='cm'?.01:1)*10000)/10000;}
+ const DEFAULT={name:'Agua 1',shape:'unknown',base_m:null,top_m:null,run_m:null,slope_value:null,slope_unit:'unknown',confidence:'Por verificar',evidence:''};
+ const shapeOf=s=>{const q=String(s||'').toLowerCase();return q==='rectangle'||q.includes('rect')?'rectangle':q==='triangle'||q.includes('triang')?'triangle':q==='trapezoid'||q.includes('trap')?'trapezoid':'unknown';};
+ const slopeUnitOf=s=>{const q=String(s||'').toLowerCase();return q==='pct'||q==='%'||q.includes('porcen')?'pct':q==='deg'||q==='°'||q.includes('grado')?'deg':q==='rise'?'rise':'unknown';};
+ function normalizePlanes(raw){
+   const items=Array.isArray(raw)?raw:Array.isArray(raw?.planes)?raw.planes:[];
+   return items.slice(0,MAX_PLANES).map((p,i)=>({
+     name:String(p.name||p.nombre||`Agua ${i+1}`).slice(0,70),shape:shapeOf(p.shape||p.forma),
+     base_m:cleanNum(p.base_m??p.base),top_m:cleanNum(p.top_m??p.top),run_m:cleanNum(p.run_m??p.run),
+     slope_value:cleanNum(p.slope_value??p.slope),slope_unit:slopeUnitOf(p.slope_unit||p.unit),
+     confidence:String(p.confidence||'Por verificar').slice(0,45),evidence:String(p.evidence||'').slice(0,350)
+   }));
+ }
+ function parseResponse(text){
+   try{const raw=String(text).replace(/```(?:json)?/gi,'').trim();const start=raw.indexOf('{'),end=raw.lastIndexOf('}');if(start<0||end<start)throw Error('sin JSON');
+     const j=JSON.parse(raw.slice(start,end+1));return {document_summary:String(j.document_summary||'Plano analizado en este dispositivo.'),unit_note:String(j.unit_note||''),warnings:Array.isArray(j.warnings)?j.warnings.slice(0,12).map(String):[],planes:normalizePlanes(j.planes)};
+   }catch{return null;}
+ }
+ function parseTextCotas(text){
+   const t=String(text||'').replace(/\u00a0/g,' ').replace(/[\t\r]+/g,' ').slice(0,40000),
+      warnings=['Lectura automática orientativa: confirma cada medida, su dirección, los aleros y la pendiente.'];
+   const dimension=(keys)=>{for(const key of keys){const re=new RegExp('(?:\\b'+key+'\\b)\\s*(?:[:=\\-]|de)?\\s*(\\d{1,5}(?:[.,]\\d{1,4})?)\\s*(mm|cm|m|metros?)?','i');const m=t.match(re);if(m)return lengthM(m[1],m[2]&&m[2].startsWith('metro')?'m':m[2]||'m');}return null;};
+   let base=dimension(['base','alero','ancho','frente']),run=dimension(['recorrido\\s+horizontal','proyecci[oó]n','fondo','largo','profundidad']);
+   const pair=t.match(/(?:dimensiones?\s*:?\s*)?(\d{1,5}(?:[.,]\d{1,4})?)\s*(mm|cm|m)?\s*[×xX]\s*(\d{1,5}(?:[.,]\d{1,4})?)\s*(mm|cm|m)?/);
+   if(pair){const u=pair[4]||pair[2]||'m';base??=lengthM(pair[1],pair[2]||u);run??=lengthM(pair[3],u);warnings.push('En la cota ancho × largo, verifica cuál es el alero y cuál el recorrido horizontal.');}
+   const top=dimension(['base\\s+superior','borde\\s+superior']);
+   let shape=/trapeci/i.test(t)?'trapezoid':/tri[aá]ngu/i.test(t)?'triangle':/rect[aá]ngu/i.test(t)?'rectangle':'unknown';
+   if(shape==='unknown'&&pair)shape='rectangle';
+   const slope=t.match(/\b(?:pendiente|inclinaci[oó]n)\s*(?::|=|de)?\s*(\d{1,3}(?:[.,]\d{1,3})?)\s*(%|°|grados?)/i);
+   const slopeVal=slope?cleanNum(slope[1]):null,slopeUnit=slope?slope[2].startsWith('%')?'pct':'deg':'unknown';
+   if(!slope)warnings.push('No se identificó la pendiente con unidad (% o grados); debes introducirla.');
+   if(base===null||run===null)warnings.push('No se identificaron todas las cotas de alero y recorrido: completa las casillas vacías.');
+   if(shape==='unknown')warnings.push('No se reconoció la geometría; elige rectángulo, triángulo o trapecio.');
+   const found=base!==null||run!==null||slope!==null||shape!=='unknown';
+   return {document_summary:found?'Cotas sugeridas desde el texto leído localmente.':'No se identificaron cotas suficientes de forma automática.',
+     unit_note:'Solo se proponen longitudes en metros y pendientes con su unidad explícita.',warnings,
+     planes:found?normalizePlanes([{name:'Agua 1',shape,base_m:base,top_m:top,run_m:run,slope_value:slopeVal,slope_unit:slopeUnit,
+       confidence:'Requiere verificación',evidence:t.replace(/\s+/g,' ').slice(0,240)}]):[]};
+ }
+ async function detectModel(){
+   const api=window.LanguageModel;
+   if(!api||typeof api.availability!=='function'||typeof api.create!=='function'){
+     capabilitiesState={status:'unavailable',options:null};
+     capabilities.textContent='IA visual integrada: no disponible en este navegador. Puedes intentar OCR local, lectura de texto PDF o ingresar las medidas manualmente.';
+     return capabilitiesState;
+   }
+   const settings=[{expectedInputs:[{type:'text',languages:['es']},{type:'image'}],expectedOutputs:[{type:'text',languages:['es']}]},
+                   {expectedInputs:[{type:'text',languages:['en']},{type:'image'}],expectedOutputs:[{type:'text',languages:['en']}]}];
+   for(const options of settings){
+     try{const state=await api.availability(options);
+       if(['available','downloadable','downloading'].includes(state)){
+         capabilitiesState={status:state,options};
+         capabilities.textContent=state==='available'?'IA visual integrada: disponible, reconocimiento local de imágenes.':
+          'IA visual integrada: el navegador necesita descargar/preparar su modelo gratuito. Inicia la lectura con un clic; puede consumir espacio de almacenamiento.';
+         return capabilitiesState;
+       }
+     }catch{/* Probar una configuración de idioma más compatible */}
+   }
+   capabilitiesState={status:'unavailable',options:null};
+   capabilities.textContent='IA visual no compatible con este equipo. Se usará OCR local o texto de PDF, sin IA externa.';
+   return capabilitiesState;
+ }
+ async function loadPdf(){
+   if(pdfEngine)return pdfEngine;
+   if(window.pdfjsLib?.getDocument){pdfEngine=window.pdfjsLib;return pdfEngine;}
+   const module=await import(PDF_CDN);
+   module.GlobalWorkerOptions.workerSrc=PDF_WORKER;
+   pdfEngine=module;return module;
+ }
+ async function inspectPdf(file){
+   const pdfjs=await loadPdf(),bytes=new Uint8Array(await file.arrayBuffer());
+   const pdf=await pdfjs.getDocument({data:bytes}).promise;
+   const texts=[],visuals=[];let warning='';
+   try{
+     const count=Math.min(pdf.numPages,MAX_PAGES);
+     if(pdf.numPages>MAX_PAGES)warning=`Se examinaron ${count} páginas de ${pdf.numPages}; las demás deben comprobarse aparte.`;
+     for(let pageNo=1;pageNo<=count;pageNo++){
+       const page=await pdf.getPage(pageNo),tc=await page.getTextContent();
+       texts.push(tc.items.map(i=>i.str||'').join(' '));
+       const viewport=page.getViewport({scale:1});
+       const scale=Math.min(1.5,1700/Math.max(viewport.width,viewport.height));
+       const vp=page.getViewport({scale});const canvas=document.createElement('canvas');
+       canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);
+       await page.render({canvasContext:canvas.getContext('2d',{alpha:false}),viewport:vp}).promise;
+       visuals.push(canvas);
+     }
+   }finally{await pdf.destroy();}
+   return {text:texts.join(' \n '),visuals,warning};
+ }
+ async function loadTesseract(){
+   if(window.Tesseract?.createWorker)return window.Tesseract;
+   await new Promise((resolve,reject)=>{
+     const script=document.createElement('script');script.src=OCR_SCRIPT;script.crossOrigin='anonymous';script.onload=resolve;script.onerror=()=>reject(Error('No fue posible descargar el motor OCR gratuito. Comprueba la conexión o introduce las cotas manualmente.'));document.head.append(script);
+   });
+   if(!window.Tesseract?.createWorker)throw Error('El motor OCR no se inicializó correctamente.');return window.Tesseract;
+ }
+ async function recognizeOCR(visuals){
+   const T=await loadTesseract();notify('Reconociendo texto con OCR en este dispositivo…');
+   const worker=await T.createWorker('spa',1,{workerPath:OCR_WORKER,corePath:OCR_CORE,langPath:'https://tessdata.projectnaptha.com/4.0.0'});
+   try{const parts=[];for(const canvas of visuals){const r=await worker.recognize(canvas);parts.push(String(r.data?.text||''));}return parts.join('\n');}
+   finally{await worker.terminate();}
+ }
+ async function readVisualAI(visuals){
+   if(capabilitiesState.status==='unavailable'||!capabilitiesState.options)return null;
+   const api=window.LanguageModel;let session;
+   try{
+     notify('Interpretando el plano con IA integrada en este navegador. Si es el primer uso, el modelo gratuito puede descargarse…');
+     session=await api.create(capabilitiesState.options);
+     const pages=visuals.slice(0,MAX_PAGES);
+     const items=[{type:'text',value:'Eres un lector cuidadoso de planos de cubierta. Devuelve UNICAMENTE JSON válido en el siguiente formato: {"document_summary":"...","unit_note":"...","warnings":["..."],"planes":[{"name":"Agua 1","shape":"rectangle|triangle|trapezoid|unknown","base_m":null,"top_m":null,"run_m":null,"slope_value":null,"slope_unit":"pct|deg|unknown","confidence":"baja|media|alta","evidence":"cota escrita y ubicación"}]}. Extrae solo cotas ESCRITAS y visibles; convierte cm/mm a metros. No inventes longitud, pendiente, cantidad de faldones ni forma. Si la orientación alero/recorrido es dudosa, usa null y adviértelo. Si falta la pendiente, deja slope_value:null, slope_unit:unknown. Máximo 20 faldones; no confundas dimensiones dibujadas con medidas reales. La revisión humana es obligatoria.'}];
+     for(const v of pages)items.push({type:'image',value:v});
+     const answer=await session.prompt([{role:'user',content:items}]);return parseResponse(answer);
+   }finally{try{session?.destroy?.();}catch{/* No bloquear extracción local */}}
+ }
+ function selectInput(name,label,values,value){return `<label>${label}<select data-ai="${name}">${values.map(([v,t])=>`<option value="${v}"${v===value?' selected':''}>${t}</option>`).join('')}</select></label>`;}
+ function inputNumber(name,label,value,min='0'){return `<label>${label}<input data-ai="${name}" type="number" step="any" min="${min}" value="${finite(value)?value:''}" placeholder="Por determinar"></label>`;}
+ function appendRow(p,i){
+    const row=document.createElement('section');row.className='mpi-ai-row';row.dataset.index=String(i);
+    row.innerHTML=`<div class="mpi-ai-row-head"><b>Faldón ${i+1}</b><span class="mpi-ai-pill">${esc(p.confidence||'Manual')}</span><button type="button" class="mpi-ai-remove" aria-label="Eliminar faldón ${i+1}">Eliminar</button></div>
+      <div class="mpi-ai-grid">
+       <label>Nombre<input data-ai="name" maxlength="70" value="${esc(p.name||`Agua ${i+1}`)}"></label>
+       ${selectInput('shape','Forma',[['unknown','Por determinar'],['rectangle','Rectángulo'],['triangle','Triángulo'],['trapezoid','Trapecio']],p.shape)}
+       ${inputNumber('base','Ancho del alero (m)',p.base_m,'0.01')}
+       ${inputNumber('top','Ancho superior (m, solo trapecio)',p.top_m,'0.01')}
+       ${inputNumber('run','Largo horizontal de la caída (m)',p.run_m,'0.01')}
+       ${inputNumber('slope','Pendiente o desnivel',p.slope_value)}
+       ${selectInput('unit','Unidad pendiente',[['unknown','Por determinar'],['pct','Porcentaje (%)'],['deg','Grados (°)'],['rise','Desnivel (m)']],p.slope_unit)}
+      </div>
+      <p class="mpi-ai-evidence">Evidencia: ${esc(p.evidence||'Ingreso manual; comprobar contra el plano original.')}</p>
+      <label class="mpi-ai-consent mpi-ai-review"><input data-ai="verified" type="checkbox"><span>Verifiqué la geometría, cotas y pendiente de este faldón contra el plano/obra.</span></label>`;
+    const shape = row.querySelector('[data-ai="shape"]');
+    const top = row.querySelector('[data-ai="top"]');
+    function updateTop(){
+      top.disabled = shape.value !== 'trapezoid';
+      top.placeholder = top.disabled ? 'No aplica' : 'Por determinar';
+    }
+    updateTop();
+    shape.addEventListener('change',updateTop);
+    row.querySelector('.mpi-ai-remove').addEventListener('click',()=>{row.remove();renumber();});
+    row.querySelectorAll('input:not([type="checkbox"]),select').forEach(el=>el.addEventListener('input',()=>{row.querySelector('[data-ai="verified"]').checked=false;}));
+    results.append(row);
+ }
+ function setManualMode(){
+ markTemplate('custom');
+ latestHip=null;
+ el('r45HipBox').hidden=true;
+}
+function renumber(){results.querySelectorAll('.mpi-ai-row').forEach((row,i)=>{row.dataset.index=String(i);row.querySelector('b').textContent=`Faldón ${i+1}`;});}
+ function render(data){proposal=data;results.replaceChildren();
+   const summary=document.createElement('p');summary.textContent=data.document_summary||'Plano leído.';results.append(summary);
+   if(data.unit_note){const note=document.createElement('p');note.textContent=data.unit_note;results.append(note);}
+   if(data.warnings?.length){const ul=document.createElement('ul');ul.className='mpi-ai-warnings';for(const w of data.warnings){const li=document.createElement('li');li.textContent=String(w);ul.append(li);}results.append(ul);}
+   const heading=document.createElement('h5');heading.textContent='Revisión obligatoria: corrige las cotas antes de calcular';results.append(heading);
+   const toolbar=document.createElement('div');toolbar.className='mpi-ai-controls';const add=document.createElement('button');add.type='button';add.className='mpi-ai-secondary';add.textContent='Añadir otro faldón';add.onclick=()=>addManual();toolbar.append(add);
+   const apply=document.createElement('button');apply.type='button';apply.id='r45AiApply';apply.textContent='Aplicar faldones verificados';apply.onclick=applyReviewed;toolbar.append(apply);results.append(toolbar);
+   const rows=normalizePlanes(data.planes);if(!rows.length)rows.push({...DEFAULT});rows.forEach(appendRow);
+ }
+ function addManual(){
+   if(!proposal){render({document_summary:'Ingreso manual de dimensiones, sin IA externa.',unit_note:'',warnings:['Introduce la forma, alero, recorrido horizontal y pendiente; comprueba todas las medidas.'],planes:[]});notify('Introduce y confirma las medidas del faldón para continuar.');return;}
+   const count=results.querySelectorAll('.mpi-ai-row').length;
+   if(count>=MAX_PLANES){notify(`Se permite un máximo de ${MAX_PLANES} faldones por lectura.`,true);return;}
+   appendRow({...DEFAULT,name:`Agua ${count+1}`},count);
+ }
+ function applyReviewed(){
+   const rows=[...results.querySelectorAll('.mpi-ai-row')];const planes=[];
+   if(!rows.length||rows.length>MAX_PLANES){notify('Debe existir entre 1 y 20 faldones para aplicar.',true);return;}
+   for(const [i,row] of rows.entries()){
+     const get=k=>row.querySelector('[data-ai="'+k+'"]');const n=k=>{const v=get(k).value.trim();return v===''?NaN:Number(v);};
+     const shape=get('shape').value,unit=get('unit').value,base=n('base'),run=n('run'),top=n('top'),slope=n('slope');
+     if(!get('verified').checked){notify(`Debes confirmar el faldón ${i+1} antes de aplicarlo.`,true);return;}
+     if(!['rectangle','triangle','trapezoid'].includes(shape)||!['pct','deg','rise'].includes(unit)||
+       !Number.isFinite(base)||base<=0||base>10000||!Number.isFinite(run)||run<=0||run>10000||
+       !Number.isFinite(slope)||slope<0||(unit==='pct'&&slope>500)||(unit==='deg'&&slope>=90)||
+       (shape==='trapezoid'&&(!Number.isFinite(top)||top<=0||top>10000))){
+       notify(`Faldón ${i+1}: completa la forma, cotas y pendiente con su unidad antes de continuar. No se aplicó ningún cambio.`,true);return;}
+     planes.push({name:get('name').value.trim().slice(0,70)||`Agua ${i+1}`,shape,base,top:shape==='trapezoid'?top:'',run,slope,unit});
+   }
+   if(!window.MPI45||typeof window.MPI45.applyAIPlanes!=='function'){notify('No está disponible la calculadora de materiales en esta página.',true);return;}
+   if(window.MPI45.applyAIPlanes(planes))notify(`${planes.length} faldón(es) verificados incorporados a la calculadora. Revisa los accesorios y pulsa CALCULAR.`);
+ }
+ async function analyze(){
+   if(busy)return;const file=fileInput.files?.[0];if(!file){notify('Selecciona primero un plano JPG, PNG, WEBP o PDF.',true);return;}
+   const name=file.name.toLowerCase();const pdf=name.endsWith('.pdf')||file.type==='application/pdf',image=/\.(png|jpe?g|webp)$/.test(name)||/^image\/(png|jpeg|webp)$/.test(file.type);
+   if(!pdf&&!image){notify('Formato no compatible. Convierte el plano a PDF, JPG, PNG o WEBP.',true);return;}
+   if(file.size<=0||file.size>MAX_SIZE){notify('Selecciona un archivo no vacío de hasta 8 MB.',true);return;}
+   busy=true;updateRead();results.replaceChildren();proposal=null;
+   let text='',visuals=[],warning='';const notes=[];
+   try{
+     if(pdf){notify('Abriendo PDF en el navegador y recuperando sus cotas…');const doc=await inspectPdf(file);text=doc.text;visuals=doc.visuals;warning=doc.warning;}
+     else{visuals=[file];}
+     let result=null;
+     if(capabilitiesState.status!=='unavailable'){
+       try{result=await readVisualAI(visuals);}catch(e){notes.push('La IA integrada no pudo analizar esta imagen: '+String(e.message||e).slice(0,120)+'. Se intentará lectura local de texto.');}
+     }
+     if(!result||!result.planes?.length){
+       // Un PDF puede contener un título como texto, con todas las cotas dibujadas.
+       // En ese caso también hacemos OCR de la imagen, aunque el PDF tenga texto extraíble.
+       const pre=parseTextCotas(text);
+       const cota=pre.planes?.[0];
+       const missingCotas=!cota||cota.base_m===null||cota.run_m===null||cota.slope_value===null;
+       if(missingCotas && visuals.length){
+         try{
+           const ocrText=await recognizeOCR(visuals);
+           if(ocrText.trim())text=(text.trim()?text+'\n':'')+ocrText;
+         }catch(e){notes.push(String(e.message||e));}
+       }
+       result=parseTextCotas(text);
+     }
+     if(warning)notes.push(warning);
+     if(notes.length)result.warnings=[...(result.warnings||[]),...notes];
+     if(!result.planes?.length)result.warnings.push('No se detectaron cotas suficientes. Completa el faldón manualmente; NO se inventarán medidas.');
+     render(result);
+     notify(result.planes?.length?'Lectura local terminada. Verifica cada cota antes de incorporar los faldones.':'No se obtuvieron cotas confiables. Completa las medidas manualmente.');
+   }catch(e){render({document_summary:'No fue posible extraer automáticamente las cotas.',unit_note:'',warnings:[String(e.message||e).slice(0,250),'Puedes introducir los faldones manualmente. No se envió ningún plano a un servidor de IA.'],planes:[]});notify('No fue posible leer el archivo automáticamente. Usa la revisión manual.',true);}
+   finally{busy=false;updateRead();}
+ }
+ read.addEventListener('click',analyze);
+ manual.addEventListener('click',addManual);
+ fileInput.addEventListener('change',()=>{proposal=null;results.replaceChildren();updateRead();});
+ window.MPI_BrowserPlan={parseTextCotas,normalizePlanes,parseResponse,detectModel};
+ updateRead();detectModel().catch(()=>{capabilities.textContent='No fue posible consultar la IA integrada. OCR y revisión manual disponibles.';});
+})();
+</script><style>
+#mpiManager{max-width:1050px;margin:22px auto;padding:20px;color:#142e45;background:white;border:1px solid #d8d2c5;border-radius:14px}
+#mpiManager h1{font-size:32px}#mpiManager h2{font-size:20px;margin:18px 0 8px}
+#mpiManager p{margin:8px 0}#mpiManager fieldset{margin:9px 0;border:1px solid #d8d2c5;border-radius:8px;padding:12px;min-width:0}
+#mpiManager label{display:grid;gap:4px;font-size:14px;margin:4px 0}
+#mpiManager input,#mpiManager select{width:100%;padding:8px;color:#142e45;background:white;border:1px solid #a7a298;border-radius:5px}
+#mpiManager input[type=checkbox]{width:auto;justify-self:start}
+#mpiManager button{padding:8px 12px;margin:5px 5px 5px 0;color:#142e45;background:#faf6eb;border:1px solid #ae995f;border-radius:6px;cursor:pointer}
+#mpiManager button:disabled{cursor:not-allowed;color:#495667;background:#e6e6e6}
+#mpiManager .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:8px}
+#mpiManager nav{display:flex;flex-wrap:wrap}#mpiManager nav [aria-pressed=true],#mpiPublish{background:#142e45!important;color:white!important}
+#mpiManager #mpiPublish:disabled{color:#394653!important;background:#e6e6e6!important;border-style:dashed}
+#mpiManager .actions{margin-top:16px;border-top:1px solid #ded4bf;padding-top:8px}
+#mpiServiceStatus{margin:10px auto;max-width:1100px;padding:12px;background:#fff2d3;color:#533800}
+@media print{#mpiManager,#mpiAdminLink,#mpiServiceStatus{display:none!important}}
+</style>
+<p id="mpiServiceStatus" role="status" hidden></p>
+<main id="mpiManager" hidden>
+<h1>Administrar calculadora</h1><p id="mpiMode"></p>
+<form id="mpiLogin" hidden><div class="fields"><label>Correo de administrador<input id="mpiEmail" type="email" autocomplete="username" required></label><label>Contraseña<input id="mpiPassword" type="password" autocomplete="current-password" required></label></div><button>Iniciar sesión</button></form>
+<nav aria-label="Secciones de administración" id="mpiNav"></nav><form id="mpiEditor"><div id="mpiFields"></div>
+<div class="actions"><button type="submit" id="mpiPublish">Guardar cambios</button><a id="mpiBack">Abrir calculadora</a></div></form>
+<p role="status" aria-live="polite" id="mpiMessage"></p></main>
+
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const url=new URL(location.href), admin=url.searchParams.has('admin'), web=url.searchParams.has('web')||(document.documentElement.dataset.mpiDeploy==='supabase'&&/^https?:$/.test(url.protocol));
+const localKey='mpi.materiales.config.v1';
+const builtins={...tipoLabels}, models=Object.entries(MPIRoof.MODELS).map(([id,m])=>({id,name:m.name,totalWidth:m.totalWidth,usefulWidth:m.width,lap:m.lap??'',lengths:m.lengths.join('; '),verified:!!m.lengths.length}));
+const fresh=()=>({params:{...mpiDefaults},profiles:structuredClone(models),recipes:[],rules:[],formats:[]});
+let draft, section='Medidas y formatos', version=0, connection, session, busy=false;
+const calc=document.querySelector('.container'), form=$('mpiEditor'), fields=$('mpiFields');
+const safeID=id=>/^[a-z][a-z0-9_]{1,39}$/.test(id)&&!['constructor','prototype','tostring','valueof'].includes(id);
+const positive=(n,min=0.000001,max=1000000)=>typeof n==='number'&&Number.isFinite(n)&&n>=min&&n<=max;
+function check(condition,message){if(!condition)throw Error(message)}
+function labelOk(v){return typeof v==='string'&&v.trim().length>0&&v.length<=120}
+function checkFormula(row,variables,test){
+ check(/^MPI\d{5,9}$/.test(row.code),'Usa un código con prefijo MPI y al menos cinco dígitos.');
+ check(typeof row.formula==='string'&&row.formula.trim(),'Falta una fórmula.');
+ const words=row.formula.match(/[a-zA-Z_][a-zA-Z0-9_]*/g)||[];
+ check(words.every(k=>variables.includes(k)||['ceil','floor','round','sqrt','abs','min','max'].includes(k)),'Variable no disponible en la fórmula de '+row.code+'.');
+ MPI_CalcRules.evaluate(row.formula,test);
+}
+function validate(raw){
+ const c=structuredClone(raw);
+ check(c && typeof c==='object'&&!Array.isArray(c),'Configuración inválida.');
+ if(c.params?.pasoMetros===undefined && c.params?.paso!==undefined)c.params.pasoMetros=c.params.paso/100;
+ c.params={...mpiDefaults,...c.params};
+ delete c.params.paso;
+ for(const [k,[name,,min]] of Object.entries(MPI_FIELDS))check(positive(c.params[k],min??0.000001),'Revisa '+name+'.');
+ check(Number.isSafeInteger(c.params.tornillos),'La cantidad de tornillos por caja debe ser entera.');
+ for(const [k,fallback] of [['formats',[]],['recipes',[]],['rules',[]],['profiles',models]]){
+   c[k]??=structuredClone(fallback);check(Array.isArray(c[k])&&c[k].length<=250,'Revisa la sección '+k+'.');
+ }
+ const unique=new Set();
+ function once(k){check(!unique.has(k),'Registro duplicado: '+k);unique.add(k)}
+ for(const p of c.profiles){
+   check(safeID(p.id)&&labelOk(p.name),'Revisa el nombre e identificador de la cubierta.');once('perfil '+p.id);
+   check(typeof p.verified==='boolean','Revisa la ficha de cubierta.');
+   if(!p.verified)continue;
+   const ls=String(p.lengths).split(';').map(t=>Number(t.trim().replace(',','.')));
+   check(positive(p.totalWidth,.05,5)&&positive(p.usefulWidth,.051,p.totalWidth)&&positive(p.lap,0,2)&&ls.length<=30&&ls.every(n=>positive(n,.101,30)&&n>p.lap),'Revisa anchos, traslape y largos en '+p.name+'.');
+   p.lengths=[...new Set(ls)].join('; ');
+ }
+ const codes=new Set(codigosMPI.values());
+ for(const v of c.formats){
+   check(['cielo_pvc','marmoleado'].includes(v.system)&&/^fmt_[a-z0-9_]+$/.test(v.id),'Formato inválido.');
+   once(v.id);
+   check(/^MPI[0-9]{5,9}$/.test(v.code)&&!codes.has(v.code),'Código de formato repetido o inválido.');codes.add(v.code);
+   check(labelOk(v.name)&&[v.width,v.length,v.thickness].every(n=>positive(n)),'Completa nombre, ancho, largo y espesor del formato.');
+ }
+ for(const r of c.recipes){
+   check(/^cfg_[a-z0-9_]+$/.test(r.id)&&safeID(r.id)&&labelOk(r.name),'Revisa el nombre del sistema.');once(r.id);
+   check(positive(r.width)&&positive(r.length)&&positive(r.waste,0)&&Array.isArray(r.rows)&&r.rows.length>0&&r.rows.length<=100,'Completa las medidas y al menos un material de '+r.name+'.');
+   for(const row of r.rows){
+     check(!codes.has(row.code)&&labelOk(row.name),'Nombre vacío o código repetido en '+r.name+'.');codes.add(row.code);
+     checkFormula(row,['area','length','width','waste'],{area:20,length:r.length,width:r.width,waste:r.waste});
+   }
+ }
+ for(const row of c.rules){
+   check(Object.hasOwn(builtins,row.system)&&row.system!=='spc','Selecciona un sistema de la lista para la regla.');
+   check(codes.has(row.code),'El código de la regla debe existir en el catálogo.');
+   check(typeof row.variant==='string'&&(!row.variant||Array.from(document.querySelectorAll('#v_'+row.system+' [data-v]')).some(b=>b.dataset.v===row.variant)||c.formats.some(f=>f.system===row.system&&f.id===row.variant)),'Revisa la variante de la regla.');
+   check(typeof row.name==='string'&&row.name.length<=120,'Nombre de regla inválido.');once([row.system,row.variant,row.code].join('/'));
+   checkFormula(row,['area','height','stud','original'],{area:20,height:2.4,stud:.61,original:8});
+ }
+ return c;
+}
+function apply(c){
+ mpiConfig=c;
+ window.MPI_CMS_ACTIVE={...window.MPI_CMS_ACTIVE,technicalProfiles:c.profiles.filter(p=>p.verified)};
+ for(const [id,key] of Object.entries({spcCaja:'caja',spcBarra:'barra',spcPaso:'pasoMetros',spcMerma:'merma',marmolMerma:'marmReserva'}))$(id).value=mp(key);
+ function variant(system,key,text){document.querySelector('#v_'+system+' [data-v="'+key+'"]').textContent=text}
+ for(const [key,p] of [['0.25','pvcA'],['0.30','pvcB']])variant('cielo_pvc',key,mpiNum(mp(p))+' × '+mpiNum(mp('pvcL'))+' m · '+mpiNum(mp('pvcE'))+' mm');
+ document.querySelector('#v_cielo_pvc h3').textContent='Presentación del cielo raso · ancho útil';
+ variant('cielo_estructura','2x4',mpiNum(mp('vistaA'))+' × '+mpiNum(mp('vistaL'))+' m · 0,08 mm');
+ for(const [key,p] of [['2.44','marmL1'],['2.9','marmL2']])variant('marmoleado',key,'Panel '+mpiNum(mp(p))+' m');
+ for(const [key,p] of [['17','wpcA'],['195','wpcB']])for(const mode of ['mecanica','adhesiva'])variant('wpc_interior',key+'_'+mode,mpiNum(mp(p)*100)+' cm · '+(mode==='mecanica'?'Mecánica':'Adhesiva'));
+ for(const f of c.formats){
+   const b=node('button',f.name+' · '+mpiNum(f.width)+' × '+mpiNum(f.length)+' m · '+mpiNum(f.thickness)+' mm');
+   b.className='v-btn';b.type='button';b.dataset.v=f.id;b.onclick=()=>selVariante(f.system,b);
+   document.querySelector('#v_'+f.system+' .variante-tabs').append(b);
+ }
+ for(const r of c.recipes){
+   const b=document.createElement('button');b.type='button';b.className='tipo-card';b.dataset.tipo=r.id;
+   const n=document.createElement('span');n.className='tipo-name';n.textContent=r.name;b.append(n);
+   tipoLabels[r.id]=r.name;b.onclick=()=>selTipo(b);document.querySelector('.tipos-grid').append(b);
+ }
+ window.dispatchEvent(new Event('mpi:cms-updated'));
+}
+function node(tag,text){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e}
+function button(parent,title,action){const b=node('button',title);b.type='button';b.onclick=action;parent.append(b);return b}
+function group(parent,title){const box=node('fieldset');box.append(node('legend',title));parent.append(box);return box}
+function input(parent,title,obj,key,type='text',options){
+ const label=node('label',title),e=node(options?'select':'input');
+ if(options){for(const [value,title] of options)e.append(new Option(title,value))}
+ else{e.type=type;if(type==='number')e.step='any'}
+ if(type==='checkbox')e.checked=!!obj[key];else e.value=obj[key]??'';
+ e.oninput=()=>{obj[key]=type==='checkbox'?e.checked:type==='number'?(e.value===''?'':e.valueAsNumber):e.value};
+ label.append(e);parent.append(label);return e;
+}
+function remove(parent,list,obj){button(parent,'Quitar',()=>{list.splice(list.indexOf(obj),1);render()})}
+function nextCode(){const codes=[...codigosMPI.values(),...draft.formats.map(f=>f.code),...draft.recipes.flatMap(r=>r.rows.map(x=>x.code))];draft.lastCode=Math.max(Number(draft.lastCode)||0,...codes.map(x=>Number(String(x).slice(3))||0))+1;return 'MPI'+String(draft.lastCode).padStart(5,'0')}
+function preview(parent,text,fn){button(parent,'Probar con 20 m²',()=>{try{text.textContent='Cantidad calculada: '+fn()}catch(e){text.textContent=e.message}});parent.append(text)}
+function render(){
+ fields.replaceChildren();$('mpiNav').replaceChildren();
+ for(const name of ['Medidas y formatos','Cubiertas','Sistemas nuevos','Reglas de materiales']){
+   button($('mpiNav'),name,()=>{section=name;render()}).setAttribute('aria-pressed',String(name===section));
+ }
+ fields.append(node('h2',section));
+ if(section==='Medidas y formatos'){
+   const grid=node('div');grid.className='fields';fields.append(grid);
+   for(const [k,[label]] of Object.entries(MPI_FIELDS))input(grid,label,draft.params,k,'number');
+   fields.append(node('h2','Presentaciones adicionales'));
+   for(const f of draft.formats){
+     const box=group(fields,f.code);input(box,'Línea',f,'system','text',[['cielo_pvc','Cielo raso PVC'],['marmoleado','Marmoleado']]);input(box,'Nombre de la presentación',f,'name');
+     const grid=node('div');grid.className='fields';box.append(grid);
+     for(const [k,l] of [['width','Ancho útil (m)'],['length','Largo (m)'],['thickness','Espesor (mm)']])input(grid,l,f,k,'number');
+     remove(box,draft.formats,f);
+   }
+   button(fields,'Añadir presentación',()=>{draft.formats.push({id:'fmt_'+crypto.randomUUID().slice(0,8),code:nextCode(),system:'cielo_pvc',name:'Nueva presentación',width:.25,length:5.95,thickness:8});render()});
+ }else if(section==='Cubiertas'){
+   fields.append(node('p','Separa los largos comerciales con punto y coma. Activa la ficha cuando las medidas estén confirmadas.'));
+   for(const p of draft.profiles){
+     const box=group(fields,p.name||'Nueva cubierta');
+     input(box,'Nombre del modelo',p,'name');const grid=node('div');grid.className='fields';box.append(grid);
+     for(const [key,label] of [['totalWidth','Ancho total (m)'],['usefulWidth','Ancho útil (m)'],['lap','Traslape (m)']])input(grid,label,p,key,'number');
+     input(box,'Largos comerciales (m)',p,'lengths');input(box,'Usar ficha confirmada',p,'verified','checkbox');
+     if(!models.some(m=>m.id===p.id))remove(box,draft.profiles,p);
+   }
+   button(fields,'Añadir modelo',()=>{draft.profiles.push({id:'teja_'+crypto.randomUUID().slice(0,8),name:'Nueva cubierta',totalWidth:1,usefulWidth:.95,lap:.2,lengths:'',verified:false});render()});
+ }else if(section==='Sistemas nuevos'){
+   fields.append(node('p','Cada sistema aparece como una opción de instalación. Sus materiales se calculan por ambiente y se suman por código MPI. Usa area (m²), length y width (m) y waste (%).'));
+   for(const r of draft.recipes){
+     const box=group(fields,r.name||'Sistema');input(box,'Nombre del sistema o presentación',r,'name');
+     const grid=node('div');grid.className='fields';box.append(grid);
+     for(const [k,l] of [['length','Largo del formato (m)'],['width','Ancho útil (m)'],['waste','Reserva (%)']])input(grid,l,r,k,'number');
+     for(const row of r.rows){
+       const item=group(box,row.code);input(item,'Material y unidad de compra',row,'name');input(item,'Fórmula de cantidad',row,'formula');
+       preview(item,node('output'),()=>MPI_CalcRules.evaluate(row.formula,{area:20,length:r.length,width:r.width,waste:r.waste}));
+       remove(item,r.rows,row);
+     }
+     button(box,'Añadir material',()=>{r.rows.push({code:nextCode(),name:'',formula:'ceil(area * (1 + waste / 100) / (length * width))'});render()});remove(box,draft.recipes,r);
+   }
+   button(fields,'Añadir sistema',()=>{draft.recipes.push({id:'cfg_'+crypto.randomUUID().slice(0,8),name:'Nuevo sistema',width:1,length:1,waste:0,rows:[{code:nextCode(),name:'Panel (piezas)',formula:'ceil(area * (1 + waste / 100) / (length * width))'}]});render()});
+ }else{
+   fields.append(node('p','Modifica una línea existente por su código MPI. La fórmula recibe area (m²), height (m), stud (separación en m) y original (cantidad del cálculo base). La prueba usa 20 m², altura 2,4 m, separación 0,61 m y cantidad original 8.'));
+   for(const r of draft.rules){
+     const box=group(fields,r.code||'Nueva regla');
+     const q=input(box,'Sistema',r,'system','text',Object.entries(builtins).filter(([k])=>k!=='spc'));
+     q.onchange=()=>{r.system=q.value;r.variant='';render()};
+     input(box,'Variante',r,'variant','text',[['','Todas'],...Array.from(document.querySelectorAll('#v_'+r.system+' [data-v]'),b=>[b.dataset.v,b.textContent]),...draft.formats.filter(f=>f.system===r.system).map(f=>[f.id,f.name])]);
+     input(box,'Código MPI de la lista consolidada',r,'code');input(box,'Nombre en la lista (opcional)',r,'name');input(box,'Fórmula',r,'formula');
+     preview(box,node('output'),()=>MPI_CalcRules.evaluate(r.formula,{area:20,height:2.4,stud:.61,original:8}));remove(box,draft.rules,r);
+   }
+   button(fields,'Añadir regla',()=>{draft.rules.push({system:'cielo_pvc',variant:'',code:'MPI00042',name:'',formula:'original'});render()});
+ }
+}
+function message(t){$('mpiMessage').textContent=t}
+async function api(path,opt={}){
+ const headers={apikey:connection.publishableKey,'Content-Type':'application/json',...opt.headers};
+ const res=await fetch(connection.url+path,{...opt,headers,cache:'no-store'});
+ if(!res.ok)throw Error('Supabase '+res.status+' · '+(res.status===401||res.status===403?'Revisa tu sesión y permiso de administración.':'No se pudo completar la operación.'));
+ return res.status===204?null:res.json();
+}
+async function token(){
+ if(window.parent!==window && document.referrer && new URL(document.referrer).origin===location.origin){
+   try{const bridge=window.parent.mpiCalculadoraSesion;if(typeof bridge==='function'){const jwt=await bridge();if(jwt)return jwt}}catch{}
+ }
+ if(session && session.expires>Date.now())return session.token;
+ $('mpiLogin').hidden=false;throw Error('Inicia sesión con tu cuenta administradora para publicar.');
+}
+$('mpiLogin').onsubmit=async ev=>{
+ ev.preventDefault();
+ try{
+   const data=await api('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:$('mpiEmail').value,password:$('mpiPassword').value})});
+   session={token:data.access_token,expires:Date.now()+data.expires_in*1000-5000};
+   $('mpiLogin').hidden=true;message('Sesión iniciada. Puedes publicar tus cambios.');
+ }catch(e){message(e.message)}finally{$('mpiPassword').value=''}
+};
+form.onsubmit=async ev=>{
+ ev.preventDefault();if(busy)return;busy=true;$('mpiPublish').disabled=true;
+ try{
+   const config=validate(draft);
+   if(web){
+     const jwt=await token();
+     const rows=await api('/rest/v1/mpi_materiales_config?id=eq.1&revision=eq.'+version+'&select=revision',{
+       method:'PATCH',headers:{Authorization:'Bearer '+jwt,Prefer:'return=representation'},
+       body:JSON.stringify({config})
+     });
+     check(rows.length===1,'No se guardaron cambios. Revisa tu permiso de administrador o recarga si otro usuario publicó una versión.');
+     version=rows[0].revision;
+   }else localStorage.setItem(localKey,JSON.stringify(config));
+   draft=config;message(web?'Configuración publicada. Los nuevos cálculos la cargarán al abrir la página.':'Cambios guardados en este navegador.');
+ }catch(e){message(e.message)}finally{busy=false;$('mpiPublish').disabled=false}
+};
+async function init(){
+ const back=new URL(url);back.searchParams.delete('admin');$('mpiBack').href=back.href;
+ const adminUrl=new URL(url);adminUrl.searchParams.set('admin','1');$('mpiAdminLink').href=adminUrl.href;
+ if(admin){calc.hidden=true;$('mpiManager').hidden=false;form.hidden=true}
+ if(web){calc.inert=true;$('mpiServiceStatus').hidden=false;$('mpiServiceStatus').textContent='Cargando la configuración publicada…'}
+ try{
+   let saved;
+   if(web){
+     const res=await fetch(new URL('conexion.json',location.href),{cache:'no-store'});check(res.ok,'No se pudo cargar conexion.json.');
+     connection=await res.json();connection.url=new URL(connection.url).origin;
+     check(connection.url.startsWith('https://') && typeof connection.publishableKey==='string' && connection.publishableKey.length>20 && !connection.publishableKey.startsWith('sb_secret_'),'Revisa la URL HTTPS y la clave pública del proyecto.');
+     if(!connection.publishableKey.startsWith('sb_publishable_')){
+       let role;try{role=JSON.parse(atob(connection.publishableKey.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).role}catch{}
+       check(role==='anon','Usa únicamente la clave publicable o anon de tu proyecto.');
+     }
+     const rows=await api('/rest/v1/mpi_materiales_config?id=eq.1&select=config,revision');
+     check(rows.length===1,'Falta inicializar la configuración en Supabase.');version=rows[0].revision;saved=rows[0].config;
+   }else{
+     try{const t=localStorage.getItem(localKey);if(t)saved=JSON.parse(t)}catch(e){if(e instanceof SyntaxError)throw Error('La configuración local guardada está dañada.')}
+   }
+   draft=validate(saved??fresh());
+   if(admin){
+     $('mpiMode').textContent=web?'Configuración compartida de la web. Publica para aplicar los cambios.':'Modo local. Los cambios se guardan en este navegador.';
+     $('mpiPublish').textContent=web?'Publicar en la web':'Guardar en este navegador';form.hidden=false;render();
+   }else apply(draft);
+   calc.inert=false;$('mpiServiceStatus').hidden=true;
+ }catch(e){$('mpiServiceStatus').hidden=false;$('mpiServiceStatus').textContent=e.message+' Revisa la configuración y vuelve a cargar la página.';calc.inert=true}
+}
+init();
+})();
+
+</script></body>
+</html>
