@@ -1,0 +1,75 @@
+const $=id=>document.getElementById(id);
+if(new URLSearchParams(location.search).get('entry')==='owner')$('entry').value='owner';
+let current={},draft={},revision=0,member,postId=null;
+const say=s=>$('message').textContent=s;
+const run=fn=>async()=>{try{await fn()}catch(e){say(e.message)}};
+const button=(label,fn)=>{const b=document.createElement('button');b.textContent=label;b.onclick=run(fn);return b};
+function card(host,title,body){const a=document.createElement('article'),h=document.createElement('strong'),p=document.createElement('p');h.textContent=title;p.textContent=body;a.append(h,p);$(host).append(a);return a}
+function download(name,data,type='application/json'){const url=URL.createObjectURL(new Blob([data],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function leaves(obj,prefix='',out=[]){for(const [k,v]of Object.entries(obj)){const path=prefix?prefix+'.'+k:k;if(v!==null&&typeof v==='object')leaves(v,path,out);else out.push(path)}return out}
+function value(obj,path){return path.split('.').reduce((a,k)=>a?.[k],obj)}
+function set(obj,path,v){const a=path.split('.'),last=a.pop();a.reduce((o,k)=>o[k],obj)[last]=v}
+function remember(){sessionStorage.setItem('mp_draft',JSON.stringify({draft,revision}));$('json').value=JSON.stringify(draft,null,2);window.dispatchEvent(new Event('mp:draft-changed'))}
+function fields(){const previous=$('field').value;$('field').replaceChildren();for(const p of leaves(draft)){const o=document.createElement('option');o.value=p;o.textContent=p;$('field').append(o)}if(value(draft,previous)!==undefined)$('field').value=previous;showField();remember()}
+function showField(){const path=$('field').value;$('before').value=JSON.stringify(value(current,path))??'(nuevo)';const v=value(draft,path);$('replacement').value=typeof v==='string'?v:JSON.stringify(v)}
+function preview(){remember();$('previewFrame').contentWindow.postMessage({type:'MPI_CMS_PREVIEW',config:draft},location.origin)}
+async function load(keep=false){const rows=await MP.table('content','?id=eq.1');current=rows[0]?.config||MPI_CMS_DEFAULTS;revision=rows[0]?.revision||0;if(!keep)draft=structuredClone(current);$('revision').textContent='Versión publicada: '+revision;fields();preview()}
+$('field').onchange=showField;
+$('applyField').onclick=run(()=>{const p=$('field').value,v=value(draft,p);let next=$('replacement').value;if(typeof v!=='string')next=JSON.parse(next);set(draft,p,next);fields();preview();say('Borrador actualizado. Revisa antes de publicar.')});
+$('applyJson').onclick=run(()=>{const next=JSON.parse($('json').value);MPI_cleanConfig(next);draft=next;fields();preview();say('Estructura cargada al borrador.')});
+$('preview').onclick=run(preview);
+$('load').onclick=run(async()=>{if(confirm('¿Cargar la versión publicada y reemplazar este borrador?'))await load()});
+async function publishConfig(payload,description){
+ const nextRevision=await MP.request('/rest/v1/rpc/publish_content',{method:'POST',body:{payload,expected_revision:revision,description}});
+ if(!Number.isInteger(nextRevision))throw Error('El servidor no confirmó la publicación.');
+ revision=nextRevision;
+ current=structuredClone(payload);
+ $('revision').textContent='Versión publicada: '+revision;
+ try{localStorage.setItem('mp_catalog_published',JSON.stringify({revision,time:Date.now()}))}catch{}
+}
+$('publish').onclick=run(async()=>{
+ draft=MPI_cleanConfig(draft);
+ await publishConfig(draft);
+ remember();
+ say('Publicado. Los otros dispositivos consultan cada 45 segundos.');
+});
+$('download').onclick=()=>download('contenido-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(draft,null,2));
+$('previewFrame').onload=()=>{preview();const doc=$('previewFrame').contentDocument;doc.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const text=e.target.textContent.trim();const p=leaves(draft).find(p=>typeof value(draft,p)==='string'&&value(draft,p).trim()===text);if(p){$('field').value=p;showField()}},true)};
+$('upload').onclick=run(async()=>{const f=$('file').files[0];if(!f)throw Error('Selecciona un archivo');const url=await MP.upload(f);$('mediaUrl').textContent=url;const el=document.createElement(f.type.startsWith('video/')?'video':'img');el.src=url;if(el.tagName==='VIDEO')el.controls=true;$('media').replaceChildren(el,button('Eliminar archivo',async()=>{const path=url.split('/object/public/media/')[1];await MP.request('/storage/v1/object/media',{method:'DELETE',body:{prefixes:[path]}});$('media').replaceChildren();$('mediaUrl').textContent='Archivo eliminado';}));$('postMedia').value=url;say('Archivo guardado. Puedes usar esta URL en el elemento seleccionado o en una publicación.')});
+async function posts(){if(window.MP_renderStates)return MP_renderStates();
+ const rows=await MP.table('posts','?order=pinned.desc,created_at.desc');$('posts').replaceChildren();
+ for(const p of rows){
+  const a=card('posts',(p.pinned?'📌 ':'')+p.title,p.body+' · '+(p.published?'Publicado':'Borrador')+' · '+p.platform);
+  if(p.media){const m=document.createElement(p.kind==='video'?'video':'img');m.src=p.media;if(p.kind==='video')m.controls=true;a.append(m)}
+  if(p.external_url){const link=document.createElement('a');link.href=MP_SOCIAL.url(p.external_url);link.textContent='Abrir publicación original';link.target='_blank';link.rel='noopener noreferrer';a.append(link)}
+  a.append(button('Editar',()=>{postId=p.id;$('postTitle').value=p.title;$('postBody').value=p.body;$('postMedia').value=p.media||'';$('postKind').value=p.kind||'image';$('postPublished').checked=p.published;$('postExpiry').value=p.expires_at?new Date(new Date(p.expires_at).getTime()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16):'';$('postExternal').value=p.external_url||'';$('postPlatform').value=p.platform||'web';$('postPinned').checked=p.pinned}),button(p.pinned?'Desanclar':'Anclar estado',async()=>{await MP.update('posts',p.id,{pinned:!p.pinned});await posts()}),button('Eliminar',async()=>{if(confirm('¿Eliminar esta publicación?')){await MP.remove('posts',p.id);await posts()}}));
+ }
+}
+$('savePost').onclick=run(async()=>{
+ const media=$('postMedia').value;if(media&&!/^https:\/\//.test(media))throw Error('La URL debe usar HTTPS');
+ const data={title:$('postTitle').value,body:$('postBody').value,media:media||null,kind:$('postKind').value,published:$('postPublished').checked,expires_at:$('postExpiry').value?new Date($('postExpiry').value).toISOString():null,external_url:MP_SOCIAL.url($('postExternal').value)||null,platform:$('postPlatform').value,pinned:$('postPinned').checked};
+ if(!data.title.trim())throw Error('Falta el título');postId?await MP.update('posts',postId,data):await MP.insert('posts',data);postId=null;await posts();say('Publicación guardada')
+});
+$('cancelPost').onclick=()=>{postId=null;for(const id of ['postTitle','postBody','postMedia','postExpiry','postExternal'])$(id).value='';$('postPlatform').value='web';$('postPinned').checked=false;$('postSocialPreview').replaceChildren()};
+async function inquiries(){if(window.MP_renderInbox)return MP_renderInbox();const rows=await MP.table('inquiries','?order=created_at.desc');$('inquiries').replaceChildren();for(const p of rows){const a=card('inquiries',p.name+' · '+p.status,p.contact+' · '+p.question);for(const s of ['pendiente','en proceso','resuelta'])a.append(button(s,async()=>{await MP.update('inquiries',p.id,{status:s});await inquiries()}))}}
+async function users(){if(window.MP_renderUsers)return MP_renderUsers();const rows=await MP.table('members','?order=created_at');$('users').replaceChildren();for(const u of rows){const a=card('users',(u.display_name?u.display_name+' · ':'')+u.email,u.role+' · '+(u.active?'Activo':'Suspendido'));if(u.role==='owner')continue;const act=async(action,extra={})=>{await MP.manage({action,id:u.id,...extra});await users();say('Cuenta actualizada')};a.append(button('Cambiar nombre',async()=>{const name=prompt('Nombre del integrante (conserva mayúsculas y minúsculas)',u.display_name||'');if(name!==null)await act('update',{display_name:name})}),button(u.active?'Suspender':'Activar',()=>act('update',{active:!u.active})),button('Modificar correo',async()=>{const email=prompt('Correo nuevo',u.email);if(email)await act('update',{email})}),button('Revocar accesos',()=>act('revoke')),button('Enviar recuperación',()=>act('reset')),button('Eliminar usuario',async()=>{if(confirm('¿Eliminar definitivamente '+u.email+'?'))await act('delete')}))}}
+$('invite').onclick=run(async()=>{await MP.manage({action:'invite',email:$('inviteEmail').value,display_name:$('inviteName').value});await users();say('Invitación enviada. El editor establece su propia contraseña.')});
+$('getSessions').onclick=run(async()=>{const rows=await MP.manage({action:'sessions'});$('sessions').replaceChildren();for(const s of rows){const a=card('sessions',s.user_id,s.created_at);a.append(button('Cerrar esta sesión',async()=>{await MP.manage({action:'revoke-session',id:s.id});a.remove()}))}});
+async function loadHistory(){const rows=await MP.table('versions','?select=id,revision,description,created_at&order=id.desc&limit=100');$('history').replaceChildren();for(const v of rows){const a=card('history','Versión '+v.revision,v.created_at+' · '+v.description);a.append(button('Restaurar',async()=>{if(!confirm('¿Restaurar esta versión? Se conserva la actual.'))return;await MP.request('/rest/v1/rpc/publish_content',{method:'POST',body:{payload:{},expected_revision:revision,description:'Antes de restaurar '+v.id,restore_id:v.id}});await load();await loadHistory()}))}}
+$('backup').onclick=run(async()=>{await MP.request('/rest/v1/rpc/publish_content',{method:'POST',body:{payload:current,expected_revision:revision,description:'Copia manual'}});await load(true);await loadHistory();say('Copia conservada en historial')});
+function normalize(){const parts=$('phones').value.split(/[\n;,]+/),valid=[],invalid=[];for(const raw of parts){const n=raw.trim().replace(/[\s().-]/g,'').replace(/^00/,'+');if(!n)continue;if(/^\+[1-9]\d{7,14}$/.test(n))valid.push(n);else invalid.push(raw)}$('phones').value=[...new Set(valid)].join('\n');say(invalid.length?'Revisa estos números rechazados: '+invalid.join(', '):'Números normalizados sin duplicados.');return {valid:[...new Set(valid)],invalid}}
+$('normalize').onclick=normalize;
+async function lists(){const rows=await MP.table('contact_lists','?order=created_at.desc');$('lists').replaceChildren();for(const l of rows){const a=card('lists',l.name,l.contacts.length+' contactos');a.append(button('Cargar',()=>{$('phones').value=l.contacts.join('\n');$('listName').value=l.name}),button('Eliminar',async()=>{if(confirm('¿Eliminar lista?')){await MP.remove('contact_lists',l.id);await lists()}}))}}
+$('saveContacts').onclick=run(async()=>{const {valid,invalid}=normalize();if(invalid.length||!valid.length||!$('consent').checked||!$('listName').value)throw Error('Revisa lista, nombre y autorización');await MP.insert('contact_lists',{name:$('listName').value,contacts:valid,consent_at:new Date().toISOString()});await lists()});
+$('exportContacts').onclick=()=>{const {valid}=normalize();download('contactos.csv','telefono\r\n'+valid.join('\r\n'),'text/csv')};
+for(const b of document.querySelectorAll('[data-tab]'))b.onclick=run(async()=>{for(const t of document.querySelectorAll('.tab'))t.hidden=t.id!==b.dataset.tab;const fn={postsTab:posts,inquiriesTab:inquiries,usersTab:users,historyTab:loadHistory,contactsTab:lists}[b.dataset.tab];if(fn)await fn()});
+$('loginForm').onsubmit=async e=>{e.preventDefault();const password=$('password').value;$('password').value='';$('password').type='password';window.dispatchEvent(new Event('mp:login-password-captured'));await run(async()=>{await MP.login($('email').value,password);await enter();if(member.role!==$('entry').value&&$('entry').value==='owner'){await MP.logout();throw Error('Esta cuenta no es administradora')}})()};
+$('recover').onclick=run(async()=>{if($('entry').value!=='owner')throw Error('Solicita al administrador que cambie tu contraseña');if(!$('email').value)throw Error('Introduce tu correo');await MP.recovery($('email').value);say('Si el correo está registrado, recibirá un enlace temporal.')});
+$('changePassword').onclick=run(async()=>{await MP.recovery(member.email);say('Enlace temporal enviado a tu correo. Ábrelo para cambiar la contraseña.')});
+$('setPassword').onclick=run(async()=>{const role=await MP.request('/rest/v1/rpc/staff_role',{method:'POST',body:{}});if(role!=='owner')throw Error('Solo el administrador puede cambiar contraseñas desde el panel');const password=$('newPassword').value;if(password.length<16)throw Error('Usa al menos 16 caracteres');await MP.request('/auth/v1/user',{method:'PUT',body:{password}});await MP.logout()});
+$('logout').onclick=run(()=>MP.logout());
+async function enter(){const rows=await MP.table('members','?id=eq.'+MP.session.user.id);member=rows[0];const role=await MP.request('/rest/v1/rpc/staff_role',{method:'POST',body:{}});if(!member||!role)throw Error('Tu cuenta está suspendida o tu acceso fue revocado');$('login').hidden=true;$('workspace').hidden=false;$('headerLogout').hidden=false;for(const el of document.querySelectorAll('.owner'))el.hidden=role!=='owner';await load();const saved=JSON.parse(sessionStorage.getItem('mp_draft_restore')||'null');if(saved){draft=saved.draft;revision=saved.revision;fields();preview();}
+}
+(async()=>{try{const saved=sessionStorage.getItem('mp_draft');if(saved)sessionStorage.setItem('mp_draft_restore',saved);const hash=new URLSearchParams(location.hash.slice(1));if(hash.get('access_token')){const access_token=hash.get('access_token'),refresh_token=hash.get('refresh_token');MP.acceptRecovery({access_token,refresh_token});const user=await MP.request('/auth/v1/user');MP.store({access_token,refresh_token,user});window.history.replaceState(null,'',location.pathname);const recoveryRole=await MP.request('/rest/v1/rpc/staff_role',{method:'POST',body:{}});$('recovery').hidden=recoveryRole!=='owner';if(recoveryRole!=='owner')say('Solicita al administrador que cambie tu contraseña')}
+if(MP.session)await enter();setInterval(async()=>{try{if(!MP.session)return;await MP.refresh();const role=await MP.request('/rest/v1/rpc/staff_role',{method:'POST',body:{}});if(!role){MP.store(null);location.reload();return}const own=await MP.table('members','?id=eq.'+MP.session.user.id);if(own[0]){member=own[0];window.dispatchEvent(new Event('mp:permissions'))}const rows=await MP.table('content','?id=eq.1&select=revision');if(rows[0]&&rows[0].revision!==revision&&JSON.stringify(draft)===JSON.stringify(current))await load()}catch(e){say(e.message)}},45000)}catch(e){say(e.message)}})();
+
