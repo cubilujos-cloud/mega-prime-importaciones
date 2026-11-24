@@ -1,6 +1,6 @@
 'use strict';
 window.MP_SOCIAL={
- platforms:['YouTube','Facebook','TikTok','X','Instagram','Threads','LinkedIn','Pinterest','Telegram','WhatsApp'],
+ platforms:['YouTube','Facebook','TikTok','X','Instagram','Threads','LinkedIn','Pinterest','Telegram'],
  profileUrl(raw){
   const value=String(raw??'').trim();
   if(!value||/[\s\\]/.test(value))return '';
@@ -36,6 +36,8 @@ if(document.getElementById('contentTab')){
  const snapshot=item=>item?{name:String(item.name||''),url:String(item.url||'').trim(),visible:!!String(item.url||'').trim()&&item.visible!==false}:null;
  const same=(a,b)=>JSON.stringify(a?.url?snapshot(a):null)===JSON.stringify(b?.url?snapshot(b):null);
  const itemsOf=config=>Array.isArray(config?.social?.items)?config.social.items:[];
+ const usesContacts=()=>!!window.MP_CONTACTS?.list(current).length;
+ const publishedSignature=()=>JSON.stringify([itemsOf(current),usesContacts()]);
  const savedKey=()=>MP.session?.user?.id?'mp_social_draft:'+MP_CONFIG.url+':'+MP.session.user.id:'';
  let rows=[], pending=new Map(), cacheKey='', busy=false, signature='';
 
@@ -69,8 +71,8 @@ if(document.getElementById('contentTab')){
   catch{tell('No se pudo recuperar el borrador de redes de este navegador.',true)}
  }
  function setRows(){
-  const items=itemsOf(current).filter(item=>item&&nameKey(item.name));
-  signature=JSON.stringify(itemsOf(current));
+  const items=itemsOf(current).filter(item=>item&&nameKey(item.name)&&!(usesContacts()&&nameKey(item.name)==='whatsapp'));
+  signature=publishedSignature();
   rows=MP_SOCIAL.platforms.map(name=>{
    const original=find(items,name);
    return {key:'name:'+nameKey(name),name,original,fixed:true};
@@ -261,11 +263,26 @@ if(document.getElementById('contentTab')){
   return control;
  });
  actions.append(add);
+ const contacts=document.createElement('a');
+ contacts.href='#mpContactEditor';
+ contacts.textContent='Editar números de WhatsApp';
+ contacts.onclick=event=>{
+  if(!window.MP_openContacts)return;
+  event.preventDefault();
+  MP_openContacts();
+ };
+ actions.append(contacts);
  function sync(){
   if(!details.open||busy||!MP_can('edit_content'))return;
   if(cacheKey!==savedKey()){loadPending();setRows();render();return}
-  if(signature!==JSON.stringify(itemsOf(current))&&!rows.some(row=>row.dirty)){setRows();render()}
+  if(signature!==publishedSignature()&&!rows.some(row=>row.dirty)){setRows();render()}
  }
+ window.MP_openSocialEditor=()=>{
+  if(!MP_can('edit_content'))return;
+  details.open=true;
+  sync();
+  details.scrollIntoView({behavior:'smooth',block:'start'});
+ };
  details.addEventListener('toggle',sync);
  window.addEventListener('mp:draft-changed',sync);
  window.addEventListener('mp:session-locked',()=>{

@@ -1,4 +1,4 @@
-<!doctype html><html lang="es"><head><script src="config.js?v=94.1"></script><script src="connection.js?v=95"></script><script src="client.js?v=101"></script><script src="public-bridge.js?v=117"></script><script src="social-settings.js?v=103"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>Mega Prime Importaciones | Catálogo digital</title><!-- Tipografía PREMIUM V39: servicio de fuentes opcional, con alternativas locales -->
+<!doctype html><html lang="es"><head><script src="config.js?v=94.1"></script><script src="connection.js?v=95"></script><script src="client.js?v=101"></script><script src="public-bridge.js?v=117"></script><script src="contact-settings.js?v=106"></script><script src="social-settings.js?v=104"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>Mega Prime Importaciones | Catálogo digital</title><!-- Tipografía PREMIUM V39: servicio de fuentes opcional, con alternativas locales -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,6 +13,7 @@
 .corp-footer .social-zone{margin:0 0 34px}
 .corp-footer .social-zone[hidden],.social-zone [hidden]{display:none!important}
 .corp-footer .social-zone.mpi-social-without-map{display:block;min-height:0;margin-bottom:20px}
+.social-item .social-number{color:#c3d0d6;font-size:.95em}
 .corp-columns{border-top:1px solid #293039;padding:34px 0 38px;display:grid;grid-template-columns:minmax(240px,1.35fr) repeat(3,minmax(160px,1fr));gap:32px}
 .corp-heading{font-size:14px;color:#fff;font-weight:850;letter-spacing:.7px;margin:4px 0 17px}
 .corp-brand{display:flex;align-items:center;gap:13px;margin-bottom:18px}
@@ -2596,15 +2597,27 @@ function applySocial(c){const s=c.social||{};text('.social-zone h3',s.title&&s.t
  // Reutilizar los SVG de redes existentes como referencia visual.
  if(!window.MPI_socialArt){window.MPI_socialArt=Object.create(null);grid.querySelectorAll('.social-item').forEach(item=>{const name=item.lastElementChild?.textContent||'';const svg=item.querySelector('svg');if(svg)window.MPI_socialArt[name.trim().toLowerCase()]=svg.cloneNode(true)})}
  grid.replaceChildren();
+ function addLink(name,url,platform=name){
+  const link=el('a','social-item');
+  link.href=url;link.target='_blank';link.rel='noopener noreferrer';
+  const icon=el('span','social-icon'),svg=window.MPI_socialArt[platform.toLowerCase()];
+  if(svg)icon.append(svg.cloneNode(true));else icon.textContent='◈';
+  link.append(icon,el('span','',name));grid.append(link);
+  return link;
+ }
+ const contacts=window.MP_CONTACTS?.list(c)||[];
  for(const item of s.items||[]){
   const name=String(item?.name||'').trim();
   const url=window.MP_SOCIAL?.profileUrl(item?.url);
-  if(!name||!url||item.visible===false)continue;
-  const link=el('a','social-item');
-  link.href=url;link.target='_blank';link.rel='noopener noreferrer';
-  const icon=el('span','social-icon'),svg=window.MPI_socialArt[name.toLowerCase()];
-  if(svg?.cloneNode)icon.append(svg.cloneNode(true));else icon.textContent='◈';
-  link.append(icon,el('span','',name));grid.append(link);
+  if(!name||!url||item.visible===false||contacts.length&&name.toLowerCase()==='whatsapp')continue;
+  addLink(name,url);
+ }
+ const phones=contacts.filter(row=>row.enabled&&window.MP_CONTACTS.valid(row.number));
+ for(const row of phones){
+  const number=window.MP_CONTACTS.valid(row.number);
+  const link=addLink(phones.length>1&&row.label?'WhatsApp · '+row.label:'WhatsApp','https://wa.me/'+number.slice(1)+'?text='+encodeURIComponent(c.whatsapp?.welcome||'Hola'),'WhatsApp');
+  link.dataset.mpContactId=row.id;
+  link.append(el('span','social-number',number));
  }
  const hasLinks=grid.childElementCount>0;
  grid.hidden=!hasLinks;
@@ -4324,4 +4337,4 @@ if('ResizeObserver' in window)new ResizeObserver(schedule).observe(shell);
 measure();
 })();
 </script>
-<script src="integrations-defaults.js?v=126"></script><link rel="stylesheet" href="public-integrations.css?v=124"><link rel="stylesheet" href="interaction-refinements.css?v=94.1"><script src="contact-settings.js?v=101"></script><script src="public-integrations.js?v=130"></script><link rel="stylesheet" href="effects.css?v=94.1"><script src="effects.js?v=94.1"></script><link rel="stylesheet" href="animated-chatbot.css?v=122"><script src="animated-chatbot.js?v=122"></script><link rel="stylesheet" href="stories.css?v=131"><script src="story-playback.js?v=99"></script><script src="stories.js?v=131"></script><link rel="stylesheet" href="workspace-features.css?v=127"><script src="video-library.js?v=129"></script><script src="chat-workspace.js?v=102"></script><script src="story-reactions.js?v=99"></script><script src="story-comments.js?v=98"></script><script src="calculator-access.js?v=120"></script><script src="vendor/qrcodegen.js"></script><script src="share-qr.js?v=101"></script><script src="visibility-controls.js?v=121"></script><script src="quote-messages.js?v=101"></script><script src="product-family-browser.js?v=131"></script><script src="public-home-layout.js?v=130"></script><script src="assistant-drag.js?v=122"></script><script src="client-calculator.js?v=131"></script></body></html>
+<script src="integrations-defaults.js?v=126"></script><link rel="stylesheet" href="public-integrations.css?v=124"><link rel="stylesheet" href="interaction-refinements.css?v=94.1"><script src="public-integrations.js?v=130"></script><link rel="stylesheet" href="effects.css?v=94.1"><script src="effects.js?v=94.1"></script><link rel="stylesheet" href="animated-chatbot.css?v=122"><script src="animated-chatbot.js?v=122"></script><link rel="stylesheet" href="stories.css?v=131"><script src="story-playback.js?v=99"></script><script src="stories.js?v=131"></script><link rel="stylesheet" href="workspace-features.css?v=127"><script src="video-library.js?v=129"></script><script src="chat-workspace.js?v=102"></script><script src="story-reactions.js?v=99"></script><script src="story-comments.js?v=98"></script><script src="calculator-access.js?v=120"></script><script src="vendor/qrcodegen.js"></script><script src="share-qr.js?v=101"></script><script src="visibility-controls.js?v=121"></script><script src="quote-messages.js?v=101"></script><script src="product-family-browser.js?v=131"></script><script src="public-home-layout.js?v=130"></script><script src="assistant-drag.js?v=122"></script><script src="client-calculator.js?v=131"></script></body></html>

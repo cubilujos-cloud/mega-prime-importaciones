@@ -17,8 +17,6 @@ async function load(keep=false){const rows=await MP.table('content','?id=eq.1');
 $('field').onchange=showField;
 $('applyField').onclick=run(()=>{const p=$('field').value,v=value(draft,p);let next=$('replacement').value;if(typeof v!=='string')next=JSON.parse(next);set(draft,p,next);fields();preview();say('Borrador actualizado. Revisa antes de publicar.')});
 $('applyJson').onclick=run(()=>{const next=JSON.parse($('json').value);MPI_cleanConfig(next);draft=next;fields();preview();say('Estructura cargada al borrador.')});
-$('preview').onclick=run(preview);
-$('load').onclick=run(async()=>{if(confirm('¿Cargar la versión publicada y reemplazar este borrador?'))await load()});
 function mergePublishedDraft(base,local,published){
  if(JSON.stringify(base)===JSON.stringify(local))return structuredClone(published);
  if(!local||typeof local!=='object'||Array.isArray(local))return structuredClone(local);
@@ -40,7 +38,6 @@ $('publish').onclick=run(async()=>{
  remember();
  say('Publicado. Los otros dispositivos consultan cada 45 segundos.');
 });
-$('download').onclick=()=>download('contenido-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(draft,null,2));
 $('previewFrame').onload=()=>{preview();const doc=$('previewFrame').contentDocument;doc.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const text=e.target.textContent.trim();const p=leaves(draft).find(p=>typeof value(draft,p)==='string'&&value(draft,p).trim()===text);if(p){$('field').value=p;showField()}},true)};
 $('upload').onclick=run(async()=>{const f=$('file').files[0];if(!f)throw Error('Selecciona un archivo');const url=await MP.upload(f);$('mediaUrl').textContent=url;const el=document.createElement(f.type.startsWith('video/')?'video':'img');el.src=url;if(el.tagName==='VIDEO')el.controls=true;$('media').replaceChildren(el,button('Eliminar archivo',async()=>{const path=url.split('/object/public/media/')[1];await MP.request('/storage/v1/object/media',{method:'DELETE',body:{prefixes:[path]}});$('media').replaceChildren();$('mediaUrl').textContent='Archivo eliminado';}));$('postMedia').value=url;say('Archivo guardado. Puedes usar esta URL en el elemento seleccionado o en una publicación.')});
 async function posts(){if(window.MP_renderStates)return MP_renderStates();
