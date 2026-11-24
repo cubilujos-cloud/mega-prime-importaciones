@@ -15,7 +15,25 @@
  // Un solo bloque: respaldo técnico a la izquierda y proyecto/empresa a la derecha.
  const company=host.querySelector('#empresa'),supplier=host.querySelector('#proveedor');if(company||supplier){const combined=el('div',undefined,'mp-materials-unified');combined.id='materiales-y-respaldo';(company||supplier).before(combined);if(supplier)combined.append(supplier);if(company)combined.append(company)}
  if(c.technicalBenefits?.visible){const a=c.technicalBenefits,s=section(host,a.title,'informacion-tecnica'),grid=el('div',undefined,'mp-cards');for(const v of a.items||[]){const card=el('article',undefined,'mp-card');card.append(el('strong',v.icon),el('h3',v.title),el('p',v.body));grid.append(card)}s.append(grid);const max=Math.max(1,...(a.dimensions||[]).map(d=>Number(d.value)||0));for(const d of a.dimensions||[]){const row=el('div',undefined,'mp-dimension'),meter=el('meter');meter.max=max;meter.value=Number(d.value)||0;meter.setAttribute('aria-label',d.label);row.append(el('span',d.label),meter,el('span',d.value+' '+d.unit));s.append(row)}s.append(el('p',a.note))}
- if(c.location?.visible){const a=c.location,s=section(host,a.title,'ubicacion'),grid=el('div',undefined,'mp-split'),text=el('div');text.append(el('h3',a.address),el('p',a.hours));const lat=Number(a.latitude),lng=Number(a.longitude);if(a.latitude!==null&&a.longitude!==null&&Number.isFinite(lat)&&Number.isFinite(lng)&&Math.abs(lat)<=90&&Math.abs(lng)<=180){const link=el('a',a.button,'btn');link.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(lat+','+lng);link.target='_blank';link.rel='noopener noreferrer';text.append(link);const iframe=el('iframe',undefined,'mp-map');iframe.title='Mapa de ubicación de Mega Prime Importaciones';iframe.loading='lazy';iframe.referrerPolicy='no-referrer';iframe.src='https://www.openstreetmap.org/export/embed.html?bbox='+[lng-.01,lat-.008,lng+.01,lat+.008].join('%2C')+'&layer=mapnik&marker='+lat+'%2C'+lng;grid.append(text,iframe)}else{grid.append(text,el('div','El equipo publicará aquí la ubicación oficial.','mp-empty'))}s.append(grid);if(a.photo)s.append(image(a.photo))}
+ if(c.location?.visible&&window.MP_LOCATION){
+  const location=MP_LOCATION.resolve(c.location);
+  const block=section(host,location.title||'Encuéntranos fácilmente','ubicacion');
+  const grid=el('div',undefined,'mp-split'),info=el('div');
+  info.append(el('h3',location.address),el('p',location.hours));
+  if(location.openUrl){
+   const link=el('a','Abrir en Google Maps','btn');
+   link.href=location.openUrl;link.target='_blank';link.rel='noopener noreferrer';
+   info.append(link);
+  }
+  grid.append(info);
+  if(location.embedUrl){
+   const map=el('iframe',undefined,'mp-map');
+   map.title='Ubicación de Mega Prime Importaciones';map.loading='lazy';map.referrerPolicy='no-referrer';
+   map.src=location.embedUrl;grid.append(map);
+  }
+  block.append(grid);
+  if(location.photo)block.append(image(location.photo));
+ }
  const contactList=window.MP_CONTACTS?.list(c).filter(r=>r.enabled)||[];
  if(c.contactSection?.visible!==false&&(contactList.length||c.footer?.email)){const s=section(host,c.contactSection?.title||'Hablemos de tu proyecto','contacto'),grid=el('div',undefined,'mp-cards');for(const r of contactList){const a=el('a',r.label+' · '+r.number,'mp-card');a.href='https://wa.me/'+r.number.replace(/\D/g,'')+'?text='+encodeURIComponent(c.whatsapp?.welcome||'Hola');a.dataset.mpContactId=r.id;a.target='_blank';a.rel='noopener noreferrer';grid.append(a)}s.append(grid);if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.footer?.email||'')){const email=el('a',c.footer.email);email.href='mailto:'+c.footer.email;s.append(email)}}
  postHost=c.updates?.visible===false?null:section(host,c.updates?.title||'Novedades y estados','novedades');loadPosts();
