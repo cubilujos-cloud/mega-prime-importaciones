@@ -19,8 +19,15 @@ $('applyField').onclick=run(()=>{const p=$('field').value,v=value(draft,p);let n
 $('applyJson').onclick=run(()=>{const next=JSON.parse($('json').value);MPI_cleanConfig(next);draft=next;fields();preview();say('Estructura cargada al borrador.')});
 $('preview').onclick=run(preview);
 $('load').onclick=run(async()=>{if(confirm('¿Cargar la versión publicada y reemplazar este borrador?'))await load()});
-async function publishConfig(payload,description){
- const nextRevision=await MP.request('/rest/v1/rpc/publish_content',{method:'POST',body:{payload,expected_revision:revision,description}});
+function mergePublishedDraft(base,local,published){
+ if(JSON.stringify(base)===JSON.stringify(local))return structuredClone(published);
+ if(!local||typeof local!=='object'||Array.isArray(local))return structuredClone(local);
+ const next=published&&typeof published==='object'&&!Array.isArray(published)?structuredClone(published):{};
+ for(const key of Object.keys(local))next[key]=mergePublishedDraft(base?.[key],local[key],published?.[key]);
+ return next;
+}
+async function publishConfig(payload,description,expectedRevision=revision){
+ const nextRevision=await MP.request('/rest/v1/rpc/publish_content',{method:'POST',body:{payload,expected_revision:expectedRevision,description}});
  if(!Number.isInteger(nextRevision))throw Error('El servidor no confirmó la publicación.');
  revision=nextRevision;
  current=structuredClone(payload);
