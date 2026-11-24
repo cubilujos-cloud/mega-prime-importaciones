@@ -1,6 +1,12 @@
 'use strict';
 (()=>{
- const initial={address:'P9MQ+M65, Ambato, Ecuador',latitude:-1.2658647,longitude:-78.6118951};
+ const initial={
+  address:'Av. Bolivariana y Convenio de San Agustín, frente al Estadio alterno Neptalí Barona, 180204 Ambato, Ecuador',
+  hours:'Lunes a viernes: 8:00 AM – 6:00 PM\nSábados: 8:00 AM – 3:00 PM\nDomingos: Cerrado',
+  arrival:'Estacionamiento disponible',
+  latitude:-1.2658647,
+  longitude:-78.6118951
+ };
  function point(lat,lng){
   if(lat==null||lng==null||lat===''||lng==='')return null;
   const latitude=Number(lat),longitude=Number(lng);
@@ -34,7 +40,13 @@
   const addr=String(location.address||'').trim();
   const configured=point(location.latitude,location.longitude);
   const fallback=!location.mapsUrl&&!configured&&(!addr||/^ubicaci[oó]n (?:pendiente de|por) confirmar$/i.test(addr));
-  const data=fallback?{...location,...initial}:location;
+  const atInitialPoint=configured&&Math.abs(configured.latitude-initial.latitude)<0.000001&&Math.abs(configured.longitude-initial.longitude)<0.000001;
+  const data=fallback?{...location,...point(initial.latitude,initial.longitude),address:initial.address}:{...location};
+  if(fallback||atInitialPoint){
+   if(/^P9MQ\+M65\b/i.test(addr))data.address=initial.address;
+   if(!data.hours||data.hours==='Horario por confirmar')data.hours=initial.hours;
+   if(data.arrival===undefined)data.arrival=initial.arrival;
+  }
   const coords=point(data.latitude,data.longitude);
   const query=coords?coords.latitude+','+coords.longitude:data.address;
   const encoded=encodeURIComponent(query||'');
@@ -50,9 +62,10 @@
  const editor=document.createElement('details');
  editor.id='mpLocationEditor';
  editor.dataset.permission='edit_content';
- editor.innerHTML='<summary>Dirección del local</summary><p id="mpLocationCurrent"></p><button type="button" id="mpLocationEdit">Modificar dirección</button><div id="mpLocationFields" hidden><label>Nueva dirección o enlace de Google Maps<input id="mpLocationAddress" type="text" autocomplete="off"></label><button type="button" id="mpLocationSave">Guardar y publicar dirección</button></div><p id="mpLocationStatus" role="status" aria-live="polite"></p>';
+ editor.innerHTML='<summary>Dirección del local</summary><p id="mpLocationCurrent"></p><button type="button" id="mpLocationEdit">Modificar dirección</button><div id="mpLocationFields" hidden><label>Nueva dirección o enlace de Google Maps<input id="mpLocationAddress" type="text" autocomplete="off"></label><label>Horarios de atención<textarea id="mpLocationHours" rows="3"></textarea></label><label>Cómo llegar<input id="mpLocationArrival" type="text"></label><button type="button" id="mpLocationSave">Guardar y publicar dirección</button></div><p id="mpLocationStatus" role="status" aria-live="polite"></p>';
  tab.insertBefore(editor,tab.querySelector('.editor'));
  const currentAddress=$('mpLocationCurrent'),field=$('mpLocationAddress'),status=$('mpLocationStatus'),save=$('mpLocationSave');
+ const hours=$('mpLocationHours'),arrival=$('mpLocationArrival');
  let source='',busy=false;
  function refresh(){currentAddress.textContent='Dirección actual: '+(resolve(current.location).address||'Pendiente de confirmar')}
  window.MP_openLocationEditor=()=>{editor.open=true;refresh();editor.scrollIntoView({behavior:'smooth',block:'start'})};
@@ -63,20 +76,25 @@
   source=JSON.stringify(current.location||{});
   const location=resolve(current.location);
   field.value=location.mapsUrl||location.address||'';
+  hours.value=location.hours||'';
+  arrival.value=location.arrival||'';
   $('mpLocationFields').hidden=false;
   status.textContent='';
   field.focus();field.select();
  };
  save.onclick=async()=>{
   if(busy||!MP_can('edit_content'))return;
-  busy=save.disabled=field.disabled=true;
+  busy=save.disabled=field.disabled=hours.disabled=arrival.disabled=true;
   status.textContent='Publicando la dirección…';
   try{
-   const place=parse(field.value);
+   const original=resolve(current.location);
+   const place=field.value.trim()===(original.mapsUrl||original.address)
+    ?{address:original.address,mapsUrl:original.mapsUrl||'',...point(original.latitude,original.longitude)}
+    :parse(field.value);
    const latest=(await MP.table('content','?id=eq.1'))[0];
    if(!latest?.config||!Number.isInteger(latest.revision))throw Error('No se encontró la versión publicada.');
    if(source!==JSON.stringify(latest.config.location||{}))throw Error('La dirección cambió en otra sesión. Vuelve a abrir Modificar dirección.');
-   const location={...latest.config.location,...place,latitude:place.latitude??null,longitude:place.longitude??null,visible:true};
+   const location={...latest.config.location,...place,latitude:place.latitude??null,longitude:place.longitude??null,hours:hours.value.trim(),arrival:arrival.value.trim(),visible:true};
    const footer={...latest.config.footer,location:location.address,address:''};
    const visibility={...latest.config.visibility,sections:{...latest.config.visibility?.sections,ubicacion:true}};
    const payload={...latest.config,location,footer,visibility},previous=current;
@@ -87,7 +105,7 @@
    $('mpLocationFields').hidden=true;
    status.textContent='Dirección publicada en la página principal.';
   }catch(error){status.textContent=error.message||'No se pudo publicar la dirección.'}
-  finally{busy=save.disabled=field.disabled=false}
+  finally{busy=save.disabled=field.disabled=hours.disabled=arrival.disabled=false}
  };
- window.addEventListener('mp:session-locked',()=>{editor.open=false;$('mpLocationFields').hidden=true;field.value=currentAddress.textContent=status.textContent='';source=''});
+ window.addEventListener('mp:session-locked',()=>{editor.open=false;$('mpLocationFields').hidden=true;field.value=hours.value=arrival.value=currentAddress.textContent=status.textContent='';source=''});
 })();

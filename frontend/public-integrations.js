@@ -18,16 +18,30 @@
  if(c.location?.visible&&window.MP_LOCATION){
   const location=MP_LOCATION.resolve(c.location);
   const block=section(host,location.title||'Encuéntranos fácilmente','ubicacion');
-  const grid=el('div',undefined,'mp-split'),info=el('div');
-  info.append(el('h3',location.address),el('p',location.hours));
+  const grid=el('div',undefined,'mp-location-grid'),info=el('div',undefined,'mp-location-card');
+  const details=el('dl',undefined,'mp-location-details');
+  for(const [icon,label,value] of [
+   ['pin','Dirección',location.address],
+   ['clock','Horarios',location.hours],
+   ['car','Cómo llegar',location.arrival]
+  ]){
+   if(!value)continue;
+   const group=el('div',undefined,'mp-location-detail');
+   const symbol=el('span',undefined,'mp-location-icon');
+   symbol.dataset.icon=icon;
+   symbol.setAttribute('aria-hidden','true');
+   group.append(symbol,el('dt',label),el('dd',value));
+   details.append(group);
+  }
+  info.append(details);
   if(location.openUrl){
-   const link=el('a','Abrir en Google Maps','btn');
+   const link=el('a','Abrir en Google Maps','mp-location-link');
    link.href=location.openUrl;link.target='_blank';link.rel='noopener noreferrer';
    info.append(link);
   }
   grid.append(info);
   if(location.embedUrl){
-   const map=el('iframe',undefined,'mp-map');
+   const map=el('iframe',undefined,'mp-map mp-location-map');
    map.title='Ubicación de Mega Prime Importaciones';map.loading='lazy';map.referrerPolicy='no-referrer';
    map.src=location.embedUrl;grid.append(map);
   }

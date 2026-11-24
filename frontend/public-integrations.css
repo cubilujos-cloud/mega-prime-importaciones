@@ -10,3 +10,20 @@
 .mp-materials-unified .mp-split p{font-size:14px;line-height:1.55;margin:10px 0 14px}
 .mp-materials-unified .mp-split .btn{margin-top:auto;display:inline-flex}
 @media(max-width:740px){.mp-materials-unified{margin:20px 16px;padding:10px}.mp-materials-unified>.mp-section{flex-basis:100%;width:100%;padding:16px 10px}.mp-materials-unified>.mp-section h2{min-height:0}.mp-materials-unified .mp-photo{height:220px;max-height:220px}}
+
+/* Dirección y mapa del local. */
+.mp-location-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:clamp(20px,3.4vw,40px);align-items:stretch}
+.mp-location-grid:has(.mp-location-card:only-child){grid-template-columns:minmax(0,1fr)}
+.mp-location-card{padding:clamp(25px,3.4vw,40px);border-radius:20px;background:#18796a;color:#fff}
+.mp-location-details{display:grid;gap:24px;margin:0}
+.mp-location-detail{display:grid;grid-template-columns:22px minmax(0,1fr);gap:3px 12px;align-items:start}
+.mp-location-detail dt{font-weight:800;line-height:1.5}
+.mp-location-detail dd{grid-column:2;margin:0;color:#effbf8;line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}
+.mp-location-icon{grid-row:1 / 3;display:block;width:21px;height:21px;background:center/contain no-repeat;margin-top:2px}
+.mp-location-icon[data-icon="pin"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f8d67a' d='M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z'/%3E%3C/svg%3E")}
+.mp-location-icon[data-icon="clock"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle fill='%23f8d67a' cx='12' cy='12' r='10'/%3E%3Cpath fill='none' stroke='%2318796a' stroke-width='2' stroke-linecap='round' d='M12 6v6l4 2'/%3E%3C/svg%3E")}
+.mp-location-icon[data-icon="car"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23f8d67a' d='m5 5-2 5-1 2v7a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2h12v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-7l-1-2-2-5a2 2 0 0 0-2-1H7a2 2 0 0 0-2 1Zm2 1h10l1.5 4h-13L7 6Zm-1 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm12 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z'/%3E%3C/svg%3E")}
+.mp-location-link{display:inline-flex;margin-top:26px;padding:11px 18px;border:1px solid #ffffff66;border-radius:10px;color:#fff;background:#ffffff19;font-weight:800;text-decoration:none}
+.mp-location-link:hover,.mp-location-link:focus-visible{background:#ffffff35;color:#fff}
+.mp-location-map{display:block;width:100%;height:100%;min-height:380px;border:1px solid #526268;border-radius:20px;background:#f0f0eb}
+@media(max-width:740px){.mp-location-grid{grid-template-columns:1fr;gap:16px}.mp-location-map{height:300px;min-height:0}}

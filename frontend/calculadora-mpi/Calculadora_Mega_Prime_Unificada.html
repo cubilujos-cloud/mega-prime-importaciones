@@ -562,7 +562,7 @@ details[open]>.roof-toggle::after{transform:rotate(225deg)}
     <button class="print-btn" id="imprimir" disabled onclick="if(!this.disabled)window.print()">🖨 Imprimir / Guardar PDF</button>
   </div>
 
-  <footer><a id="mpiAdminLink" href="?admin">Administrar calculadora</a><br>Mega Prime Importaciones 2026 — Calculadora de Material · Todos los derechos reservados</footer>
+  <footer>Mega Prime Importaciones 2026 — Calculadora de Material · Todos los derechos reservados</footer>
 </div>
 
 <script>
@@ -2098,12 +2098,11 @@ function renumber(){results.querySelectorAll('.mpi-ai-row').forEach((row,i)=>{ro
 #mpiManager #mpiPublish:disabled{color:#394653!important;background:#e6e6e6!important;border-style:dashed}
 #mpiManager .actions{margin-top:16px;border-top:1px solid #ded4bf;padding-top:8px}
 #mpiServiceStatus{margin:10px auto;max-width:1100px;padding:12px;background:#fff2d3;color:#533800}
-@media print{#mpiManager,#mpiAdminLink,#mpiServiceStatus{display:none!important}}
+@media print{#mpiManager,#mpiServiceStatus{display:none!important}}
 </style>
 <p id="mpiServiceStatus" role="status" hidden></p>
 <main id="mpiManager" hidden>
 <h1>Administrar calculadora</h1><p id="mpiMode"></p>
-<form id="mpiLogin" hidden><div class="fields"><label>Correo de administrador<input id="mpiEmail" type="email" autocomplete="username" required></label><label>Contraseña<input id="mpiPassword" type="password" autocomplete="current-password" required></label></div><button>Iniciar sesión</button></form>
 <nav aria-label="Secciones de administración" id="mpiNav"></nav><form id="mpiEditor"><div id="mpiFields"></div>
 <div class="actions"><button type="submit" id="mpiPublish">Guardar cambios</button><a id="mpiBack">Abrir calculadora</a></div></form>
 <p role="status" aria-live="polite" id="mpiMessage"></p></main>
@@ -2112,11 +2111,20 @@ function renumber(){results.querySelectorAll('.mpi-ai-row').forEach((row,i)=>{ro
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
-const url=new URL(location.href), admin=url.searchParams.has('admin'), web=url.searchParams.has('web')||(document.documentElement.dataset.mpiDeploy==='supabase'&&/^https?:$/.test(url.protocol));
+const url=new URL(location.href);
+const hosted=/^https?:$/.test(url.protocol);
+let adminBridge;
+try{
+ if(window.parent!==window&&window.parent.location.origin===location.origin&&window.parent.MP_can?.('manage_visibility')){
+   adminBridge=window.parent.mpiCalculadoraSesion;
+ }
+}catch{}
+const admin=url.searchParams.has('admin')&&(!hosted||typeof adminBridge==='function');
+const web=url.searchParams.has('web')||(hosted&&(admin||document.documentElement.dataset.mpiDeploy==='supabase'));
 const localKey='mpi.materiales.config.v1';
 const builtins={...tipoLabels}, models=Object.entries(MPIRoof.MODELS).map(([id,m])=>({id,name:m.name,totalWidth:m.totalWidth,usefulWidth:m.width,lap:m.lap??'',lengths:m.lengths.join('; '),verified:!!m.lengths.length}));
 const fresh=()=>({params:{...mpiDefaults},profiles:structuredClone(models),recipes:[],rules:[],formats:[]});
-let draft, section='Medidas y formatos', version=0, connection, session, busy=false;
+let draft, section='Medidas y formatos', version=0, connection, busy=false;
 const calc=document.querySelector('.container'), form=$('mpiEditor'), fields=$('mpiFields');
 const safeID=id=>/^[a-z][a-z0-9_]{1,39}$/.test(id)&&!['constructor','prototype','tostring','valueof'].includes(id);
 const positive=(n,min=0.000001,max=1000000)=>typeof n==='number'&&Number.isFinite(n)&&n>=min&&n<=max;
@@ -2272,22 +2280,12 @@ async function api(path,opt={}){
  return res.status===204?null:res.json();
 }
 async function token(){
- if(window.parent!==window && document.referrer && new URL(document.referrer).origin===location.origin){
-   try{const bridge=window.parent.mpiCalculadoraSesion;if(typeof bridge==='function'){const jwt=await bridge();if(jwt)return jwt}}catch{}
- }
- if(session && session.expires>Date.now())return session.token;
- $('mpiLogin').hidden=false;throw Error('Inicia sesión con tu cuenta administradora para publicar.');
+ const jwt=typeof adminBridge==='function'?await adminBridge():null;
+ if(!jwt)throw Error('Abre la calculadora desde el panel administrador.');
+ return jwt;
 }
-$('mpiLogin').onsubmit=async ev=>{
- ev.preventDefault();
- try{
-   const data=await api('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:$('mpiEmail').value,password:$('mpiPassword').value})});
-   session={token:data.access_token,expires:Date.now()+data.expires_in*1000-5000};
-   $('mpiLogin').hidden=true;message('Sesión iniciada. Puedes publicar tus cambios.');
- }catch(e){message(e.message)}finally{$('mpiPassword').value=''}
-};
 form.onsubmit=async ev=>{
- ev.preventDefault();if(busy)return;busy=true;$('mpiPublish').disabled=true;
+ ev.preventDefault();if(!admin||busy)return;busy=true;$('mpiPublish').disabled=true;
  try{
    const config=validate(draft);
    if(web){
@@ -2304,7 +2302,6 @@ form.onsubmit=async ev=>{
 };
 async function init(){
  const back=new URL(url);back.searchParams.delete('admin');$('mpiBack').href=back.href;
- const adminUrl=new URL(url);adminUrl.searchParams.set('admin','1');$('mpiAdminLink').href=adminUrl.href;
  if(admin){calc.hidden=true;$('mpiManager').hidden=false;form.hidden=true}
  if(web){calc.inert=true;$('mpiServiceStatus').hidden=false;$('mpiServiceStatus').textContent='Cargando la configuración publicada…'}
  try{

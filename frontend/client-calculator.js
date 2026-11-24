@@ -1,4 +1,4 @@
-// Adaptador de la calculadora publica. El HTML del modulo se conserva intacto.
+// Adaptador de la calculadora publica. La administración se abre desde el panel privado.
 (()=>{
  if(new URLSearchParams(location.search).get('tool')==='calculator')return;
  let dialog,frame,returnFocus;
@@ -12,7 +12,7 @@
    dialog.addEventListener('close',()=>{frame?.remove();frame=null;returnFocus?.focus?.({preventScroll:true})});
   }
   if(dialog.open)return;
-  frame=document.createElement('iframe');frame.title='Calculadora Mega Prime Importaciones';frame.src='calculadora-mpi/Calculadora_Mega_Prime_Unificada.html?web';frame.style.cssText='display:block;width:100%;height:calc(100% - 48px);border:0;background:#fff';dialog.append(frame);dialog.showModal();
+  frame=document.createElement('iframe');frame.title='Calculadora Mega Prime Importaciones';frame.src='calculadora-mpi/Calculadora_Mega_Prime_Unificada.html?web&v=2';frame.style.cssText='display:block;width:100%;height:calc(100% - 48px);border:0;background:#fff';dialog.append(frame);dialog.showModal();
  }
  const originalModal=window.openModal;
  window.openCalculator=open;
