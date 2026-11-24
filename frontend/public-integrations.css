@@ -1,24 +1,15 @@
-.mp-section{padding:72px 22px;max-width:1240px;margin:auto}.mp-section h2{font-size:clamp(26px,3.5vw,44px);line-height:1.15;margin:12px 0 22px}.mp-eyebrow{color:#e8b94e;letter-spacing:2px;font-size:12px;font-weight:800}.mp-split{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}.mp-photo{width:100%;max-height:380px;object-fit:cover;border-radius:18px;border:1px solid #334048}.mp-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.mp-card{padding:24px;border:1px solid #334048;border-radius:14px;background:#111a20}.mp-card strong{color:#e8b94e;font-size:38px}.mp-card p,.mp-section p{color:#b8c2c8;line-height:1.75}.mp-card progress{width:100%;height:8px;accent-color:#e8b94e}.mp-map{width:100%;height:340px;border:0;border-radius:16px}.mp-dimension{display:grid;grid-template-columns:180px 1fr 80px;gap:12px;align-items:center;margin:14px 0}.mp-dimension meter{width:100%;height:22px}.mp-post-media{max-width:100%;max-height:300px;border-radius:10px}.mp-chat-toggle{position:fixed;left:22px;bottom:24px;z-index:1000;background:var(--mp-chat-color,#e8b94e);color:#101a20;border:0;padding:16px 20px;border-radius:24px;font-weight:800;cursor:pointer}.mp-chat-toggle.bounce{animation:mp-bob 3s ease-in-out infinite}.mp-chat-toggle.pulse{animation:mp-pulse 3s ease-in-out infinite}.mp-chat-toggle img{height:38px;width:38px;object-fit:contain;vertical-align:middle}.mp-chat{position:fixed;left:22px;bottom:92px;z-index:1000;width:min(380px,calc(100vw - 44px));max-height:75vh;overflow:auto;background:#111a20;border:1px solid #75612d;border-radius:16px;padding:22px;box-shadow:0 14px 60px #0008}.mp-chat button{cursor:pointer;padding:9px;margin:5px 0;background:#e8b94e;color:#101a20;border:0;border-radius:6px}.mp-chat input,.mp-chat textarea{width:100%;padding:10px;background:#080d11;color:#fff;border:1px solid #52616b;margin:5px 0;border-radius:5px}.mp-chat input[type=checkbox]{width:auto}.mp-entry{display:flex;justify-content:center;gap:25px;padding:24px;color:#b8c2c8;font-size:12px}.mp-empty{padding:24px;border:1px dashed #52616b;border-radius:12px;color:#b8c2c8}@keyframes mp-bob{50%{transform:translateY(-7px)}}@keyframes mp-pulse{50%{box-shadow:0 0 0 8px #e8b94e22}}@media(max-width:740px){.mp-split,.mp-cards{grid-template-columns:1fr}.mp-section{padding:42px 20px}.mp-dimension{grid-template-columns:120px 1fr 60px}}@media(prefers-reduced-motion:reduce){.mp-chat-toggle{animation:none!important}}
 
-/* Un apartado compartido, dos mitades con sus imágenes y acciones editables. */
-.mp-materials-unified{display:flex;flex-wrap:wrap;gap:0;max-width:1240px;margin:26px auto;padding:22px;background:#0d171d;border:1px solid #334048;border-radius:20px;overflow:hidden;box-sizing:border-box}
-.mp-materials-unified>.mp-section{flex:1 1 340px;min-width:0;width:50%;max-width:none;margin:0;padding:16px 22px;box-sizing:border-box}
-.mp-materials-unified>.mp-section h2{font-size:clamp(22px,2.3vw,30px);line-height:1.2;margin:0 0 16px;min-height:2.4em}
-.mp-materials-unified .mp-split{display:flex;flex-direction:column;align-items:stretch;gap:16px;height:auto}
-.mp-materials-unified .mp-photo{order:-1;display:block;width:100%;height:250px;max-height:250px;object-fit:cover;border-radius:12px}
-.mp-materials-unified .mp-split>div{display:flex;flex-direction:column;align-items:flex-start;flex:1}
-.mp-materials-unified .mp-split p{font-size:14px;line-height:1.55;margin:10px 0 14px}
-.mp-materials-unified .mp-split .btn{margin-top:auto;display:inline-flex}
-@media(max-width:740px){.mp-materials-unified{margin:20px 16px;padding:10px}.mp-materials-unified>.mp-section{flex-basis:100%;width:100%;padding:16px 10px}.mp-materials-unified>.mp-section h2{min-height:0}.mp-materials-unified .mp-photo{height:220px;max-height:220px}}
-
-/* Redes sociales y ubicación en el pie de página. */
-.corp-footer .social-map-head{align-items:flex-start;gap:8px}
-.corp-footer .social-map-head>div{min-width:0}
-.corp-footer .social-map-address{display:block;line-height:1.38;overflow-wrap:anywhere}
-.corp-footer .social-map-open{flex:none;white-space:nowrap}
-.corp-footer .social-map-details{display:grid;gap:8px;margin:10px 0 0;color:#d5dfe2;font-size:11px;line-height:1.42}
-.corp-footer .social-map-details dt{color:#f6f6f2;font-weight:800}
+/* Mega Prime Importaciones · Ubicación adaptable: mapa y datos del local. */
+.corp-footer .social-zone.mpi-social-location-only{display:flex;justify-content:stretch;width:100%}
+.corp-footer .social-zone.mpi-social-location-only>.social-map{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(260px,.96fr);grid-template-rows:auto auto auto;align-items:start;column-gap:18px;row-gap:10px;width:100%;max-width:none;height:auto;margin:0;position:relative;min-width:0;box-sizing:border-box}
+.corp-footer .social-map-head{display:contents!important}
+.corp-footer .social-map-head>div{display:contents!important}
+.corp-footer .social-map-head h2,.corp-footer .social-map-head h3{position:absolute;z-index:4;top:12px;left:12px;margin:0!important;padding:7px 11px;border-radius:8px;color:#fff!important;background:rgba(7,12,16,.82);text-shadow:0 1px 3px #000;pointer-events:none}
+.corp-footer .social-map iframe{grid-column:1;grid-row:1/span 3;display:block;width:calc(100% + 3px)!important;max-width:none!important;height:231px!important;min-height:231px!important;border:0;border-radius:12px;box-sizing:border-box}
+.corp-footer .social-map-address{grid-column:2;grid-row:1;align-self:start;margin:0!important;line-height:1.5;overflow-wrap:anywhere}
+.corp-footer .social-map-details{grid-column:2;grid-row:2;display:grid;align-self:start;gap:9px;margin:0!important;font-size:12px;line-height:1.5;min-width:0}
+.corp-footer .social-map-open{grid-column:2;grid-row:3;justify-self:start;align-self:start;white-space:normal}
 .corp-footer .social-map-details dd{margin:2px 0 0;white-space:pre-line;overflow-wrap:anywhere}
-.corp-footer .social-zone.mpi-social-location-only{display:flex;justify-content:center}
-.corp-footer .social-zone.mpi-social-location-only>.social-map{width:min(100%,530px);height:auto;margin:0 auto}
-@media(max-width:460px){.corp-footer .social-map-head{flex-wrap:wrap}}
+@media(min-width:601px) and (max-width:900px){.corp-footer .social-zone.mpi-social-location-only>.social-map{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:14px}}
+@media(max-width:600px){.corp-footer .social-zone.mpi-social-location-only>.social-map{display:flex!important;flex-direction:column;align-items:stretch;gap:11px;width:100%}.corp-footer .social-map-head{display:flex!important;flex-direction:column;align-items:flex-start;gap:6px}.corp-footer .social-map-head>div{display:block!important;width:100%}.corp-footer .social-map-head h2,.corp-footer .social-map-head h3{position:static;margin:0!important;padding:0;color:inherit!important;background:transparent;text-shadow:none}.corp-footer .social-map iframe{order:1;width:calc(100% + 3px)!important;max-width:none!important;height:231px!important;min-height:231px!important}.corp-footer .social-map-address{order:2}.corp-footer .social-map-details{order:3;width:100%}.corp-footer .social-map-open{order:4;align-self:flex-start}}
+@media(max-width:360px){.corp-footer .social-map iframe{height:211px!important;min-height:211px!important}}
