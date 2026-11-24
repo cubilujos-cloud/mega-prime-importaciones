@@ -13,7 +13,6 @@
 .corp-footer .social-zone{margin:0 0 34px}
 .corp-footer .social-zone[hidden],.social-zone [hidden]{display:none!important}
 .corp-footer .social-zone.mpi-social-without-map{display:block;min-height:0;margin-bottom:20px}
-.social-item .social-number{color:#c3d0d6;font-size:.95em}
 .corp-columns{border-top:1px solid #293039;padding:34px 0 38px;display:grid;grid-template-columns:minmax(240px,1.35fr) repeat(3,minmax(160px,1fr));gap:32px}
 .corp-heading{font-size:14px;color:#fff;font-weight:850;letter-spacing:.7px;margin:4px 0 17px}
 .corp-brand{display:flex;align-items:center;gap:13px;margin-bottom:18px}
@@ -2597,27 +2596,17 @@ function applySocial(c){const s=c.social||{};text('.social-zone h3',s.title&&s.t
  // Reutilizar los SVG de redes existentes como referencia visual.
  if(!window.MPI_socialArt){window.MPI_socialArt=Object.create(null);grid.querySelectorAll('.social-item').forEach(item=>{const name=item.lastElementChild?.textContent||'';const svg=item.querySelector('svg');if(svg)window.MPI_socialArt[name.trim().toLowerCase()]=svg.cloneNode(true)})}
  grid.replaceChildren();
- function addLink(name,url,platform=name){
-  const link=el('a','social-item');
-  link.href=url;link.target='_blank';link.rel='noopener noreferrer';
-  const icon=el('span','social-icon'),svg=window.MPI_socialArt[platform.toLowerCase()];
-  if(svg)icon.append(svg.cloneNode(true));else icon.textContent='◈';
-  link.append(icon,el('span','',name));grid.append(link);
-  return link;
- }
- const contacts=window.MP_CONTACTS?.list(c)||[];
  for(const item of s.items||[]){
   const name=String(item?.name||'').trim();
   const url=window.MP_SOCIAL?.profileUrl(item?.url);
-  if(!name||!url||item.visible===false||contacts.length&&name.toLowerCase()==='whatsapp')continue;
-  addLink(name,url);
- }
- const phones=contacts.filter(row=>row.enabled&&window.MP_CONTACTS.valid(row.number));
- for(const row of phones){
-  const number=window.MP_CONTACTS.valid(row.number);
-  const link=addLink(phones.length>1&&row.label?'WhatsApp · '+row.label:'WhatsApp','https://wa.me/'+number.slice(1)+'?text='+encodeURIComponent(c.whatsapp?.welcome||'Hola'),'WhatsApp');
-  link.dataset.mpContactId=row.id;
-  link.append(el('span','social-number',number));
+  if(!name||!url||item.visible===false||/^whatsapp\b/i.test(name))continue;
+  const host=new URL(url).hostname;
+  if(host==='wa.me'||host==='whatsapp.com'||host.endsWith('.whatsapp.com'))continue;
+  const link=el('a','social-item');
+  link.href=url;link.target='_blank';link.rel='noopener noreferrer';
+  const icon=el('span','social-icon'),svg=window.MPI_socialArt[name.toLowerCase()];
+  if(svg)icon.append(svg.cloneNode(true));else icon.textContent='◈';
+  link.append(icon,el('span','',name));grid.append(link);
  }
  const hasLinks=grid.childElementCount>0;
  grid.hidden=!hasLinks;
